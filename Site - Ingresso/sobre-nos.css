@@ -1,0 +1,529 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #fff;
+    overflow-x: hidden;
+}
+
+/* HEADER */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 40px;
+    position: relative;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+.logo-square {
+    width: 32px;
+    height: 32px;
+    background: red;
+}
+
+nav {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 24px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #111;
+    font-weight: bold;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+}
+
+nav a:hover {
+    color: red;
+}
+
+nav a.ativo {
+    color: red;
+    border-bottom: 2px solid red;
+    padding-bottom: 2px;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.user-circle {
+    width: 32px;
+    height: 32px;
+    background: red;
+    border-radius: 50%;
+}
+
+/* MAIN */
+.main-content {
+    padding: 40px 120px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+/* HERO */
+.hero {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+
+.hero-foto {
+    width: 320px;
+    height: 380px;
+    background: #d8d8d8;
+    border-radius: 20px;
+    flex-shrink: 0;
+}
+
+.hero-texto {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.hero-label {
+    font-size: 12px;
+    font-weight: bold;
+    color: red;
+    letter-spacing: 2px;
+}
+
+.hero-nome {
+    font-size: 48px;
+    font-weight: 900;
+    color: #111;
+    line-height: 1.1;
+}
+
+.hero-cargo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+}
+
+.cargo-dot {
+    width: 10px;
+    height: 10px;
+    background: red;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.hero-bio {
+    font-size: 15px;
+    color: #444;
+    line-height: 1.7;
+    max-width: 520px;
+}
+
+.hero-btns {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.btn-primario {
+    padding: 12px 28px;
+    background: red;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: background 0.2s;
+}
+
+.btn-primario:hover {
+    background: #cc0000;
+}
+
+.btn-secundario {
+    padding: 12px 28px;
+    background: #fff;
+    color: #111;
+    border: 2px solid #111;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+}
+
+.btn-secundario:hover {
+    background: #f0f0f0;
+}
+
+/* STATS */
+.stats-section {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.stat-card {
+    background: #f0f0f0;
+    border-radius: 16px;
+    padding: 28px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.stat-num {
+    font-size: 40px;
+    font-weight: 900;
+    color: red;
+}
+
+.stat-label {
+    font-size: 13px;
+    font-weight: bold;
+    color: #555;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+/* SOBRE */
+.sobre-section {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+
+.sobre-texto {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.section-titulo {
+    font-size: 32px;
+    font-weight: 900;
+    color: #111;
+    margin-bottom: 4px;
+}
+
+.sobre-p {
+    font-size: 15px;
+    color: #444;
+    line-height: 1.7;
+}
+
+.sobre-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.tag-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #f0f0f0;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+}
+
+.tag-dot {
+    width: 8px;
+    height: 8px;
+    background: red;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.sobre-img {
+    width: 380px;
+    height: 320px;
+    background: #d8d8d8;
+    border-radius: 20px;
+    flex-shrink: 0;
+}
+
+/* HABILIDADES */
+.habilidades-section {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.habilidades-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.habilidade-card {
+    background: #f0f0f0;
+    border-radius: 16px;
+    padding: 28px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.hab-icone {
+    width: 44px;
+    height: 44px;
+    background: red;
+    border-radius: 10px;
+}
+
+.hab-nome {
+    font-size: 15px;
+    font-weight: bold;
+    color: #111;
+}
+
+.hab-desc {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* CONTATO */
+.contato-section {
+    display: flex;
+    gap: 60px;
+    align-items: flex-start;
+}
+
+.contato-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contato-desc {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.contato-itens {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.contato-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+}
+
+.contato-icone {
+    width: 36px;
+    height: 36px;
+    background: #d8d8d8;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.social-links {
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.social-btn {
+    width: 40px;
+    height: 40px;
+    background: #d8d8d8;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.social-btn:hover {
+    background: red;
+}
+
+/* FORM */
+.contato-form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.form-input {
+    padding: 14px 18px;
+    border: 2px solid #e8e8e8;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    color: #333;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus {
+    border-color: #bbb;
+}
+
+.form-textarea {
+    padding: 14px 18px;
+    border: 2px solid #e8e8e8;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    color: #333;
+    resize: vertical;
+    min-height: 140px;
+    font-family: Arial, sans-serif;
+    transition: border-color 0.2s;
+}
+
+.form-textarea:focus {
+    border-color: #bbb;
+}
+
+/* FOOTER */
+.footer {
+    margin-top: 0;
+    border-top: 1px solid #ddd;
+    background: #fff;
+}
+
+.footer-top {
+    display: flex;
+    justify-content: space-around;
+    padding: 40px 120px 20px;
+}
+
+.footer-diferencial {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.footer-square {
+    width: 18px;
+    height: 18px;
+    background: red;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.footer-middle {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 120px;
+    gap: 40px;
+}
+
+.footer-slogan {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    flex: 1;
+}
+
+.footer-links {
+    flex: 1;
+}
+
+.footer-h2 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.footer-sub {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 4px;
+}
+
+.footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 120px;
+    border-top: 1px solid #ddd;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.footer-logo-square {
+    width: 28px;
+    height: 28px;
+    background: red;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.footer-social {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.footer-social-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.footer-circle {
+    width: 28px;
+    height: 28px;
+    background: red;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.footer-rights {
+    font-size: 13px;
+    color: #555;
+}
