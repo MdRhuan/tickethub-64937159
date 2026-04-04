@@ -4,6 +4,19 @@
     box-sizing: border-box;
 }
 
+@keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(26, 58, 107, 0.22); }
+    70%  { box-shadow: 0 0 0 6px rgba(26, 58, 107, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(26, 58, 107, 0); }
+}
+
+button, .btn-comprar, .btn-banner, .evento-btn, .detalhe-btn,
+.search-btn, .ticket-btn, .share-copy-btn, .compartilhar-btn,
+.blog-read-btn, .dp-confirm, .cal-nav-btn, .login-btn,
+.grupo-popup-btn, .social-btn, .toggle-btn.ativo, .arrow-btn {
+    animation: pulse 2s infinite;
+}
+
 body {
     font-family: Arial, sans-serif;
     background: #fff;
@@ -38,10 +51,9 @@ header {
 }
 
 .logo-square {
-    width: 32px;
-    height: 32px;
-    background: red;
-    border-radius: 4px;
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
 }
 
 nav {
@@ -66,11 +78,11 @@ nav a:hover { color: #111; }
 
 nav a.ativo {
     color: #111;
-    border-bottom: 2px solid red;
+    border-bottom: 2px solid #1a3a6b;
 }
 
 .header-right {
-    display: flex;
+    display: none;
     align-items: center;
     gap: 10px;
     font-weight: bold;
@@ -81,7 +93,7 @@ nav a.ativo {
 .user-circle {
     width: 34px;
     height: 34px;
-    background: red;
+    background: #1a3a6b;
     border-radius: 50%;
 }
 
@@ -100,10 +112,10 @@ nav a.ativo {
     transition: background 0.2s;
 }
 .user-link:hover { background: #f2f2f2; }
-.user-link.ativo .user-circle { outline: 2px solid red; outline-offset: 2px; }
+.user-link.ativo .user-circle { outline: 2px solid #1a3a6b; outline-offset: 2px; }
 
-.evento-fav.ativo { color: red; background: #fff; }
-.evento-fav.ativo svg { fill: red; }
+.evento-fav.ativo { color: #1a3a6b; background: #fff; }
+.evento-fav.ativo svg { fill: #1a3a6b; }
 
 /* ─── SEARCH ─────────────────────────────────── */
 .search-wrapper {
@@ -243,7 +255,7 @@ nav a.ativo {
 .dot:hover { background: #bbb; }
 
 .dot.active {
-    background: red;
+    background: #1a3a6b;
     width: 24px;
     border-radius: 4px;
 }
@@ -279,12 +291,9 @@ nav a.ativo {
     color: #555;
 }
 
-.tag-dot {
-    width: 8px;
-    height: 8px;
-    background: red;
-    border-radius: 2px;
+.tag-icon {
     flex-shrink: 0;
+    color: #1a3a6b;
 }
 
 .btn-comprar {
@@ -320,7 +329,7 @@ nav a.ativo {
     display: block;
     font-size: 11px;
     font-weight: bold;
-    color: red;
+    color: #1a3a6b;
     letter-spacing: 3px;
     margin-bottom: 4px;
 }
@@ -392,7 +401,7 @@ nav a.ativo {
     border-radius: 16px;
     overflow: hidden;
     background: #fff;
-    border: 1px solid #eee;
+    border: 1px solid #000;
     transition: transform 0.2s, box-shadow 0.2s;
     cursor: pointer;
 }
@@ -426,26 +435,13 @@ nav a.ativo {
     border-radius: 50px;
     letter-spacing: 0.5px;
 }
-.evento-badge.destaque  { background: red; }
+.evento-badge.destaque  { background: #1a3a6b; }
 .evento-badge.esgotando { background: #e67e00; }
 
 .evento-fav {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 34px;
-    height: 34px;
-    background: rgba(255,255,255,0.9);
-    border: none;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: #555;
-    transition: all 0.2s;
+    display: none;
 }
-.evento-fav:hover { background: #fff; color: red; }
+.evento-fav:hover { background: #fff; color: #1a3a6b; }
 
 .evento-info {
     padding: 14px 16px 16px;
@@ -523,7 +519,7 @@ nav a.ativo {
 .banner-eyebrow {
     font-size: 38px;
     font-weight: 900;
-    color: red;
+    color: #4a90e2;
     letter-spacing: 0px;
     margin-top: -30px;
 }
@@ -597,7 +593,7 @@ nav a.ativo {
     gap: 6px;
 }
 
-.bcp-stat-num   { width: 60%; height: 10px; background: red; border-radius: 3px; }
+.bcp-stat-num   { width: 60%; height: 10px; background: #1a3a6b; border-radius: 3px; }
 .bcp-stat-label { width: 80%; height: 7px; background: #444; border-radius: 3px; }
 
 /* ─── FOOTER ─────────────────────────────────── */
@@ -610,9 +606,15 @@ nav a.ativo {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    gap: 0;
     padding: 20px 120px 16px;
     border-bottom: 1px solid #f0f0f0;
+    position: relative;
+}
+.footer-top .footer-brand-col {
+    position: absolute;
+    left: 120px;
 }
 
 .footer-diferencial {
@@ -635,7 +637,7 @@ nav a.ativo {
 .footer-square {
     width: 22px;
     height: 22px;
-    background: red;
+    background: #1a3a6b;
     border-radius: 3px;
     flex-shrink: 0;
 }
@@ -650,7 +652,7 @@ nav a.ativo {
     flex: 2;
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 0;
 }
 
 .footer-logo {
@@ -663,17 +665,17 @@ nav a.ativo {
 }
 
 .footer-logo-square {
-    width: 34px;
-    height: 34px;
-    background: red;
-    border-radius: 4px;
+    width: 66px;
+    height: 66px;
+    object-fit: contain;
     flex-shrink: 0;
 }
 
 .footer-slogan {
     font-size: 16px;
     color: #888;
-    line-height: 1.65;
+    line-height: 1;
+    margin-top: 2px;
 }
 
 .footer-links {
@@ -698,7 +700,7 @@ nav a.ativo {
     display: block;
     transition: color 0.2s;
 }
-.footer-sub:hover { color: red; }
+.footer-sub:hover { color: #1a3a6b; }
 
 .footer-bottom {
     display: flex;
@@ -842,6 +844,10 @@ nav a.ativo {
 
     /* Footer */
     .footer-top { flex-direction: column; align-items: flex-start; padding: 32px 20px; gap: 18px; }
+    .footer-top .footer-brand-col { position: static; }
+    .footer-diferencial { flex-direction: row; gap: 12px; }
+    .footer-diferencial img { width: 120px !important; height: 120px !important; }
+    .footer-diferencial span { position: static; left: auto; text-align: left; white-space: normal; font-size: 14px; }
     .footer-middle { flex-direction: column; padding: 40px 20px 32px; gap: 28px; }
     .footer-middle .footer-brand-col { flex: unset; }
     .footer-bottom { flex-direction: column; gap: 14px; padding: 20px; text-align: center; }

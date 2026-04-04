@@ -37,12 +37,14 @@
             letter-spacing: 0.5px;
         }
         .grupo-popup-logo-sq {
-            width: 18px;
-            height: 18px;
-            background: #e5202a;
-            border-radius: 4px;
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
         }
         .grupo-popup-close {
+            position: absolute;
+            top: 12px;
+            right: 14px;
             background: none;
             border: none;
             color: #aaa;
@@ -52,7 +54,7 @@
             padding: 0;
             transition: color 0.2s;
         }
-        .grupo-popup-close:hover { color: #fff; }
+        .grupo-popup-close:hover { color: #333; }
         .grupo-popup-body {
             padding: 20px 18px 22px;
         }
@@ -63,7 +65,8 @@
             text-align: center;
             margin: 0 0 16px;
             line-height: 1.3;
-            white-space: nowrap;
+            white-space: normal;
+            word-break: break-word;
         }
         .grupo-popup-form {
             display: flex;
@@ -115,20 +118,12 @@
         popup.className = 'grupo-popup';
         popup.id = 'grupoPopup';
         popup.innerHTML = `
-            <div class="grupo-popup-header">
-                <div class="grupo-popup-logo">
-                    <div class="grupo-popup-logo-sq"></div>
-                    TICKET HUB
-                </div>
-                <button class="grupo-popup-close" id="grupoPopupClose">×</button>
-            </div>
+            <button class="grupo-popup-close" id="grupoPopupClose">×</button>
             <div class="grupo-popup-body">
-                <p class="grupo-popup-title">Tenha Acesso ao nosso Grupo</p>
+                <p class="grupo-popup-title">Tenha Acesso ao nosso Grupo Exclusivo</p>
                 <div class="grupo-popup-form">
                     <input class="grupo-popup-input" type="text"  placeholder="Seu nome">
-                    <input class="grupo-popup-input" type="email" placeholder="Seu e-mail">
                     <input class="grupo-popup-input" type="tel"   placeholder="WhatsApp">
-                    <input class="grupo-popup-input" type="text"  placeholder="Sua cidade">
                     <button class="grupo-popup-btn">Entrar no Grupo</button>
                 </div>
                 <p class="grupo-popup-note">Receba ofertas e novidades exclusivas</p>

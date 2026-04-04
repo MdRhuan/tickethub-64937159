@@ -10,7 +10,7 @@
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 2px;
-    color: #e5202a;
+    color: #1a3a6b;
     margin-bottom: 16px;
 }
 
@@ -99,7 +99,7 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #e5202a, #1a1f36);
+    background: linear-gradient(135deg, #1a3a6b, #1a1f36);
 }
 
 .blog-date {
@@ -111,7 +111,7 @@
     display: inline-block;
     margin-top: 8px;
     padding: 12px 28px;
-    background: #e5202a;
+    background: #1a3a6b;
     color: #fff;
     border-radius: 8px;
     font-size: 14px;
@@ -122,15 +122,15 @@
 }
 
 .blog-read-btn:hover {
-    background: #c0181f;
+    background: #102a4e;
 }
 
 /* ─── TAG ─────────────────────────────────── */
 .blog-tag {
     display: inline-block;
     padding: 4px 12px;
-    background: #ffeaea;
-    color: #e5202a;
+    background: #eef0ff;
+    color: #1a3a6b;
     border-radius: 20px;
     font-size: 12px;
     font-weight: 700;
@@ -195,13 +195,13 @@
 .blog-link {
     font-size: 13px;
     font-weight: 700;
-    color: #e5202a;
+    color: #1a3a6b;
     text-decoration: none;
     transition: color 0.2s;
 }
 
 .blog-link:hover {
-    color: #c0181f;
+    color: #102a4e;
 }
 
 /* ─── RESPONSIVE ──────────────────────────── */

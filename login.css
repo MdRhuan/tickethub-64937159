@@ -37,7 +37,7 @@
 .login-brand-sq {
     width: 30px;
     height: 30px;
-    background: #e5202a;
+    background: #1a3a6b;
     border-radius: 4px;
     flex-shrink: 0;
 }
@@ -73,7 +73,7 @@
 .login-feature-icon {
     width: 28px;
     height: 28px;
-    background: #e5202a;
+    background: #1a3a6b;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -319,7 +319,7 @@
     text-align: center;
 }
 .login-register a {
-    color: #e5202a;
+    color: #1a3a6b;
     font-weight: 700;
     text-decoration: none;
 }

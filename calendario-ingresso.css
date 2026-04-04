@@ -119,7 +119,7 @@ body {
 .titulo-eyebrow {
     font-size: 11px;
     font-weight: bold;
-    color: red;
+    color: #1a3a6b;
     letter-spacing: 3px;
 }
 
@@ -258,7 +258,7 @@ body {
     width: 100%;
 }
 
-.cal-evento.vermelho { background: red; }
+.cal-evento.vermelho { background: #1a3a6b; }
 .cal-evento.laranja  { background: #e67e00; }
 
 /* ─── DETALHES ───────────────────────────── */
@@ -276,7 +276,7 @@ body {
 .detalhes-titulo {
     font-size: 11px;
     font-weight: bold;
-    color: red;
+    color: #1a3a6b;
     letter-spacing: 3px;
     margin-bottom: 4px;
 }
@@ -438,8 +438,8 @@ body {
 }
 
 .agenda-card-badge.vermelho {
-    background: #fff0f0;
-    color: red;
+    background: #eef0ff;
+    color: #1a3a6b;
 }
 
 /* ─── RESPONSIVE ──────────────────────────── */

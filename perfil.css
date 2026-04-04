@@ -11,7 +11,7 @@
 .perfil-avatar {
     width: 96px;
     height: 96px;
-    background: red;
+    background: #1a3a6b;
     border-radius: 50%;
     flex-shrink: 0;
     display: flex;
@@ -59,7 +59,7 @@
 }
 
 .perfil-meta-item svg {
-    color: red;
+    color: #1a3a6b;
     flex-shrink: 0;
 }
 
@@ -71,7 +71,7 @@
 .perfil-section-title {
     font-size: 11px;
     font-weight: bold;
-    color: red;
+    color: #1a3a6b;
     letter-spacing: 3px;
     margin-bottom: 20px;
 }
@@ -185,12 +185,12 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: red;
+    color: #1a3a6b;
     transition: all 0.2s;
 }
 
 .fav-remover:hover {
-    background: red;
+    background: #1a3a6b;
     color: #fff;
 }
 
