@@ -1,0 +1,212 @@
+/* ─── PERFIL HERO ────────────────────────────── */
+.perfil-hero {
+    background: #f7f7f7;
+    border-bottom: 1px solid #eee;
+    padding: 64px 120px 48px;
+    display: flex;
+    align-items: center;
+    gap: 36px;
+}
+
+.perfil-avatar {
+    width: 96px;
+    height: 96px;
+    background: red;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.perfil-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.perfil-nome {
+    font-size: 28px;
+    font-weight: 900;
+    color: #111;
+}
+
+.perfil-email {
+    font-size: 15px;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.perfil-meta {
+    display: flex;
+    gap: 24px;
+    margin-top: 8px;
+}
+
+.perfil-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #aaa;
+    font-weight: 600;
+}
+
+.perfil-meta-item svg {
+    color: red;
+    flex-shrink: 0;
+}
+
+/* ─── DADOS PESSOAIS ─────────────────────────── */
+.perfil-dados {
+    padding: 48px 120px 0;
+}
+
+.perfil-section-title {
+    font-size: 11px;
+    font-weight: bold;
+    color: red;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+
+.dados-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 48px;
+}
+
+.dado-card {
+    background: #f7f7f7;
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dado-label {
+    font-size: 11px;
+    font-weight: bold;
+    color: #aaa;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.dado-valor {
+    font-size: 15px;
+    font-weight: bold;
+    color: #111;
+}
+
+/* ─── FAVORITOS ──────────────────────────────── */
+.perfil-favoritos {
+    padding: 0 120px 80px;
+}
+
+.perfil-favoritos-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+
+.perfil-favoritos-title {
+    font-size: 28px;
+    font-weight: 900;
+    color: #111;
+}
+
+.fav-count {
+    font-size: 14px;
+    color: #aaa;
+    font-weight: 600;
+}
+
+/* estado vazio */
+.perfil-vazio {
+    text-align: center;
+    padding: 80px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.perfil-vazio svg {
+    color: #ddd;
+}
+
+.perfil-vazio p {
+    font-size: 16px;
+    color: #aaa;
+}
+
+.perfil-vazio a {
+    display: inline-block;
+    padding: 11px 28px;
+    background: #4a90e2;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.2s;
+    margin-top: 8px;
+}
+
+.perfil-vazio a:hover { background: #2d6abf; }
+
+/* grid de favoritos usa o mesmo .eventos-grid + .evento-card do style.css */
+.perfil-eventos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+/* botão remover favorito no card do perfil */
+.fav-remover {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: red;
+    transition: all 0.2s;
+}
+
+.fav-remover:hover {
+    background: red;
+    color: #fff;
+}
+
+/* ─── RESPONSIVE ──────────────────────────── */
+@media (max-width: 768px) {
+    .perfil-hero { padding: 36px 20px 32px; gap: 20px; flex-direction: column; }
+    .perfil-avatar { width: 72px; height: 72px; font-size: 26px; }
+    .perfil-nome { font-size: 22px; }
+    .perfil-meta { flex-direction: column; gap: 8px; }
+    .perfil-dados { padding: 32px 20px 0; }
+    .dados-grid { grid-template-columns: 1fr 1fr; }
+    .perfil-favoritos { padding: 0 20px 60px; }
+    .perfil-eventos-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+}
+
+@media (max-width: 480px) {
+    .dados-grid { grid-template-columns: 1fr; }
+    .perfil-eventos-grid { grid-template-columns: 1fr; }
+}

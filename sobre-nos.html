@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós - Ticket Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="sobre-nos.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <a href="index.html" class="logo">
+            <div class="logo-square"></div>
+            TICKET HUB
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="ingresso-totais.html">Ingressos</a>
+            <a href="calendario-ingresso.html">Calendário</a>
+            <a href="sobre-nos.html" class="ativo">Sobre Nós</a>
+        </nav>
+        <button class="hamburger" id="hamburger" onclick="this.classList.toggle('aberto');document.querySelector('nav').classList.toggle('nav-aberto')">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="header-right">
+            <a href="perfil.html" class="user-link">
+                <div class="user-circle"></div>
+                <span class="user-name">USER 01</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- HERO BANNER -->
+    <section class="hero-banner">
+        <div class="hero-banner-content">
+            <span class="hero-eyebrow">CONHEÇA A TICKET HUB</span>
+            <h1 class="hero-banner-title">Conectamos pessoas<br>aos melhores eventos</h1>
+            <p class="hero-banner-desc">Uma plataforma simples, segura e acessível para quem quer viver experiências únicas — e para quem quer criá-las.</p>
+            <div class="hero-banner-btns">
+                <a href="#contato" class="btn-primario">Fale Conosco</a>
+                <a href="ingresso-totais.html" class="btn-outline">Ver Eventos</a>
+            </div>
+        </div>
+        <div class="hero-banner-visual">
+            <div class="banner-img-main"></div>
+            <div class="banner-badge">
+                <span class="badge-num">+500</span>
+                <span class="badge-text">Eventos realizados</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats-section">
+        <div class="stat-item">
+            <span class="stat-num">500+</span>
+            <span class="stat-label">Eventos realizados</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <span class="stat-num">5+</span>
+            <span class="stat-label">Anos de experiência</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <span class="stat-num">80K+</span>
+            <span class="stat-label">Clientes atendidos</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <span class="stat-num">30+</span>
+            <span class="stat-label">Cidades presentes</span>
+        </div>
+    </section>
+
+    <!-- NOSSA HISTÓRIA -->
+    <section class="historia-section">
+        <div class="historia-img-wrap">
+            <div class="historia-img"></div>
+            <div class="historia-tag">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                Fundada com propósito
+            </div>
+        </div>
+        <div class="historia-texto">
+            <span class="section-eyebrow">NOSSA HISTÓRIA</span>
+            <h2 class="section-title">De uma ideia simples<br>a uma plataforma completa</h2>
+            <p class="historia-p">A Ticket Hub nasceu com a missão de simplificar o acesso a eventos culturais, musicais e esportivos. Acreditamos que comprar um ingresso deve ser tão empolgante quanto o próprio evento.</p>
+            <p class="historia-p">Com anos de experiência no mercado, construímos uma plataforma robusta que atende tanto organizadores de pequenos eventos locais quanto grandes produções nacionais — sempre priorizando segurança e praticidade.</p>
+            <div class="valores-grid">
+                <div class="valor-item">
+                    <div class="valor-dot"></div>
+                    <span>Segurança</span>
+                </div>
+                <div class="valor-item">
+                    <div class="valor-dot"></div>
+                    <span>Inovação</span>
+                </div>
+                <div class="valor-item">
+                    <div class="valor-dot"></div>
+                    <span>Confiança</span>
+                </div>
+                <div class="valor-item">
+                    <div class="valor-dot"></div>
+                    <span>Paixão por eventos</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LINHA DO TEMPO -->
+    <section class="timeline-section">
+        <span class="section-eyebrow center">NOSSA TRAJETÓRIA</span>
+        <h2 class="section-title center">Como chegamos até aqui</h2>
+        <div class="timeline">
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <span class="timeline-ano">2020</span>
+                    <h3 class="timeline-titulo">Fundação</h3>
+                    <p class="timeline-desc">A Ticket Hub é criada com o objetivo de transformar a compra de ingressos no Brasil.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item right">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-ano">2022</span>
+                    <h3 class="timeline-titulo">Primeira Expansão</h3>
+                    <p class="timeline-desc">Chegamos a 15 cidades e atingimos nossos primeiros 20 mil clientes atendidos.</p>
+                </div>
+            </div>
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <span class="timeline-ano">2023</span>
+                    <h3 class="timeline-titulo">Tecnologia QR Code</h3>
+                    <p class="timeline-desc">Implementamos ingressos com QR Code exclusivo, eliminando filas e fraudes.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item right">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-ano">Hoje</span>
+                    <h3 class="timeline-titulo">Referência Nacional</h3>
+                    <p class="timeline-desc">Somos a plataforma de confiança de organizadores e fãs em mais de 30 cidades do Brasil.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DIFERENCIAIS -->
+    <section class="diferenciais-section">
+        <span class="section-eyebrow center">POR QUE A TICKET HUB?</span>
+        <h2 class="section-title center">Nossos diferenciais</h2>
+        <div class="diferenciais-grid">
+
+            <div class="diferencial-card">
+                <div class="dif-icon-wrap">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <h3 class="dif-nome">Compra Segura</h3>
+                <p class="dif-desc">Pagamentos criptografados e ingressos com QR Code exclusivo contra fraudes.</p>
+            </div>
+
+            <div class="diferencial-card">
+                <div class="dif-icon-wrap">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                </div>
+                <h3 class="dif-nome">Painel do Organizador</h3>
+                <p class="dif-desc">Crie, gerencie e acompanhe suas vendas em tempo real com nosso painel completo.</p>
+            </div>
+
+            <div class="diferencial-card">
+                <div class="dif-icon-wrap">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <h3 class="dif-nome">Suporte 24h</h3>
+                <p class="dif-desc">Equipe disponível a qualquer hora para ajudar compradores e produtores.</p>
+            </div>
+
+            <div class="diferencial-card">
+                <div class="dif-icon-wrap">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <h3 class="dif-nome">Alta Performance</h3>
+                <p class="dif-desc">Plataforma ágil, responsiva e integrada com os principais meios de pagamento.</p>
+            </div>
+
+            <div class="diferencial-card">
+                <div class="dif-icon-wrap">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <h3 class="dif-nome">Para Todos</h3>
+                <p class="dif-desc">Atendemos desde pequenos produtores locais até grandes produções nacionais.</p>
+            </div>
+
+            <div class="diferencial-card">
+                <div class="dif-icon-wrap">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </div>
+                <h3 class="dif-nome">Cobertura Nacional</h3>
+                <p class="dif-desc">Presentes em todo o Brasil, levando eventos de qualidade para cada canto do país.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONTATO -->
+    <section class="contato-section" id="contato">
+        <div class="contato-left">
+            <span class="section-eyebrow">FALE CONOSCO</span>
+            <h2 class="section-title">Vamos conversar?</h2>
+            <p class="contato-desc">Tem dúvidas, quer fazer uma parceria ou divulgar seu evento? Nossa equipe está pronta para te ajudar.</p>
+
+            <div class="contato-itens">
+                <div class="contato-item">
+                    <div class="contato-icon-wrap">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    </div>
+                    <span>contato@tickethub.com.br</span>
+                </div>
+                <div class="contato-item">
+                    <div class="contato-icon-wrap">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.59a16 16 0 0 0 5.5 5.5l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    </div>
+                    <span>(00) 00000-0000</span>
+                </div>
+                <div class="contato-item">
+                    <div class="contato-icon-wrap">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <span>Seg a Sex, 09h – 18h</span>
+                </div>
+            </div>
+
+            <div class="social-links">
+                <a href="#" class="social-btn" title="Instagram">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+                </a>
+                <a href="#" class="social-btn" title="Twitter / X">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="#" class="social-btn" title="LinkedIn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </a>
+            </div>
+        </div>
+
+        <form class="contato-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Seu nome</label>
+                    <input type="text" placeholder="Ex: João Silva" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Seu e-mail</label>
+                    <input type="email" placeholder="ex@email.com" class="form-input">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Assunto</label>
+                <input type="text" placeholder="Como podemos te ajudar?" class="form-input">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Mensagem</label>
+                <textarea placeholder="Escreva sua mensagem aqui..." class="form-textarea"></textarea>
+            </div>
+            <button type="submit" class="btn-primario full">Enviar Mensagem</button>
+        </form>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-diferencial"><img src="Icon/Compra segura.png" alt="Compra Segura" style="width:220px;height:220px;object-fit:contain;vertical-align:middle;"><span>Compra 100% Segura</span></div>
+            <div class="footer-diferencial"><img src="Icon/OffConsu.png" alt="OffConsu" style="width:220px;height:220px;object-fit:contain;vertical-align:middle;"><span>Ingressos e consumação de graça</span></div>
+            <div class="footer-diferencial"><img src="Icon/Ingresso.png" alt="Ingresso" style="width:220px;height:220px;object-fit:contain;vertical-align:middle;"><span>Ingresso mais barato</span></div>
+        </div>
+        <div class="footer-middle">
+            <div class="footer-brand-col">
+                <div class="footer-logo"><div class="footer-logo-square"></div>TICKET HUB</div>
+                <p class="footer-slogan">Pague menos, Viva mais.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span class="footer-rights">&copy; 2025 Ticket Hub. Todos os direitos reservados.</span>
+            <div class="footer-social">
+                <a href="#" class="footer-social-item" title="Instagram"><div class="footer-circle"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div></a>
+                <a href="#" class="footer-social-item" title="WhatsApp"><div class="footer-circle"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></div></a>
+                <a href="#" class="footer-social-item" title="LinkedIn"><div class="footer-circle"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/popup.js"></script>
+</body>
+</html>

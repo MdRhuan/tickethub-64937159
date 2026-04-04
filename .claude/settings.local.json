@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Bash(sed -i 's|</body>|    <script src=\"\"popup.js\"\"></script>\\\\n</body>|' \"$f\")",
+      "Bash(done)",
+      "Bash(grep -n \"perfil\\\\|profile\\\\|user\\\\|account\\\\|minha-conta\" \"c:\\\\Users\\\\j\\\\OneDrive\\\\Ambiente de Trabalho\\\\Site - Ingresso\"/*.html)",
+      "Bash(python3 -)",
+      "Bash(python)",
+      "Bash(python -c ':*)",
+      "Bash(mkdir -p js)",
+      "Bash(cp popup.js js/popup.js)",
+      "Bash(cp favoritos.js js/favoritos.js)"
+    ]
+  }
+}
