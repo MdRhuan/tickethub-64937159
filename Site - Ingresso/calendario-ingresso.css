@@ -1,0 +1,376 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #fff;
+    overflow-x: hidden;
+}
+
+/* HEADER */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 40px;
+    position: relative;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+.logo-square {
+    width: 32px;
+    height: 32px;
+    background: red;
+}
+
+nav {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 24px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #111;
+    font-weight: bold;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+}
+
+nav a:hover {
+    color: red;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.user-circle {
+    width: 32px;
+    height: 32px;
+    background: red;
+    border-radius: 50%;
+}
+
+/* MAIN */
+.main-content {
+    padding: 30px 120px 60px;
+}
+
+.titulo-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.titulo {
+    font-size: 28px;
+    font-weight: 900;
+    color: #111;
+}
+
+.view-toggle {
+    display: flex;
+    gap: 6px;
+}
+
+.toggle-btn {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background: #fff;
+    color: #888;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.toggle-btn:hover {
+    border-color: #999;
+    color: #444;
+}
+
+.toggle-btn.ativo {
+    border-color: #111;
+    color: #111;
+    background: #f0f0f0;
+}
+
+/* CALENDÁRIO WRAPPER */
+.calendario-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 24px;
+    align-items: start;
+}
+
+/* CALENDÁRIO */
+.calendario {
+    background: #f0f0f0;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.cal-mes {
+    font-size: 13px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+}
+
+.cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+}
+
+.cal-dia-header {
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: #777;
+    padding: 4px 0 8px;
+}
+
+.cal-dia {
+    background: #fff;
+    border-radius: 10px;
+    aspect-ratio: 1 / 1;
+    padding: 6px 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.cal-dia:hover {
+    background: #e8e8e8;
+}
+
+.cal-dia.ativo {
+    background: #fff;
+    border: 2px solid #bbb;
+}
+
+.cal-dia .num {
+    font-size: 12px;
+    color: #333;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.cal-evento {
+    background: #d8d8d8;
+    border-radius: 4px;
+    height: 30px;
+}
+
+/* AGENDA */
+.agenda-wrapper {
+    padding: 0;
+}
+
+.agenda-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    padding-left: 100px;
+}
+
+.agenda-list::before {
+    content: '';
+    position: absolute;
+    left: 72px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: red;
+}
+
+.agenda-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+}
+
+.agenda-info {
+    position: absolute;
+    left: -100px;
+    width: 66px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.agenda-data {
+    font-size: 13px;
+    font-weight: bold;
+    color: #111;
+}
+
+.agenda-hora {
+    font-size: 12px;
+    color: #555;
+}
+
+.agenda-card {
+    flex: 1;
+    background: #d8d8d8;
+    border-radius: 14px;
+    height: 100px;
+}
+
+.agenda-circle {
+    width: 36px;
+    height: 36px;
+    background: red;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* DETALHES */
+.detalhes {
+    background: #f0f0f0;
+    border-radius: 16px;
+    padding: 20px;
+    min-height: 400px;
+}
+
+.detalhes-titulo {
+    font-size: 13px;
+    font-weight: bold;
+    color: #555;
+    letter-spacing: 1px;
+}
+
+/* FOOTER */
+.footer {
+    margin-top: 80px;
+    border-top: 1px solid #ddd;
+    background: #fff;
+}
+
+.footer-top {
+    display: flex;
+    justify-content: space-around;
+    padding: 40px 120px 20px;
+}
+
+.footer-diferencial {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.footer-square {
+    width: 18px;
+    height: 18px;
+    background: red;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.footer-middle {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 120px;
+    gap: 40px;
+}
+
+.footer-slogan {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    flex: 1;
+}
+
+.footer-links {
+    flex: 1;
+}
+
+.footer-h2 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.footer-sub {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 4px;
+}
+
+.footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 120px;
+    border-top: 1px solid #ddd;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.footer-logo-square {
+    width: 28px;
+    height: 28px;
+    background: red;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.footer-social {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.footer-social-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.footer-circle {
+    width: 28px;
+    height: 28px;
+    background: red;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.footer-rights {
+    font-size: 13px;
+    color: #555;
+}

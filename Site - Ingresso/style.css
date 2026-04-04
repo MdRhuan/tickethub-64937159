@@ -1,0 +1,401 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #fff;
+    overflow-x: hidden;
+}
+
+/* HEADER */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 40px;
+    position: relative;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+.logo-square {
+    width: 32px;
+    height: 32px;
+    background: red;
+}
+
+nav {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 24px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #111;
+    font-weight: bold;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+}
+
+nav a:hover {
+    color: red;
+}
+
+/* SEARCH */
+.search-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 12px 40px 20px;
+}
+
+.search-bar {
+    width: 100%;
+    max-width: 660px;
+    padding: 14px 24px;
+    border-radius: 50px;
+    border: none;
+    background: #e8e8e8;
+    font-size: 15px;
+    outline: none;
+    color: #555;
+}
+
+/* CAROUSEL SECTION */
+.carousel-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 0 20px;
+}
+
+.carousel-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-container {
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-track {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.card {
+    background: #d8d8d8;
+    border-radius: 16px;
+    flex-shrink: 0;
+}
+
+.card.side {
+    width: 500px;
+    height: 310px;
+}
+
+.card.center {
+    width: 860px;
+    height: 460px;
+}
+
+.arrow-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid #333;
+    background: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+.arrow-btn.left {
+    left: calc(50% - 460px);
+}
+
+.arrow-btn.right {
+    right: calc(50% - 460px);
+}
+
+.arrow-btn:hover {
+    background: #f0f0f0;
+}
+
+/* DOTS */
+.dots {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ccc;
+    cursor: pointer;
+}
+
+.dot.active {
+    background: #4a90e2;
+}
+
+/* EVENT INFO */
+.event-info {
+    text-align: center;
+    margin-top: 12px;
+}
+
+.event-info h2 {
+    font-size: 39px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.event-tags {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.tag {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 21px;
+    font-weight: 500;
+}
+
+.tag-dot {
+    width: 14px;
+    height: 14px;
+    background: red;
+    border-radius: 2px;
+}
+
+/* EVENTOS HOJE */
+.eventos-hoje {
+    padding: 40px 120px;
+    margin-top: 120px;
+}
+
+.eventos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.eventos-header h2 {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.eventos-header a {
+    text-decoration: none;
+    color: #111;
+    font-weight: bold;
+    font-size: 28px;
+}
+
+.eventos-header a:hover {
+    color: red;
+}
+
+.eventos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.evento-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.evento-img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: #d8d8d8;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+.evento-nome {
+    font-weight: bold;
+    font-size: 22px;
+    margin-bottom: 2px;
+}
+
+.evento-detalhe {
+    font-size: 20px;
+    color: #444;
+}
+
+/* FOOTER */
+.footer {
+    margin-top: 80px;
+    border-top: 1px solid #ddd;
+    background: #fff;
+}
+
+.footer-top {
+    display: flex;
+    justify-content: space-around;
+    padding: 40px 120px 20px;
+}
+
+.footer-diferencial {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.footer-square {
+    width: 18px;
+    height: 18px;
+    background: red;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.footer-middle {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 120px;
+    gap: 40px;
+}
+
+.footer-slogan {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    flex: 1;
+}
+
+.footer-links {
+    flex: 1;
+}
+
+.footer-h2 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.footer-sub {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 4px;
+}
+
+.footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 120px;
+    border-top: 1px solid #ddd;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.footer-logo-square {
+    width: 28px;
+    height: 28px;
+    background: red;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.footer-social {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.footer-social-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.footer-circle {
+    width: 28px;
+    height: 28px;
+    background: red;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.footer-rights {
+    font-size: 13px;
+    color: #555;
+}
+
+/* BOTTOM RIBBONS */
+.ribbons {
+    position: relative;
+    width: 100%;
+    height: 160px;
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+.ribbon {
+    position: absolute;
+    width: 130%;
+    height: 60px;
+    background: #d8d8d8;
+    border-radius: 8px;
+    left: 50%;
+    top: 50%;
+}
+
+.ribbon-left {
+    transform: translate(-50%, -50%) rotate(15deg);
+}
+
+.ribbon-right {
+    transform: translate(-50%, -50%) rotate(-15deg);
+}
