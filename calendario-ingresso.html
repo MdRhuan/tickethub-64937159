@@ -49,7 +49,14 @@
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" id="dp-chevron"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="dp-panel" id="dp-panel">
-                        <p class="dp-label">Selecione o mês</p>
+                        <p class="dp-label">Selecione o mês e ano</p>
+                        <select id="dp-ano" class="dp-select">
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                        </select>
                         <select id="dp-mes" class="dp-select">
                             <option value="0">Janeiro</option>
                             <option value="1">Fevereiro</option>
@@ -113,33 +120,8 @@
             <!-- DETALHES -->
             <div class="detalhes">
                 <p class="detalhes-titulo">EVENTOS DO DIA</p>
-                <p class="detalhes-data">01 de Março</p>
-
-                <div class="detalhe-card">
-                    <div class="detalhe-nome">Festival de Verão Salvador</div>
-                    <div class="detalhe-hora">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                        18:00 — 23:00
-                    </div>
-                    <div class="detalhe-local">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        Parque de Exposições, BA
-                    </div>
-                    <a href="ingresso.html" class="detalhe-btn">Ver Ingressos</a>
-                </div>
-
-                <div class="detalhe-card">
-                    <div class="detalhe-nome">Electronic Night SP</div>
-                    <div class="detalhe-hora">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                        23:00 — 06:00
-                    </div>
-                    <div class="detalhe-local">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        D-Edge Club, SP
-                    </div>
-                    <a href="ingresso.html" class="detalhe-btn">Ver Ingressos</a>
-                </div>
+                <p class="detalhes-data" id="detalhes-data-label">Selecione um dia</p>
+                <p style="color:#aaa; font-size:14px;">Nenhum evento neste dia.</p>
             </div>
 
         </div>
@@ -147,75 +129,32 @@
         <!-- VISÃO: AGENDA -->
         <div class="agenda-wrapper" id="view-agenda" style="display:none">
             <div class="agenda-list">
-
-                <div class="agenda-item">
-                    <div class="agenda-info">
-                        <span class="agenda-data">01/03</span>
-                        <span class="agenda-hora">18:00</span>
-                        <span class="agenda-hora">23:00</span>
-                    </div>
-                    <div class="agenda-dot"></div>
-                    <div class="agenda-card">
-                        <div class="agenda-card-nome">Festival de Verão Salvador</div>
-                        <div class="agenda-card-local">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                            Parque de Exposições, Salvador — BA
-                        </div>
-                        <span class="agenda-card-badge vermelho">HOJE</span>
-                    </div>
-                </div>
-
-                <div class="agenda-item">
-                    <div class="agenda-info">
-                        <span class="agenda-data">15/03</span>
-                        <span class="agenda-hora">21:00</span>
-                    </div>
-                    <div class="agenda-dot"></div>
-                    <div class="agenda-card">
-                        <div class="agenda-card-nome">The Weeknd Live in Brazil</div>
-                        <div class="agenda-card-local">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                            Allianz Parque, São Paulo — SP
-                        </div>
-                        <span class="agenda-card-badge">DESTAQUE</span>
-                    </div>
-                </div>
-
-                <div class="agenda-item">
-                    <div class="agenda-info">
-                        <span class="agenda-data">22/03</span>
-                        <span class="agenda-hora">12:00</span>
-                    </div>
-                    <div class="agenda-dot"></div>
-                    <div class="agenda-card">
-                        <div class="agenda-card-nome">Lollapalooza Brasil 2026</div>
-                        <div class="agenda-card-local">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                            Autódromo de Interlagos, São Paulo — SP
-                        </div>
-                        <span class="agenda-card-badge">FESTIVAL</span>
-                    </div>
-                </div>
-
+                <p style="color:#aaa; font-size:14px; padding: 24px 0;">Nenhum evento na agenda.</p>
             </div>
         </div>
 
     </main>
 
+    <script src="js/data.js"></script>
     <script>
-        /* ── Dados de eventos ── */
-        var EVENTOS = {
-            '2026-3':  { 1:'vermelho', 5:'azul', 15:'vermelho', 21:'laranja', 22:'azul', 28:'azul' },
-            '2026-4':  { 5:'laranja', 12:'vermelho', 17:'azul', 19:'azul' },
-            '2026-5':  { 8:'laranja' },
-            '2026-6':  { 24:'azul' },
-            '2027-2':  { 1:'azul' }
-        };
-
         var MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
                      'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 
-        var curAno = 2026, curMes = 2; /* Março = índice 2 */
+        var curAno = new Date().getFullYear(), curMes = new Date().getMonth();
+
+        /* ── Carrega eventos do DB no mapa EVENTOS ── */
+        var EVENTOS = {};
+        (function () {
+            DB.getEventos().forEach(function (ev) {
+                if (!ev.data) return;
+                var p   = ev.data.split('-');
+                var key = p[0] + '-' + parseInt(p[1]);
+                var dia = parseInt(p[2]);
+                if (!EVENTOS[key])       EVENTOS[key] = {};
+                if (!EVENTOS[key][dia])  EVENTOS[key][dia] = { cor: ev.corCal || 'azul', evs: [] };
+                EVENTOS[key][dia].evs.push(ev);
+            });
+        })();
 
         /* ── Renderiza o grid do calendário ── */
         function renderCalendar(mes, ano) {
@@ -224,27 +163,25 @@
             document.getElementById('cal-mes-label').textContent = MESES[mes] + ' ' + ano;
 
             var grid = document.getElementById('cal-grid');
-            /* Remove dias antigos, mantém os headers */
             var headers = grid.querySelectorAll('.cal-dia-header');
             grid.innerHTML = '';
-            headers.forEach(function(h){ grid.appendChild(h.cloneNode(true)); });
+            headers.forEach(function (h) { grid.appendChild(h.cloneNode(true)); });
 
             var key     = ano + '-' + (mes + 1);
             var evMap   = EVENTOS[key] || {};
-            var primDia = new Date(ano, mes, 1).getDay(); /* 0=Dom */
+            var primDia = new Date(ano, mes, 1).getDay();
             var ultDia  = new Date(ano, mes + 1, 0).getDate();
 
-            /* Células vazias antes do dia 1 */
             for (var i = 0; i < primDia; i++) {
                 var vazio = document.createElement('div');
                 vazio.className = 'cal-dia cal-vazio';
                 grid.appendChild(vazio);
             }
 
-            /* Dias do mês */
             for (var d = 1; d <= ultDia; d++) {
-                var cor  = evMap[d];
-                var cell = document.createElement('div');
+                var dadosDia = evMap[d];
+                var cor      = dadosDia ? dadosDia.cor : null;
+                var cell     = document.createElement('div');
                 cell.className = 'cal-dia' + (cor ? ' tem-evento' : '');
                 cell.innerHTML = '<span class="num">' + d + '</span>';
                 if (cor) {
@@ -252,17 +189,75 @@
                     dot.className = 'cal-evento' + (cor !== 'azul' ? ' ' + cor : '');
                     cell.appendChild(dot);
                 }
-                (function(dia){ cell.addEventListener('click', function(){ selectDay(this, dia); }); })(d);
+                (function (dia) { cell.addEventListener('click', function () { selectDay(this, dia); }); })(d);
                 grid.appendChild(cell);
             }
         }
 
-        /* ── Seleciona dia e atualiza painel de detalhes ── */
+        /* ── Seleciona dia e mostra eventos no painel ── */
         function selectDay(el, dia) {
-            document.querySelectorAll('.cal-dia').forEach(function(c){ c.classList.remove('ativo'); });
+            document.querySelectorAll('.cal-dia').forEach(function (c) { c.classList.remove('ativo'); });
             el.classList.add('ativo');
-            var label = dia + ' de ' + MESES[curMes];
-            document.querySelector('.detalhes-data').textContent = label;
+            document.querySelector('.detalhes-data').textContent = dia + ' de ' + MESES[curMes];
+
+            var dadosDia = (EVENTOS[curAno + '-' + (curMes + 1)] || {})[dia];
+            var detalhes = document.querySelector('.detalhes');
+
+            /* Remove conteúdo dinâmico anterior */
+            Array.from(detalhes.children).forEach(function (c) {
+                if (!c.classList.contains('detalhes-titulo') && !c.classList.contains('detalhes-data')) {
+                    c.remove();
+                }
+            });
+
+            if (dadosDia && dadosDia.evs.length) {
+                dadosDia.evs.forEach(function (ev) {
+                    var card = document.createElement('div');
+                    card.className = 'detalhe-card';
+                    card.innerHTML =
+                        '<span class="detalhe-nome">' + ev.titulo + '</span>' +
+                        (ev.hora  ? '<span class="detalhe-hora">🕐 ' + ev.hora + '</span>' : '') +
+                        ((ev.local || ev.cidade) ? '<span class="detalhe-local">📍 ' + (ev.local || ev.cidade) + '</span>' : '') +
+                        '<a href="ingresso-totais.html" class="detalhe-btn">Ver ingresso</a>';
+                    detalhes.appendChild(card);
+                });
+            } else {
+                var p = document.createElement('p');
+                p.style.cssText = 'color:#aaa; font-size:14px;';
+                p.textContent   = 'Nenhum evento neste dia.';
+                detalhes.appendChild(p);
+            }
+        }
+
+        /* ── Renderiza view agenda ── */
+        function renderAgenda() {
+            var list = document.querySelector('.agenda-list');
+            var evs  = DB.getEventos().slice().sort(function (a, b) {
+                return (a.data || '').localeCompare(b.data || '');
+            });
+            if (!evs.length) {
+                list.innerHTML = '<p style="color:#aaa; font-size:14px; padding: 24px 0;">Nenhum evento na agenda.</p>';
+                return;
+            }
+            var LOC_ICON = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+            list.innerHTML = evs.map(function (ev) {
+                var p      = ev.data ? ev.data.split('-') : [];
+                var dia    = p[2] || '';
+                var mesAbr = MESES[parseInt(p[1]) - 1] ? MESES[parseInt(p[1]) - 1].substring(0, 3) : '';
+                var bCls   = ev.corCal === 'vermelho' ? ' vermelho' : '';
+                return '<div class="agenda-item">' +
+                    '<div class="agenda-info">' +
+                        '<span class="agenda-data">' + dia + ' ' + mesAbr + '</span>' +
+                        (ev.hora ? '<span class="agenda-hora">' + ev.hora + '</span>' : '') +
+                    '</div>' +
+                    '<div class="agenda-dot"></div>' +
+                    '<div class="agenda-card">' +
+                        '<span class="agenda-card-nome">' + ev.titulo + '</span>' +
+                        ((ev.local || ev.cidade) ? '<span class="agenda-card-local">' + LOC_ICON + (ev.local || ev.cidade) + '</span>' : '') +
+                        (ev.categoria ? '<span class="agenda-card-badge' + bCls + '">' + ev.categoria + '</span>' : '') +
+                    '</div>' +
+                '</div>';
+            }).join('');
         }
 
         /* ── Navega mês ── */
@@ -270,10 +265,8 @@
             var m = curMes + delta, a = curAno;
             if (m < 0)  { m = 11; a--; }
             if (m > 11) { m = 0;  a++; }
-            if (a < 2026) return;
-            if (a > 2026) return;
             renderCalendar(m, a);
-            syncDatePicker(m);
+            syncDatePicker(m, a);
         }
 
         /* ── Toggle do date picker ── */
@@ -284,22 +277,24 @@
             document.getElementById('dp-chevron').style.transform = open ? 'rotate(180deg)' : '';
         }
 
-        document.addEventListener('click', function(e){
+        document.addEventListener('click', function (e) {
             if (!document.getElementById('dp-wrapper').contains(e.target)) {
                 document.getElementById('dp-panel').classList.remove('aberto');
                 document.getElementById('dp-chevron').style.transform = '';
             }
         });
 
-        /* ── Sincroniza select de mês com o mês atual ── */
-        function syncDatePicker(mes) {
+        /* ── Sincroniza selects com mês/ano atual ── */
+        function syncDatePicker(mes, ano) {
             document.getElementById('dp-mes').value = mes;
+            document.getElementById('dp-ano').value = ano !== undefined ? ano : curAno;
         }
 
         /* ── Confirma data selecionada ── */
         function goToDate() {
             var m = parseInt(document.getElementById('dp-mes').value);
-            renderCalendar(m, curAno);
+            var a = parseInt(document.getElementById('dp-ano').value);
+            renderCalendar(m, a);
             document.getElementById('dp-panel').classList.remove('aberto');
             document.getElementById('dp-chevron').style.transform = '';
         }
@@ -310,10 +305,11 @@
             document.getElementById('view-agenda').style.display = view === 'agenda' ? 'block' : 'none';
             document.getElementById('btn-grid').classList.toggle('ativo',   view === 'grid');
             document.getElementById('btn-agenda').classList.toggle('ativo', view === 'agenda');
+            if (view === 'agenda') renderAgenda();
         }
 
         /* ── Init ── */
-        syncDatePicker(curMes);
+        syncDatePicker(curMes, curAno);
         renderCalendar(curMes, curAno);
     </script>
 

@@ -38,7 +38,7 @@
             <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
-            <input class="search-bar" type="text" placeholder="Buscar evento, artista ou local…">
+            <input class="search-bar" type="text" placeholder="Buscar Eventos">
             <button class="search-btn">Buscar</button>
         </div>
     </div>
@@ -89,11 +89,11 @@
 
     <script>
         const slides = [
-            { title: "The Weeknd Live in Brazil",   tag1: "15 Mar 2026",  tag2: "Allianz Parque, SP"         },
-            { title: "Lollapalooza Brasil",          tag1: "22 Mar 2026",  tag2: "Autódromo Interlagos, SP"   },
-            { title: "Anitta World Tour",            tag1: "12 Abr 2026",  tag2: "Arena Anhembi, SP"          },
-            { title: "Rock in Rio 2026",             tag1: "19 Abr 2026",  tag2: "Cidade do Rock, RJ"         },
-            { title: "Festival de Verão Salvador",   tag1: "28 Mar 2026",  tag2: "Parque de Exposições, BA"   },
+            { title: "",   tag1: "",  tag2: "" },
+            { title: "",   tag1: "",  tag2: "" },
+            { title: "",   tag1: "",  tag2: "" },
+            { title: "",   tag1: "",  tag2: "" },
+            { title: "",   tag1: "",  tag2: "" },
         ];
 
         const CFG = {
@@ -157,91 +157,7 @@
             <a href="ingresso-totais.html" class="ver-todos">Ver todos →</a>
         </div>
         <div class="eventos-grid">
-
-            <div class="evento-card">
-                <div class="evento-img-wrap">
-                    <div class="evento-img"></div>
-                    <span class="evento-badge destaque">Destaque</span>
-                    <button class="evento-fav">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                    </button>
-                </div>
-                <div class="evento-info">
-                    <p class="evento-nome">The Weeknd Live in Brazil</p>
-                    <p class="evento-local">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        Allianz Parque, São Paulo
-                    </p>
-                    <p class="evento-data">15 de Março de 2026</p>
-                    <div class="evento-rodape">
-                        <a href="ingresso.html" class="evento-btn">Comprar</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="evento-card">
-                <div class="evento-img-wrap">
-                    <div class="evento-img" style="background:#c8c0b8;"></div>
-                    <span class="evento-badge">Novo</span>
-                    <button class="evento-fav">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                    </button>
-                </div>
-                <div class="evento-info">
-                    <p class="evento-nome">Lollapalooza Brasil</p>
-                    <p class="evento-local">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        Autódromo Interlagos, SP
-                    </p>
-                    <p class="evento-data">22 de Março de 2026</p>
-                    <div class="evento-rodape">
-                        <a href="ingresso-totais.html" class="evento-btn">Comprar</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="evento-card">
-                <div class="evento-img-wrap">
-                    <div class="evento-img" style="background:#d8c8e0;"></div>
-                    <span class="evento-badge destaque">Destaque</span>
-                    <button class="evento-fav">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                    </button>
-                </div>
-                <div class="evento-info">
-                    <p class="evento-nome">Anitta World Tour</p>
-                    <p class="evento-local">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        Arena Anhembi, São Paulo
-                    </p>
-                    <p class="evento-data">12 de Abril de 2026</p>
-                    <div class="evento-rodape">
-                        <a href="ingresso-totais.html" class="evento-btn">Comprar</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="evento-card">
-                <div class="evento-img-wrap">
-                    <div class="evento-img" style="background:#c8d8c0;"></div>
-                    <span class="evento-badge esgotando">Esgotando</span>
-                    <button class="evento-fav">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                    </button>
-                </div>
-                <div class="evento-info">
-                    <p class="evento-nome">Rock in Rio 2026</p>
-                    <p class="evento-local">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        Cidade do Rock, Rio de Janeiro
-                    </p>
-                    <p class="evento-data">19 de Abril de 2026</p>
-                    <div class="evento-rodape">
-                        <a href="ingresso-totais.html" class="evento-btn">Comprar</a>
-                    </div>
-                </div>
-            </div>
-
+            <p style="color:#aaa; padding: 24px 0;">Nenhum evento disponível no momento.</p>
         </div>
     </section>
 
@@ -296,7 +212,55 @@
     </footer>
 
 
+    <script src="js/data.js"></script>
     <script src="js/favoritos.js"></script>
     <script src="js/popup.js"></script>
+    <script>
+        /* ── Renderiza eventos na home ── */
+        var LOC_ICON = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+
+        function esc(s) {
+            return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+
+        function fmtDataCard(str) {
+            if (!str) return '';
+            var meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+            var p = str.split('-');
+            return p[2] + ' ' + (meses[parseInt(p[1]) - 1] || '');
+        }
+
+        function eventoCardHTML(ev) {
+            var bg = ev.imgUrl
+                ? 'background-image:url("' + esc(ev.imgUrl) + '");background-size:cover;background-position:center;'
+                : 'background:#d8d8d8;';
+            var d = fmtDataCard(ev.data);
+            return '<div class="evento-card">' +
+                '<div class="evento-img-wrap">' +
+                    '<div class="evento-img" style="' + bg + '"></div>' +
+                    (ev.categoria ? '<span class="evento-badge' + (ev.badge ? ' ' + ev.badge : '') + '">' + esc(ev.categoria) + '</span>' : '') +
+                '</div>' +
+                '<div class="evento-info">' +
+                    '<span class="evento-nome">' + esc(ev.titulo) + '</span>' +
+                    (d ? '<span class="evento-data">' + d + (ev.hora ? ' • ' + ev.hora : '') + '</span>' : '') +
+                    (ev.cidade ? '<div class="evento-local">' + LOC_ICON + '<span>' + esc(ev.cidade) + '</span></div>' : '') +
+                    '<div class="evento-rodape">' +
+                        '<span class="evento-preco">' + esc(ev.preco || 'Consultar') + '</span>' +
+                        '<a href="ingresso-totais.html" class="evento-btn">Comprar</a>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+        }
+
+        (function renderEventosHome() {
+            var evs  = DB.getEventos().slice(0, 4);
+            var grid = document.querySelector('.eventos-grid');
+            if (!evs.length) {
+                grid.innerHTML = '<p style="color:#aaa; padding: 24px 0;">Nenhum evento disponível no momento.</p>';
+                return;
+            }
+            grid.innerHTML = evs.map(eventoCardHTML).join('');
+        })();
+    </script>
 </body>
 </html>

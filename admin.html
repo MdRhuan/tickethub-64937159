@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin — Ticket Hub</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+    <!-- LOGIN -->
+    <div class="login-overlay" id="login-overlay">
+        <div class="login-box">
+            <div class="login-logo">
+                <img src="Icon/Logo.png" alt="TH" style="width:42px;height:42px;object-fit:contain;">
+                TICKET HUB
+            </div>
+            <h1 class="login-title">Painel Administrativo</h1>
+            <p class="login-sub">Digite a senha para acessar o painel.</p>
+            <div class="login-field">
+                <input type="password" id="login-pass" placeholder="Senha"
+                    onkeydown="if(event.key==='Enter') doLogin()">
+                <button class="login-btn" onclick="doLogin()">Entrar</button>
+            </div>
+            <p class="login-error" id="login-error">Senha incorreta. Tente novamente.</p>
+        </div>
+    </div>
+
+    <!-- ADMIN APP -->
+    <div class="admin-app" id="admin-app" style="display:none">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <img src="Icon/Logo.png" alt="TH" style="width:34px;height:34px;object-fit:contain;">
+                TICKET HUB
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-item ativo" id="nav-eventos" onclick="setTab('eventos')">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
+                    Eventos
+                </button>
+                <button class="nav-item" id="nav-blog" onclick="setTab('blog')">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                    Blog
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="index.html" class="sidebar-site-link">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    </svg>
+                    Ver site
+                </a>
+                <button class="sidebar-logout" onclick="doLogout()">Sair</button>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="admin-main">
+
+            <div class="admin-header">
+                <h1 class="admin-page-title" id="page-title">Eventos</h1>
+                <p class="admin-page-sub" id="page-sub">Gerencie os eventos do site</p>
+            </div>
+
+            <!-- TAB: EVENTOS -->
+            <div class="tab-content" id="tab-eventos">
+                <div class="content-grid">
+
+                    <!-- FORM -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h2 class="panel-title">Novo Evento</h2>
+                        </div>
+                        <form id="form-evento" onsubmit="submitEvento(event)">
+                            <div class="form-group">
+                                <label class="form-label">Título *</label>
+                                <input class="form-input" type="text" id="ev-titulo" required
+                                    placeholder="Ex: Show do Artista XYZ">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Data *</label>
+                                    <input class="form-input" type="date" id="ev-data" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Hora</label>
+                                    <input class="form-input" type="time" id="ev-hora">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Local / Venue</label>
+                                <input class="form-input" type="text" id="ev-local"
+                                    placeholder="Ex: Arena XYZ">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Cidade</label>
+                                <input class="form-input" type="text" id="ev-cidade"
+                                    placeholder="Ex: São Paulo - SP">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Preço a partir de</label>
+                                    <input class="form-input" type="text" id="ev-preco"
+                                        placeholder="R$ 50,00">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Categoria</label>
+                                    <input class="form-input" type="text" id="ev-categoria"
+                                        placeholder="SHOW, FESTA, TEATRO...">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Cor no calendário</label>
+                                    <select class="form-input form-select" id="ev-cor">
+                                        <option value="azul">Azul</option>
+                                        <option value="verde">Verde</option>
+                                        <option value="vermelho">Vermelho</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Badge do card</label>
+                                    <select class="form-input form-select" id="ev-badge">
+                                        <option value="">Nenhum</option>
+                                        <option value="destaque">Destaque</option>
+                                        <option value="esgotando">Esgotando</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Imagem (URL)</label>
+                                <input class="form-input" type="text" id="ev-img"
+                                    placeholder="https://exemplo.com/imagem.jpg">
+                            </div>
+                            <button type="submit" class="btn-primary">Adicionar Evento</button>
+                        </form>
+                    </div>
+
+                    <!-- LIST -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h2 class="panel-title">Eventos Cadastrados</h2>
+                            <span class="badge" id="ev-count">0</span>
+                        </div>
+                        <div class="item-list" id="ev-list">
+                            <p class="empty-msg">Nenhum evento cadastrado.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- TAB: BLOG -->
+            <div class="tab-content" id="tab-blog" style="display:none">
+                <div class="content-grid">
+
+                    <!-- FORM -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h2 class="panel-title">Novo Post</h2>
+                        </div>
+                        <form id="form-post" onsubmit="submitPost(event)">
+                            <div class="form-group">
+                                <label class="form-label">Título *</label>
+                                <input class="form-input" type="text" id="post-titulo" required
+                                    placeholder="Ex: 5 dicas para aproveitar shows">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Resumo / Subtítulo</label>
+                                <textarea class="form-input form-textarea" id="post-subtitulo"
+                                    rows="3" placeholder="Breve descrição do post..."></textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Tag</label>
+                                    <input class="form-input" type="text" id="post-tag"
+                                        placeholder="DICAS, MÚSICA, GUIA...">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Autor</label>
+                                    <input class="form-input" type="text" id="post-autor"
+                                        placeholder="Ticket Hub">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Data de publicação *</label>
+                                <input class="form-input" type="date" id="post-data" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Imagem (URL)</label>
+                                <input class="form-input" type="text" id="post-img"
+                                    placeholder="https://exemplo.com/imagem.jpg">
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="post-destaque">
+                                <label for="post-destaque">Marcar como post em destaque</label>
+                            </div>
+                            <button type="submit" class="btn-primary">Adicionar Post</button>
+                        </form>
+                    </div>
+
+                    <!-- LIST -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h2 class="panel-title">Posts Cadastrados</h2>
+                            <span class="badge" id="post-count">0</span>
+                        </div>
+                        <div class="item-list" id="post-list">
+                            <p class="empty-msg">Nenhum post cadastrado.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script>
+        var PASS = 'tickethub';
+
+        /* ── Utilidades ── */
+        function esc(s) {
+            return String(s || '')
+                .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+                .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+
+        function fmtDate(str) {
+            if (!str) return '';
+            var p = str.split('-');
+            return p[2] + '/' + p[1] + '/' + p[0];
+        }
+
+        function showToast(msg) {
+            var t = document.createElement('div');
+            t.className = 'toast';
+            t.textContent = msg;
+            document.body.appendChild(t);
+            setTimeout(function () { t.classList.add('show'); }, 10);
+            setTimeout(function () {
+                t.classList.remove('show');
+                setTimeout(function () { t.remove(); }, 300);
+            }, 2500);
+        }
+
+        /* ── Auth ── */
+        function doLogin() {
+            var v = document.getElementById('login-pass').value;
+            if (v === PASS) {
+                sessionStorage.setItem('th_admin', '1');
+                showAdmin();
+            } else {
+                document.getElementById('login-error').style.display = 'block';
+            }
+        }
+
+        function doLogout() {
+            sessionStorage.removeItem('th_admin');
+            document.getElementById('admin-app').style.display = 'none';
+            document.getElementById('login-overlay').style.display = 'flex';
+            document.getElementById('login-pass').value = '';
+            document.getElementById('login-error').style.display = 'none';
+        }
+
+        function showAdmin() {
+            document.getElementById('login-overlay').style.display = 'none';
+            document.getElementById('admin-app').style.display = 'flex';
+            renderEvList();
+            renderPostList();
+        }
+
+        /* ── Tabs ── */
+        function setTab(t) {
+            document.getElementById('tab-eventos').style.display = t === 'eventos' ? 'block' : 'none';
+            document.getElementById('tab-blog').style.display    = t === 'blog'    ? 'block' : 'none';
+            document.getElementById('nav-eventos').classList.toggle('ativo', t === 'eventos');
+            document.getElementById('nav-blog').classList.toggle('ativo', t === 'blog');
+            var info = {
+                eventos: ['Eventos', 'Gerencie os eventos do site'],
+                blog:    ['Blog',    'Gerencie os posts do blog']
+            };
+            document.getElementById('page-title').textContent = info[t][0];
+            document.getElementById('page-sub').textContent   = info[t][1];
+        }
+
+        /* ── Eventos ── */
+        function submitEvento(e) {
+            e.preventDefault();
+            var ev = {
+                id:        Date.now().toString(),
+                titulo:    document.getElementById('ev-titulo').value.trim(),
+                data:      document.getElementById('ev-data').value,
+                hora:      document.getElementById('ev-hora').value,
+                local:     document.getElementById('ev-local').value.trim(),
+                cidade:    document.getElementById('ev-cidade').value.trim(),
+                preco:     document.getElementById('ev-preco').value.trim(),
+                categoria: document.getElementById('ev-categoria').value.trim().toUpperCase(),
+                corCal:    document.getElementById('ev-cor').value,
+                badge:     document.getElementById('ev-badge').value,
+                imgUrl:    document.getElementById('ev-img').value.trim()
+            };
+            DB.addEvento(ev);
+            document.getElementById('form-evento').reset();
+            renderEvList();
+            showToast('Evento adicionado com sucesso!');
+        }
+
+        function deleteEv(id) {
+            if (!confirm('Remover este evento?')) return;
+            DB.deleteEvento(id);
+            renderEvList();
+            showToast('Evento removido.');
+        }
+
+        function renderEvList() {
+            var evs  = DB.getEventos();
+            document.getElementById('ev-count').textContent = evs.length;
+            var list = document.getElementById('ev-list');
+            if (!evs.length) {
+                list.innerHTML = '<p class="empty-msg">Nenhum evento cadastrado.</p>';
+                return;
+            }
+            list.innerHTML = evs.slice().reverse().map(function (ev) {
+                var imgStyle = ev.imgUrl
+                    ? 'background-image:url(' + esc(ev.imgUrl) + ');background-size:cover;background-position:center;'
+                    : 'background:#e0e0e0;';
+                var meta = [fmtDate(ev.data), ev.hora, ev.cidade].filter(Boolean).join(' • ');
+                return '<div class="list-item">' +
+                    '<div class="list-item-img" style="' + imgStyle + '"></div>' +
+                    '<div class="list-item-info">' +
+                        '<span class="list-item-title">' + esc(ev.titulo) + '</span>' +
+                        (meta ? '<span class="list-item-meta">' + esc(meta) + '</span>' : '') +
+                        (ev.preco ? '<span class="list-item-price">' + esc(ev.preco) + '</span>' : '') +
+                    '</div>' +
+                    '<button class="list-item-del" onclick="deleteEv(\'' + ev.id + '\')" title="Remover">' +
+                        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
+                        '<polyline points="3 6 5 6 21 6"/>' +
+                        '<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>' +
+                        '</svg>' +
+                    '</button>' +
+                '</div>';
+            }).join('');
+        }
+
+        /* ── Posts ── */
+        function submitPost(e) {
+            e.preventDefault();
+            var p = {
+                id:        Date.now().toString(),
+                titulo:    document.getElementById('post-titulo').value.trim(),
+                subtitulo: document.getElementById('post-subtitulo').value.trim(),
+                tag:       document.getElementById('post-tag').value.trim().toUpperCase(),
+                autor:     document.getElementById('post-autor').value.trim() || 'Ticket Hub',
+                data:      document.getElementById('post-data').value,
+                imgUrl:    document.getElementById('post-img').value.trim(),
+                destaque:  document.getElementById('post-destaque').checked
+            };
+            DB.addPost(p);
+            document.getElementById('form-post').reset();
+            renderPostList();
+            showToast('Post adicionado com sucesso!');
+        }
+
+        function deletePost(id) {
+            if (!confirm('Remover este post?')) return;
+            DB.deletePost(id);
+            renderPostList();
+            showToast('Post removido.');
+        }
+
+        function renderPostList() {
+            var posts = DB.getPosts();
+            document.getElementById('post-count').textContent = posts.length;
+            var list = document.getElementById('post-list');
+            if (!posts.length) {
+                list.innerHTML = '<p class="empty-msg">Nenhum post cadastrado.</p>';
+                return;
+            }
+            list.innerHTML = posts.slice().reverse().map(function (p) {
+                var imgStyle = p.imgUrl
+                    ? 'background-image:url(' + esc(p.imgUrl) + ');background-size:cover;background-position:center;'
+                    : 'background:#e0e0e0;';
+                var destBadge = p.destaque
+                    ? '<span class="destaque-badge">DESTAQUE</span>'
+                    : '';
+                var meta = [fmtDate(p.data), p.tag].filter(Boolean).join(' • ');
+                return '<div class="list-item">' +
+                    '<div class="list-item-img" style="' + imgStyle + '"></div>' +
+                    '<div class="list-item-info">' +
+                        '<span class="list-item-title">' + esc(p.titulo) + destBadge + '</span>' +
+                        (meta ? '<span class="list-item-meta">' + esc(meta) + '</span>' : '') +
+                        (p.subtitulo ? '<span class="list-item-desc">' + esc(p.subtitulo) + '</span>' : '') +
+                    '</div>' +
+                    '<button class="list-item-del" onclick="deletePost(\'' + p.id + '\')" title="Remover">' +
+                        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
+                        '<polyline points="3 6 5 6 21 6"/>' +
+                        '<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>' +
+                        '</svg>' +
+                    '</button>' +
+                '</div>';
+            }).join('');
+        }
+
+        /* ── Init ── */
+        if (sessionStorage.getItem('th_admin') === '1') {
+            showAdmin();
+        }
+    </script>
+</body>
+</html>
