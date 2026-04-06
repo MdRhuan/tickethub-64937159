@@ -305,6 +305,53 @@ form {
 }
 .btn-primary:hover { background: #102a4e; }
 
+.atracao-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.atracao-del {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: #fee;
+    color: #c0392b;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+.atracao-del:hover { background: #c0392b; color: #fff; }
+
+.btn-add-atracao {
+    margin-top: 6px;
+    padding: 7px 14px;
+    background: #f0f4ff;
+    color: #1a3a6b;
+    border: 1.5px dashed #1a3a6b;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+}
+.btn-add-atracao:hover:not(:disabled) { background: #dce8ff; }
+.btn-add-atracao:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.form-section-sep {
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #1a3a6b;
+    border-bottom: 2px solid #e8edf5;
+    padding-bottom: 6px;
+    margin: 8px 0 4px;
+}
+
 /* ─── LIST ───────────────────────────────────── */
 .item-list {
     padding: 12px;

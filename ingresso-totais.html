@@ -47,6 +47,23 @@
             <input type="text" placeholder="Buscar Eventos">
             <button class="it-search-btn">Buscar</button>
         </div>
+        <div class="it-generos" id="it-generos">
+            <button class="genero-btn ativo" data-genero="">Todos</button>
+            <button class="genero-btn" data-genero="FUNK">Funk</button>
+            <button class="genero-btn" data-genero="SERTANEJO">Sertanejo</button>
+            <button class="genero-btn" data-genero="PAGODE">Pagode</button>
+            <button class="genero-btn" data-genero="AXÉ">Axé</button>
+            <button class="genero-btn" data-genero="FORRÓ">Forró</button>
+            <button class="genero-btn" data-genero="ROCK">Rock</button>
+            <button class="genero-btn" data-genero="POP">Pop</button>
+            <button class="genero-btn" data-genero="HIP-HOP">Hip-Hop</button>
+            <button class="genero-btn" data-genero="ELETRÔNICO">Eletrônico</button>
+            <button class="genero-btn" data-genero="MPB">MPB</button>
+            <button class="genero-btn" data-genero="GOSPEL">Gospel</button>
+            <button class="genero-btn" data-genero="REGGAE">Reggae</button>
+            <button class="genero-btn" data-genero="JAZZ">Jazz</button>
+            <button class="genero-btn" data-genero="SAMBA">Samba</button>
+        </div>
     </div>
 
     <!-- EVENTOS -->
@@ -126,15 +143,15 @@
                 return '<div class="evento-card">' +
                     '<div class="evento-img-wrap">' +
                         '<div class="evento-img" style="' + bg + '"></div>' +
-                        (ev.categoria ? '<span class="evento-badge' + (ev.badge ? ' ' + ev.badge : '') + '">' + esc(ev.categoria) + '</span>' : '') +
+                        (ev.tagCard || ev.categoria ? '<span class="evento-badge' + (ev.badge ? ' ' + ev.badge : '') + '">' + esc(ev.tagCard || ev.categoria) + '</span>' : '') +
                     '</div>' +
                     '<div class="evento-info">' +
                         '<span class="evento-nome">' + esc(ev.titulo) + '</span>' +
                         (d ? '<span class="evento-data">' + d + (ev.hora ? ' • ' + ev.hora : '') + '</span>' : '') +
-                        (ev.cidade ? '<div class="evento-local">' + LOC_ICON + '<span>' + esc(ev.cidade) + '</span></div>' : '') +
+                        (ev.local ? '<div class="evento-local">' + LOC_ICON + '<span>' + esc(ev.local) + '</span></div>' : '') +
                         '<div class="evento-rodape">' +
                             '<span class="evento-preco">' + esc(ev.preco || 'Consultar') + '</span>' +
-                            '<a href="ingresso.html" class="evento-btn">Ver ingresso</a>' +
+                            '<a href="ingresso.html?id=' + ev.id + '" class="evento-btn">Ver ingresso</a>' +
                         '</div>' +
                     '</div>' +
                 '</div>';
@@ -142,22 +159,34 @@
         }
 
         var todosEvs = DB.getEventos();
+        var generoAtivo = '';
         renderGrid(todosEvs);
 
-        /* Busca */
-        function doSearch() {
+        function filtrar() {
             var q = document.querySelector('.it-search input').value.trim().toLowerCase();
-            if (!q) { renderGrid(todosEvs); return; }
             renderGrid(todosEvs.filter(function (ev) {
-                return (ev.titulo   || '').toLowerCase().includes(q) ||
-                       (ev.cidade   || '').toLowerCase().includes(q) ||
-                       (ev.categoria|| '').toLowerCase().includes(q);
+                var okGenero = !generoAtivo || (ev.categoria || '') === generoAtivo;
+                var okBusca  = !q ||
+                    (ev.titulo || '').toLowerCase().includes(q) ||
+                    (ev.local  || '').toLowerCase().includes(q);
+                return okGenero && okBusca;
             }));
         }
 
-        document.querySelector('.it-search-btn').addEventListener('click', doSearch);
+        /* Filtro por gênero */
+        document.getElementById('it-generos').addEventListener('click', function (e) {
+            var btn = e.target.closest('.genero-btn');
+            if (!btn) return;
+            document.querySelectorAll('.genero-btn').forEach(function (b) { b.classList.remove('ativo'); });
+            btn.classList.add('ativo');
+            generoAtivo = btn.dataset.genero;
+            filtrar();
+        });
+
+        /* Busca por texto */
+        document.querySelector('.it-search-btn').addEventListener('click', filtrar);
         document.querySelector('.it-search input').addEventListener('keydown', function (e) {
-            if (e.key === 'Enter') doSearch();
+            if (e.key === 'Enter') filtrar();
         });
     </script>
 </body>

@@ -87,6 +87,27 @@ body {
 }
 .it-search-btn:hover { background: #2d6abf; }
 
+.it-generos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.genero-btn {
+    padding: 7px 16px;
+    border-radius: 50px;
+    border: 1.5px solid #ddd;
+    background: #fff;
+    color: #555;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    transition: all 0.18s;
+}
+.genero-btn:hover { border-color: #4a90e2; color: #4a90e2; }
+.genero-btn.ativo { background: #1a3a6b; border-color: #1a3a6b; color: #fff; }
+
 /* ─── SECTION ─────────────────────────────── */
 .it-section {
     padding: 28px 120px 80px;

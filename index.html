@@ -238,15 +238,15 @@
             return '<div class="evento-card">' +
                 '<div class="evento-img-wrap">' +
                     '<div class="evento-img" style="' + bg + '"></div>' +
-                    (ev.categoria ? '<span class="evento-badge' + (ev.badge ? ' ' + ev.badge : '') + '">' + esc(ev.categoria) + '</span>' : '') +
+                    (ev.tagCard || ev.categoria ? '<span class="evento-badge' + (ev.badge ? ' ' + ev.badge : '') + '">' + esc(ev.tagCard || ev.categoria) + '</span>' : '') +
                 '</div>' +
                 '<div class="evento-info">' +
                     '<span class="evento-nome">' + esc(ev.titulo) + '</span>' +
                     (d ? '<span class="evento-data">' + d + (ev.hora ? ' • ' + ev.hora : '') + '</span>' : '') +
-                    (ev.cidade ? '<div class="evento-local">' + LOC_ICON + '<span>' + esc(ev.cidade) + '</span></div>' : '') +
+                    (ev.local ? '<div class="evento-local">' + LOC_ICON + '<span>' + esc(ev.local) + '</span></div>' : '') +
                     '<div class="evento-rodape">' +
                         '<span class="evento-preco">' + esc(ev.preco || 'Consultar') + '</span>' +
-                        '<a href="ingresso-totais.html" class="evento-btn">Comprar</a>' +
+                        '<a href="ingresso.html?id=' + ev.id + '" class="evento-btn">Comprar</a>' +
                     '</div>' +
                 '</div>' +
             '</div>';

@@ -217,7 +217,7 @@
                     card.innerHTML =
                         '<span class="detalhe-nome">' + ev.titulo + '</span>' +
                         (ev.hora  ? '<span class="detalhe-hora">🕐 ' + ev.hora + '</span>' : '') +
-                        ((ev.local || ev.cidade) ? '<span class="detalhe-local">📍 ' + (ev.local || ev.cidade) + '</span>' : '') +
+                        (ev.local ? '<span class="detalhe-local">📍 ' + ev.local + '</span>' : '') +
                         '<a href="ingresso-totais.html" class="detalhe-btn">Ver ingresso</a>';
                     detalhes.appendChild(card);
                 });
@@ -253,7 +253,7 @@
                     '<div class="agenda-dot"></div>' +
                     '<div class="agenda-card">' +
                         '<span class="agenda-card-nome">' + ev.titulo + '</span>' +
-                        ((ev.local || ev.cidade) ? '<span class="agenda-card-local">' + LOC_ICON + (ev.local || ev.cidade) + '</span>' : '') +
+                        (ev.local ? '<span class="agenda-card-local">' + LOC_ICON + ev.local + '</span>' : '') +
                         (ev.categoria ? '<span class="agenda-card-badge' + bCls + '">' + ev.categoria + '</span>' : '') +
                     '</div>' +
                 '</div>';

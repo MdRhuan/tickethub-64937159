@@ -171,7 +171,143 @@
         </div>
     </footer>
 
+    <script src="js/data.js"></script>
     <script>
+        /* ── Carrega evento pelo ?id= ── */
+        (function () {
+            var id = new URLSearchParams(window.location.search).get('id');
+            if (!id) return;
+            var ev = DB.getEventos().filter(function (e) { return e.id === id; })[0];
+            if (!ev) return;
+
+            var MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+                         'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+            function fmtData(str) {
+                if (!str) return '';
+                var p = str.split('-');
+                return p[2] + ' de ' + MESES[parseInt(p[1]) - 1] + ' de ' + p[0];
+            }
+
+            /* título da aba */
+            document.title = ev.titulo + ' — Ticket Hub';
+
+            /* hero background: banner tem prioridade, depois capa */
+            var heroBg = ev.imgBanner || ev.imgUrl;
+            if (heroBg) {
+                var bg = document.querySelector('.event-hero-bg');
+                bg.style.backgroundImage   = 'url(' + heroBg + ')';
+                bg.style.backgroundSize    = 'cover';
+                bg.style.backgroundPosition = 'center';
+            }
+
+            /* badge / tag */
+            var badge = document.querySelector('.event-hero-badge');
+            var tagTxt = ev.tagCard || ev.categoria || '';
+            if (tagTxt) { badge.textContent = tagTxt; }
+            else        { badge.style.display = 'none'; }
+
+            /* título */
+            document.querySelector('.event-hero-title').textContent = ev.titulo || '';
+
+            /* meta: data, hora, local */
+            var tags = document.querySelectorAll('.event-hero-tag');
+            if (ev.data)  tags[0].appendChild(document.createTextNode(' ' + fmtData(ev.data)));
+            if (ev.hora)  tags[1].appendChild(document.createTextNode(' ' + ev.hora));
+            var localTxt = ev.local || '';
+            if (localTxt) tags[2].appendChild(document.createTextNode(' ' + localTxt));
+
+            /* share link */
+            document.getElementById('shareLinkInput').value = window.location.href;
+            var wpLink = document.querySelector('.share-whatsapp');
+            if (wpLink) wpLink.href = 'https://wa.me/?text=' + encodeURIComponent(ev.titulo + ' — ' + window.location.href);
+
+            /* info box: Data / Horário / Local / Classificação */
+            var rows = document.querySelectorAll('.event-info-row');
+            function setVal(row, txt) {
+                var span = document.createElement('span');
+                span.style.cssText = 'font-size:13px;color:#333;margin-top:2px;display:block;';
+                span.textContent = txt;
+                row.querySelector('div').appendChild(span);
+            }
+            if (ev.data)               setVal(rows[0], fmtData(ev.data));
+            if (ev.hora)               setVal(rows[1], ev.hora);
+            if (localTxt) setVal(rows[2], localTxt);
+            if (ev.classificacao)      setVal(rows[3], ev.classificacao);
+
+            /* Sobre o evento */
+            var about = document.querySelector('.event-about-text');
+            if (ev.sobre) {
+                about.textContent = ev.sobre;
+            } else {
+                about.textContent = 'Informações detalhadas sobre o evento em breve.';
+                about.style.color = '#888';
+            }
+
+            /* Atrações */
+            var atDiv = document.querySelector('.event-atracoes');
+            var atList = Array.isArray(ev.atracoes) ? ev.atracoes : [];
+            if (atList.length) {
+                atDiv.style.cssText = 'display:flex;flex-wrap:wrap;gap:14px;margin-top:4px;';
+                atDiv.innerHTML = atList.map(function (at) {
+                    var foto = at.foto
+                        ? 'background-image:url(' + at.foto.replace(/"/g,'&quot;') + ');background-size:cover;background-position:center top;'
+                        : 'background:#e8edf5;';
+                    return '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;width:90px;">' +
+                        '<div style="width:80px;height:80px;border-radius:50%;' + foto + 'border:3px solid #e8edf5;flex-shrink:0;"></div>' +
+                        '<span style="font-size:13px;font-weight:bold;color:#111;text-align:center;line-height:1.3;">' +
+                            (at.nome || '').replace(/&/g,'&amp;').replace(/</g,'&lt;') +
+                        '</span>' +
+                    '</div>';
+                }).join('');
+            } else {
+                atDiv.parentElement.style.display = 'none';
+            }
+
+            /* Local box */
+            if (ev.local) document.querySelector('.event-local-nome').textContent = ev.local;
+            var mapaEl = document.querySelector('.event-local-mapa');
+            if (ev.mapaUrl) {
+                mapaEl.style.cursor = 'pointer';
+                mapaEl.onclick = function () { window.open(ev.mapaUrl, '_blank'); };
+            } else {
+                mapaEl.style.color = '#bbb';
+                mapaEl.style.cursor = 'default';
+            }
+
+            /* Ingressos */
+            var opcoes = document.querySelector('.opcoes-side');
+            var oldP   = opcoes.querySelector('p');
+            if (oldP) oldP.remove();
+
+            var ingressos = [ev.ing1, ev.ing2, ev.ing3].filter(Boolean);
+            if (ingressos.length) {
+                ingressos.forEach(function (ing) {
+                    var card = document.createElement('div');
+                    card.className = 'ticket-card';
+                    var nome = (ing.nome || '').replace(/</g,'&lt;');
+                    var btnHtml = ing.link
+                        ? '<a href="' + ing.link.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" style="display:block;margin-top:8px;padding:10px;background:#1a3a6b;color:#fff;border-radius:8px;font-size:13px;font-weight:bold;text-align:center;text-decoration:none;">Garantir ingresso com desconto</a>'
+                        : '<span style="display:block;margin-top:8px;padding:10px;background:#eee;color:#999;border-radius:8px;font-size:13px;text-align:center;">Em breve</span>';
+                    card.innerHTML =
+                        '<span style="font-weight:bold;font-size:15px;color:#111;">' + nome + '</span>' +
+                        btnHtml;
+                    opcoes.appendChild(card);
+                });
+            } else if (ev.preco) {
+                var priceEl = document.createElement('p');
+                priceEl.style.cssText = 'font-size:20px;font-weight:bold;color:#111;padding:16px 0 4px;';
+                priceEl.textContent = 'A partir de ' + ev.preco;
+                opcoes.appendChild(priceEl);
+            } else {
+                var noIng = document.createElement('p');
+                noIng.style.cssText = 'color:#aaa;padding:16px 0;';
+                noIng.textContent = 'Nenhum ingresso disponível no momento.';
+                opcoes.appendChild(noIng);
+            }
+        }());
+
+        /* ── Modal compartilhar ── */
         const overlay = document.getElementById('shareOverlay');
         document.getElementById('compartilharBtn').addEventListener('click', () => overlay.classList.add('active'));
         document.getElementById('shareClose').addEventListener('click', () => overlay.classList.remove('active'));

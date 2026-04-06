@@ -84,44 +84,168 @@
                             <h2 class="panel-title">Novo Evento</h2>
                         </div>
                         <form id="form-evento" onsubmit="submitEvento(event)">
+
                             <div class="form-group">
-                                <label class="form-label">Título *</label>
+                                <label class="form-label">Nome do evento *</label>
                                 <input class="form-input" type="text" id="ev-titulo" required
                                     placeholder="Ex: Show do Artista XYZ">
                             </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Sobre o evento</label>
+                                <textarea class="form-input form-textarea" id="ev-sobre" rows="3"
+                                    placeholder="Descrição do evento..."></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Atrações <span style="font-weight:normal;color:#999" id="at-count-label">(0/7)</span></label>
+                                <div id="atracoes-container"></div>
+                                <button type="button" class="btn-add-atracao" id="btn-add-at" onclick="addAtracao()">+ Adicionar atração</button>
+                            </div>
+
+                            <div class="form-section-sep">Local &amp; Data</div>
+
                             <div class="form-row">
                                 <div class="form-group">
                                     <label class="form-label">Data *</label>
                                     <input class="form-input" type="date" id="ev-data" required>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Hora</label>
+                                    <label class="form-label">Horário</label>
                                     <input class="form-input" type="time" id="ev-hora">
                                 </div>
                             </div>
+
                             <div class="form-group">
-                                <label class="form-label">Local / Venue</label>
+                                <label class="form-label">Local</label>
                                 <input class="form-input" type="text" id="ev-local"
                                     placeholder="Ex: Arena XYZ">
                             </div>
+
                             <div class="form-group">
-                                <label class="form-label">Cidade</label>
-                                <input class="form-input" type="text" id="ev-cidade"
-                                    placeholder="Ex: São Paulo - SP">
+                                <label class="form-label">Link do Google Maps</label>
+                                <input class="form-input" type="text" id="ev-mapa"
+                                    placeholder="https://maps.google.com/...">
                             </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Classificação</label>
+                                    <select class="form-input form-select" id="ev-classif">
+                                        <option value="Livre">Livre</option>
+                                        <option value="12+">12+</option>
+                                        <option value="14+">14+</option>
+                                        <option value="16+">16+</option>
+                                        <option value="18+">18+</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Estilo musical</label>
+                                    <select class="form-input form-select" id="ev-categoria">
+                                        <option value="">— Selecione —</option>
+                                        <option value="FUNK">Funk</option>
+                                        <option value="SERTANEJO">Sertanejo</option>
+                                        <option value="PAGODE">Pagode</option>
+                                        <option value="AXÉ">Axé</option>
+                                        <option value="FORRÓ">Forró</option>
+                                        <option value="ROCK">Rock</option>
+                                        <option value="POP">Pop</option>
+                                        <option value="HIP-HOP">Hip-Hop / Rap</option>
+                                        <option value="ELETRÔNICO">Eletrônico</option>
+                                        <option value="MPB">MPB</option>
+                                        <option value="GOSPEL">Gospel</option>
+                                        <option value="REGGAE">Reggae</option>
+                                        <option value="JAZZ">Jazz</option>
+                                        <option value="SAMBA">Samba</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-section-sep">Imagens</div>
+
+                            <div class="form-group">
+                                <label class="form-label">Capa do evento <span style="font-weight:normal;color:#aaa;text-transform:none;letter-spacing:0">— 400×500 px</span></label>
+                                <input class="form-input" type="text" id="ev-img"
+                                    placeholder="https://exemplo.com/capa.jpg">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Banner do evento <span style="font-weight:normal;color:#aaa;text-transform:none;letter-spacing:0">— 1440×500 px</span></label>
+                                <input class="form-input" type="text" id="ev-banner"
+                                    placeholder="https://exemplo.com/banner.jpg">
+                            </div>
+
+                            <div class="form-section-sep">Ingressos</div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Ingresso 01</label>
+                                    <input class="form-input" type="text" id="ev-ing1-nome"
+                                        placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Ingresso 01 — Link de compra</label>
+                                    <input class="form-input" type="text" id="ev-ing1-link"
+                                        placeholder="https://...">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Lounge/Camarote</label>
+                                    <input class="form-input" type="text" id="ev-ing2-nome"
+                                        placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Lounge/Camarote — Link de compra</label>
+                                    <input class="form-input" type="text" id="ev-ing2-link"
+                                        placeholder="https://...">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Condições Especiais</label>
+                                    <input class="form-input" type="text" id="ev-ing3-nome"
+                                        placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Condições Especiais — Link</label>
+                                    <input class="form-input" type="text" id="ev-ing3-link"
+                                        placeholder="https://...">
+                                </div>
+                            </div>
+
+                            <div class="form-section-sep">Card &amp; Calendário</div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Tag do card</label>
+                                    <select class="form-input form-select" id="ev-tag">
+                                        <option value="">— Sem tag —</option>
+                                        <option value="DESTAQUE">Destaque</option>
+                                        <option value="NOVO">Novo</option>
+                                        <option value="ESGOTANDO">Esgotando</option>
+                                        <option value="ÚLTIMO LOTE">Último Lote</option>
+                                        <option value="EXCLUSIVO">Exclusivo</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Cor da tag</label>
+                                    <select class="form-input form-select" id="ev-badge">
+                                        <option value="">Padrão (preto)</option>
+                                        <option value="destaque">Azul</option>
+                                        <option value="esgotando">Laranja</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="form-row">
                                 <div class="form-group">
                                     <label class="form-label">Preço a partir de</label>
                                     <input class="form-input" type="text" id="ev-preco"
                                         placeholder="R$ 50,00">
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-label">Categoria</label>
-                                    <input class="form-input" type="text" id="ev-categoria"
-                                        placeholder="SHOW, FESTA, TEATRO...">
-                                </div>
-                            </div>
-                            <div class="form-row">
                                 <div class="form-group">
                                     <label class="form-label">Cor no calendário</label>
                                     <select class="form-input form-select" id="ev-cor">
@@ -130,20 +254,8 @@
                                         <option value="vermelho">Vermelho</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-label">Badge do card</label>
-                                    <select class="form-input form-select" id="ev-badge">
-                                        <option value="">Nenhum</option>
-                                        <option value="destaque">Destaque</option>
-                                        <option value="esgotando">Esgotando</option>
-                                    </select>
-                                </div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Imagem (URL)</label>
-                                <input class="form-input" type="text" id="ev-img"
-                                    placeholder="https://exemplo.com/imagem.jpg">
-                            </div>
+
                             <button type="submit" class="btn-primary">Adicionar Evento</button>
                         </form>
                     </div>
@@ -185,8 +297,16 @@
                             <div class="form-row">
                                 <div class="form-group">
                                     <label class="form-label">Tag</label>
-                                    <input class="form-input" type="text" id="post-tag"
-                                        placeholder="DICAS, MÚSICA, GUIA...">
+                                    <select class="form-input form-select" id="post-tag">
+                                        <option value="">— Sem tag —</option>
+                                        <option value="DICAS">Dicas</option>
+                                        <option value="MÚSICA">Música</option>
+                                        <option value="GUIA">Guia</option>
+                                        <option value="NOTÍCIAS">Notícias</option>
+                                        <option value="EVENTOS">Eventos</option>
+                                        <option value="CULTURA">Cultura</option>
+                                        <option value="ENTRETENIMENTO">Entretenimento</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Autor</label>
@@ -199,7 +319,7 @@
                                 <input class="form-input" type="date" id="post-data" required>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Imagem (URL)</label>
+                                <label class="form-label">Imagem (URL) <span style="font-weight:normal;color:#aaa;text-transform:none;letter-spacing:0">— 800×500 px</span></label>
                                 <input class="form-input" type="text" id="post-img"
                                     placeholder="https://exemplo.com/imagem.jpg">
                             </div>
@@ -297,24 +417,76 @@
             document.getElementById('page-sub').textContent   = info[t][1];
         }
 
+        /* ── Atrações dinâmicas ── */
+        function syncAtCount() {
+            var n = document.querySelectorAll('.atracao-row').length;
+            document.getElementById('at-count-label').textContent = '(' + n + '/7)';
+            document.getElementById('btn-add-at').disabled = n >= 7;
+        }
+
+        function addAtracao() {
+            var container = document.getElementById('atracoes-container');
+            if (container.querySelectorAll('.atracao-row').length >= 7) return;
+            var row = document.createElement('div');
+            row.className = 'atracao-row';
+            row.innerHTML =
+                '<input class="form-input" type="text" placeholder="Nome da atração" data-at="nome">' +
+                '<input class="form-input" type="text" placeholder="URL da foto" data-at="foto">' +
+                '<button type="button" class="atracao-del" onclick="removeAtracao(this)">✕</button>';
+            container.appendChild(row);
+            syncAtCount();
+        }
+
+        function removeAtracao(btn) {
+            btn.parentElement.remove();
+            syncAtCount();
+        }
+
+        function coletarAtracoes() {
+            var rows = document.querySelectorAll('.atracao-row');
+            var result = [];
+            rows.forEach(function (row) {
+                var nome = row.querySelector('[data-at="nome"]').value.trim();
+                var foto = row.querySelector('[data-at="foto"]').value.trim();
+                if (nome || foto) result.push({ nome: nome, foto: foto });
+            });
+            return result;
+        }
+
         /* ── Eventos ── */
         function submitEvento(e) {
             e.preventDefault();
+            var ing1Nome  = document.getElementById('ev-ing1-nome').value.trim();
+            var ing1Link  = document.getElementById('ev-ing1-link').value.trim();
+            var ing2Nome  = document.getElementById('ev-ing2-nome').value.trim();
+            var ing2Link  = document.getElementById('ev-ing2-link').value.trim();
+            var ing3Nome  = document.getElementById('ev-ing3-nome').value.trim();
+            var ing3Link  = document.getElementById('ev-ing3-link').value.trim();
             var ev = {
-                id:        Date.now().toString(),
-                titulo:    document.getElementById('ev-titulo').value.trim(),
-                data:      document.getElementById('ev-data').value,
-                hora:      document.getElementById('ev-hora').value,
-                local:     document.getElementById('ev-local').value.trim(),
-                cidade:    document.getElementById('ev-cidade').value.trim(),
-                preco:     document.getElementById('ev-preco').value.trim(),
-                categoria: document.getElementById('ev-categoria').value.trim().toUpperCase(),
-                corCal:    document.getElementById('ev-cor').value,
-                badge:     document.getElementById('ev-badge').value,
-                imgUrl:    document.getElementById('ev-img').value.trim()
+                id:          Date.now().toString(),
+                titulo:      document.getElementById('ev-titulo').value.trim(),
+                sobre:       document.getElementById('ev-sobre').value.trim(),
+                atracoes:    coletarAtracoes(),
+                data:        document.getElementById('ev-data').value,
+                hora:        document.getElementById('ev-hora').value,
+                local:       document.getElementById('ev-local').value.trim(),
+                mapaUrl:     document.getElementById('ev-mapa').value.trim(),
+                classificacao: document.getElementById('ev-classif').value,
+                categoria:   document.getElementById('ev-categoria').value.trim().toUpperCase(),
+                imgUrl:      document.getElementById('ev-img').value.trim(),
+                imgBanner:   document.getElementById('ev-banner').value.trim(),
+                ing1:        ing1Nome ? { nome: ing1Nome, link: ing1Link } : null,
+                ing2:        ing2Nome ? { nome: ing2Nome, link: ing2Link } : null,
+                ing3:        ing3Nome ? { nome: ing3Nome, link: ing3Link } : null,
+                tagCard:     document.getElementById('ev-tag').value.trim().toUpperCase(),
+                badge:       document.getElementById('ev-badge').value,
+                preco:       document.getElementById('ev-preco').value.trim(),
+                corCal:      document.getElementById('ev-cor').value
             };
             DB.addEvento(ev);
             document.getElementById('form-evento').reset();
+            document.getElementById('atracoes-container').innerHTML = '';
+            syncAtCount();
             renderEvList();
             showToast('Evento adicionado com sucesso!');
         }
@@ -338,7 +510,7 @@
                 var imgStyle = ev.imgUrl
                     ? 'background-image:url(' + esc(ev.imgUrl) + ');background-size:cover;background-position:center;'
                     : 'background:#e0e0e0;';
-                var meta = [fmtDate(ev.data), ev.hora, ev.cidade].filter(Boolean).join(' • ');
+                var meta = [fmtDate(ev.data), ev.hora].filter(Boolean).join(' • ');
                 return '<div class="list-item">' +
                     '<div class="list-item-img" style="' + imgStyle + '"></div>' +
                     '<div class="list-item-info">' +
