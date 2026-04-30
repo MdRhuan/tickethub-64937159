@@ -49,6 +49,7 @@ export interface Album {
   nome: string;
   data: string;
   capa: string;
+  link?: string;
   fotos: string[];
   _ts?: number;
 }

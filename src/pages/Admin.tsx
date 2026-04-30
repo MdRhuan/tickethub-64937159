@@ -356,7 +356,7 @@ function TabAlbuns({ toast }: { toast: (m:string)=>void }) {
   const { albuns, addAlbum, deleteAlbum } = useDB();
   const [saving, setSaving] = useState(false);
   const capa = useImgUpload();
-  const [form, setForm] = useState({ nome: '', data: '' });
+  const [form, setForm] = useState({ nome: '', data: '', link: '' });
   const [fotos, setFotos] = useState<string[]>([]);
 
   function f(k: string) { return (e: React.ChangeEvent<HTMLInputElement>) => setForm(p => ({...p, [k]: e.target.value})); }
@@ -376,11 +376,12 @@ function TabAlbuns({ toast }: { toast: (m:string)=>void }) {
     const al: Album = {
       id: Date.now().toString(),
       nome: form.nome, data: form.data,
-      capa: capa.data, fotos: [...fotos],
+      capa: capa.data, link: form.link.trim(),
+      fotos: [...fotos],
     };
     try {
       await addAlbum(al);
-      setForm({ nome:'', data:'' }); capa.reset(); setFotos([]);
+      setForm({ nome:'', data:'', link:'' }); capa.reset(); setFotos([]);
       toast('Álbum criado com sucesso!');
     } catch { toast('Erro ao salvar álbum.'); }
     setSaving(false);
@@ -401,6 +402,7 @@ function TabAlbuns({ toast }: { toast: (m:string)=>void }) {
         <form onSubmit={submit} className="px-[22px] py-5 flex flex-col gap-[14px]">
           <FG label="Nome do Evento *"><FI required value={form.nome} onChange={f('nome')} placeholder="Ex: Baile da Saudade" /></FG>
           <FG label="Data do Evento *"><input type="date" required value={form.data} onChange={f('data')} className="form-i" /></FG>
+          <FG label="Link do Álbum (externo)"><FI type="url" value={form.link} onChange={f('link')} placeholder="https://..." /></FG>
           <FG label="Capa do Álbum"><ImgUpload img={capa} label="Subir imagem" /></FG>
           <div className="block text-[11px] font-bold uppercase tracking-[1px] text-[#1a3a6b] border-b-2 border-[#e8edf5] pb-[6px] my-2">Fotos do Álbum</div>
           <FG label="Adicionar fotos">
