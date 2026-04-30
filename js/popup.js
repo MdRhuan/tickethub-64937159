@@ -124,6 +124,7 @@
                 <div class="grupo-popup-form">
                     <input class="grupo-popup-input" type="text"  placeholder="Seu nome">
                     <input class="grupo-popup-input" type="tel"   placeholder="WhatsApp">
+                    <input class="grupo-popup-input" type="email" placeholder="Seu e-mail">
                     <button class="grupo-popup-btn">Entrar no Grupo</button>
                 </div>
                 <p class="grupo-popup-note">Receba ofertas e novidades exclusivas</p>
