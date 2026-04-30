@@ -1,4 +1,24 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222 20% 11%;
+  --muted: 220 14% 96%;
+  --muted-foreground: 220 9% 46%;
+  --border: 220 13% 91%;
+  --primary: 217 71% 27%;        /* deep navy */
+  --primary-foreground: 0 0% 100%;
+  --accent: 211 74% 59%;         /* refined blue */
+  --accent-foreground: 0 0% 100%;
+  --warning: 28 90% 45%;
+  --card: 0 0% 100%;
+  --ring: 211 74% 59%;
+  --radius: 14px;
+  --shadow-sm: 0 1px 2px hsl(222 20% 11% / 0.04);
+  --shadow-md: 0 4px 16px hsl(222 20% 11% / 0.06);
+  --shadow-lg: 0 16px 40px hsl(222 20% 11% / 0.10);
+}
 
 * {
   box-sizing: border-box;
@@ -6,12 +26,18 @@
   padding: 0;
 }
 
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
 body {
-  font-family: Arial, sans-serif;
-  background: #fff;
-  color: #111;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
   overflow-x: hidden;
+  font-feature-settings: 'cv11', 'ss01';
+  letter-spacing: -0.01em;
 }
+
+h1, h2, h3, h4 { letter-spacing: -0.025em; }
 
 #root {
   width: 100%;
@@ -27,26 +53,44 @@ body {
   .page-px { padding-left: 40px; padding-right: 40px; }
 }
 @media (max-width: 768px) {
-  .page-px { padding-left: 16px; padding-right: 16px; }
+  .page-px { padding-left: 20px; padding-right: 20px; }
 }
 
 /* Input padrão do Admin */
 .form-i {
   width: 100%;
-  padding: 9px 12px;
-  border: 1.5px solid #e0e0e0;
-  border-radius: 8px;
+  padding: 10px 14px;
+  border: 1px solid hsl(var(--border));
+  border-radius: 10px;
   font-size: 13px;
-  color: #111;
-  background: #fafafa;
+  color: hsl(var(--foreground));
+  background: hsl(var(--muted));
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.18s ease;
+  font-family: inherit;
 }
-.form-i:focus { border-color: #4a90e2; background: #fff; }
+.form-i:focus {
+  border-color: hsl(var(--accent));
+  background: hsl(var(--background));
+  box-shadow: 0 0 0 3px hsl(var(--accent) / 0.12);
+}
 
-@keyframes pulse-btn {
-  0%   { box-shadow: 0 0 0 0 rgba(26, 58, 107, 0.22); }
-  70%  { box-shadow: 0 0 0 6px rgba(26, 58, 107, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(26, 58, 107, 0); }
+/* Botão primário refinado — sem pulse agressivo, só um lift sutil */
+.btn-pulse {
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+  box-shadow: var(--shadow-sm);
 }
-.btn-pulse { animation: pulse-btn 2s infinite; }
+.btn-pulse:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.btn-pulse:active { transform: translateY(0); }
+
+/* Scrollbar mais clean */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 8px; border: 2px solid hsl(var(--background)); }
+::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground) / 0.4); }
+
+/* Selection */
+::selection { background: hsl(var(--accent) / 0.2); color: hsl(var(--foreground)); }
