@@ -81,10 +81,11 @@ export default function Fotos() {
                   {fmtDataFull(al.data)}
                 </p>
                 <Link
-                  to={`/galeria/${al.id}`}
+                  to={al.link ? '#' : `/galeria/${al.id}`}
+                  onClick={al.link ? (e) => { e.preventDefault(); window.open(al.link!, '_blank', 'noopener,noreferrer'); } : undefined}
                   className="block mt-auto py-[10px] bg-[#1a3a6b] text-white rounded-[10px] text-[13px] font-bold text-center no-underline hover:bg-[#4a90e2] transition-colors"
                 >
-                  Ver Fotos
+                  Ver Álbum
                 </Link>
               </div>
             </div>
