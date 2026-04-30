@@ -14,7 +14,150 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      albuns: {
+        Row: {
+          _ts: number
+          capa: string
+          created_at: string
+          data: string
+          fotos: Json
+          id: string
+          nome: string
+        }
+        Insert: {
+          _ts?: number
+          capa?: string
+          created_at?: string
+          data?: string
+          fotos?: Json
+          id: string
+          nome?: string
+        }
+        Update: {
+          _ts?: number
+          capa?: string
+          created_at?: string
+          data?: string
+          fotos?: Json
+          id?: string
+          nome?: string
+        }
+        Relationships: []
+      }
+      eventos: {
+        Row: {
+          _ts: number
+          atracoes: Json
+          badge: string
+          categoria: string
+          classificacao: string
+          corCal: string
+          created_at: string
+          data: string
+          hora: string
+          id: string
+          imgBanner: string
+          imgUrl: string
+          ing1: Json | null
+          ing2: Json | null
+          ing3: Json | null
+          local: string
+          mapaUrl: string
+          preco: string
+          sobre: string
+          tagCard: string
+          titulo: string
+        }
+        Insert: {
+          _ts?: number
+          atracoes?: Json
+          badge?: string
+          categoria?: string
+          classificacao?: string
+          corCal?: string
+          created_at?: string
+          data?: string
+          hora?: string
+          id: string
+          imgBanner?: string
+          imgUrl?: string
+          ing1?: Json | null
+          ing2?: Json | null
+          ing3?: Json | null
+          local?: string
+          mapaUrl?: string
+          preco?: string
+          sobre?: string
+          tagCard?: string
+          titulo?: string
+        }
+        Update: {
+          _ts?: number
+          atracoes?: Json
+          badge?: string
+          categoria?: string
+          classificacao?: string
+          corCal?: string
+          created_at?: string
+          data?: string
+          hora?: string
+          id?: string
+          imgBanner?: string
+          imgUrl?: string
+          ing1?: Json | null
+          ing2?: Json | null
+          ing3?: Json | null
+          local?: string
+          mapaUrl?: string
+          preco?: string
+          sobre?: string
+          tagCard?: string
+          titulo?: string
+        }
+        Relationships: []
+      }
+      posts: {
+        Row: {
+          _ts: number
+          autor: string
+          conteudo: string
+          created_at: string
+          data: string
+          destaque: boolean
+          id: string
+          imgUrl: string
+          subtitulo: string
+          tag: string
+          titulo: string
+        }
+        Insert: {
+          _ts?: number
+          autor?: string
+          conteudo?: string
+          created_at?: string
+          data?: string
+          destaque?: boolean
+          id: string
+          imgUrl?: string
+          subtitulo?: string
+          tag?: string
+          titulo?: string
+        }
+        Update: {
+          _ts?: number
+          autor?: string
+          conteudo?: string
+          created_at?: string
+          data?: string
+          destaque?: boolean
+          id?: string
+          imgUrl?: string
+          subtitulo?: string
+          tag?: string
+          titulo?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
