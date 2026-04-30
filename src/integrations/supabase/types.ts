@@ -22,6 +22,7 @@ export type Database = {
           data: string
           fotos: Json
           id: string
+          link: string
           nome: string
         }
         Insert: {
@@ -31,6 +32,7 @@ export type Database = {
           data?: string
           fotos?: Json
           id: string
+          link?: string
           nome?: string
         }
         Update: {
@@ -40,6 +42,7 @@ export type Database = {
           data?: string
           fotos?: Json
           id?: string
+          link?: string
           nome?: string
         }
         Relationships: []

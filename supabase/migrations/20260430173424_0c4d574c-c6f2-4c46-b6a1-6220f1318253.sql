@@ -1,0 +1,1 @@
+ALTER TABLE public.albuns ADD COLUMN IF NOT EXISTS link text NOT NULL DEFAULT '';
