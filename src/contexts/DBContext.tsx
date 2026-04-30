@@ -1,8 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import {
-  collection, getDocs, doc, setDoc, deleteDoc, orderBy, query,
-} from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { supabase } from '@/integrations/supabase/client';
 import type { Evento, Post, Album } from '@/types';
 
 interface DBContextType {
@@ -28,14 +25,14 @@ export function DBProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const loadAll = async () => {
-      const [evSnap, poSnap, alSnap] = await Promise.all([
-        getDocs(query(collection(db, 'eventos'), orderBy('_ts', 'asc'))),
-        getDocs(query(collection(db, 'posts'), orderBy('_ts', 'asc'))),
-        getDocs(query(collection(db, 'albuns'), orderBy('_ts', 'asc'))),
+      const [evRes, poRes, alRes] = await Promise.all([
+        supabase.from('eventos').select('*').order('_ts', { ascending: true }),
+        supabase.from('posts').select('*').order('_ts', { ascending: true }),
+        supabase.from('albuns').select('*').order('_ts', { ascending: true }),
       ]);
-      setEventos(evSnap.docs.map(d => d.data() as Evento));
-      setPosts(poSnap.docs.map(d => d.data() as Post));
-      setAlbuns(alSnap.docs.map(d => d.data() as Album));
+      if (evRes.data) setEventos(evRes.data as unknown as Evento[]);
+      if (poRes.data) setPosts(poRes.data as unknown as Post[]);
+      if (alRes.data) setAlbuns(alRes.data as unknown as Album[]);
       setReady(true);
     };
     loadAll().catch(() => setReady(true));
@@ -43,34 +40,49 @@ export function DBProvider({ children }: { children: React.ReactNode }) {
 
   const addEvento = async (ev: Evento) => {
     const data = { ...ev, _ts: Date.now() };
-    await setDoc(doc(db, 'eventos', ev.id), data);
-    setEventos(prev => [...prev, data]);
+    const { error } = await supabase.from('eventos').upsert(data as any);
+    if (error) throw error;
+    setEventos(prev => {
+      const without = prev.filter(e => e.id !== ev.id);
+      return [...without, data];
+    });
   };
 
   const deleteEvento = async (id: string) => {
-    await deleteDoc(doc(db, 'eventos', id));
+    const { error } = await supabase.from('eventos').delete().eq('id', id);
+    if (error) throw error;
     setEventos(prev => prev.filter(e => e.id !== id));
   };
 
   const addPost = async (p: Post) => {
     const data = { ...p, _ts: Date.now() };
-    await setDoc(doc(db, 'posts', p.id), data);
-    setPosts(prev => [...prev, data]);
+    const { error } = await supabase.from('posts').upsert(data as any);
+    if (error) throw error;
+    setPosts(prev => {
+      const without = prev.filter(e => e.id !== p.id);
+      return [...without, data];
+    });
   };
 
   const deletePost = async (id: string) => {
-    await deleteDoc(doc(db, 'posts', id));
+    const { error } = await supabase.from('posts').delete().eq('id', id);
+    if (error) throw error;
     setPosts(prev => prev.filter(p => p.id !== id));
   };
 
   const addAlbum = async (al: Album) => {
     const data = { ...al, _ts: Date.now() };
-    await setDoc(doc(db, 'albuns', al.id), data);
-    setAlbuns(prev => [...prev, data]);
+    const { error } = await supabase.from('albuns').upsert(data as any);
+    if (error) throw error;
+    setAlbuns(prev => {
+      const without = prev.filter(e => e.id !== al.id);
+      return [...without, data];
+    });
   };
 
   const deleteAlbum = async (id: string) => {
-    await deleteDoc(doc(db, 'albuns', id));
+    const { error } = await supabase.from('albuns').delete().eq('id', id);
+    if (error) throw error;
     setAlbuns(prev => prev.filter(a => a.id !== id));
   };
 
