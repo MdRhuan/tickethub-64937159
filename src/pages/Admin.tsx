@@ -356,7 +356,7 @@ function TabAlbuns({ toast }: { toast: (m:string)=>void }) {
   const { albuns, addAlbum, deleteAlbum } = useDB();
   const [saving, setSaving] = useState(false);
   const capa = useImgUpload();
-  const [form, setForm] = useState({ nome: '', data: '' });
+  const [form, setForm] = useState({ nome: '', data: '', link: '' });
   const [fotos, setFotos] = useState<string[]>([]);
 
   function f(k: string) { return (e: React.ChangeEvent<HTMLInputElement>) => setForm(p => ({...p, [k]: e.target.value})); }
@@ -376,11 +376,12 @@ function TabAlbuns({ toast }: { toast: (m:string)=>void }) {
     const al: Album = {
       id: Date.now().toString(),
       nome: form.nome, data: form.data,
-      capa: capa.data, fotos: [...fotos],
+      capa: capa.data, link: form.link.trim(),
+      fotos: [...fotos],
     };
     try {
       await addAlbum(al);
-      setForm({ nome:'', data:'' }); capa.reset(); setFotos([]);
+      setForm({ nome:'', data:'', link:'' }); capa.reset(); setFotos([]);
       toast('Álbum criado com sucesso!');
     } catch { toast('Erro ao salvar álbum.'); }
     setSaving(false);
