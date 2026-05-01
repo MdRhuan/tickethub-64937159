@@ -27,12 +27,12 @@ export default function Ingressos() {
       </section>
 
       {/* Body */}
-      <div style={{ display: 'grid', gridTemplateColumns: '220px 1fr' }}>
+      <div className="page-px pt-10 pb-20">
 
-        {/* Sidebar */}
-        <aside style={{ position: 'sticky', top: '80px', alignSelf: 'start' }} className="flex flex-col gap-6 px-8 pt-10 pb-20 border-r border-[#f0f0f0]">
+        {/* Filtros centralizados */}
+        <div className="max-w-[760px] mx-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-10">
           {/* Search */}
-          <div className="flex items-center bg-[#f2f2f2] rounded-full px-[14px] gap-1.5 border-2 border-transparent focus-within:bg-white focus-within:border-[#ddd] transition-all">
+          <div className="flex-1 flex items-center bg-[#f2f2f2] rounded-full px-[14px] gap-1.5 border-2 border-transparent focus-within:bg-white focus-within:border-[#ddd] transition-all">
             <svg className="text-[#888] flex-shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             <input
               value={busca}
