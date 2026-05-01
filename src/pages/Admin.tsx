@@ -4,7 +4,7 @@ import type { Evento, Post, Album, Atracao } from '@/types';
 import { fmtDataBlog } from '@/lib/utils';
 
 const PASS = 'tickethub';
-type Tab = 'eventos' | 'blog' | 'albuns';
+type Tab = 'eventos' | 'blog' | 'albuns' | 'leads';
 
 // ── Toast ──────────────────────────────────────────────────────────────────
 function useToast() {
@@ -56,7 +56,7 @@ export default function Admin() {
           TICKET HUB
         </div>
         <nav className="flex-1 flex flex-col p-3 gap-1 max-md:flex-row max-md:p-0 max-md:gap-1">
-          {([['eventos','Eventos'],['blog','Blog'],['albuns','Fotos']] as [Tab, string][]).map(([t, label]) => (
+          {([['eventos','Eventos'],['blog','Blog'],['albuns','Fotos'],['leads','Leads']] as [Tab, string][]).map(([t, label]) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -81,10 +81,10 @@ export default function Admin() {
       <div className="ml-[220px] flex-1 flex flex-col min-h-screen max-md:ml-0 max-md:pt-14">
         <div className="bg-white px-9 py-[22px] border-b border-[#e8e8e8] shadow-sm max-md:px-5 max-md:py-4">
           <h1 className="text-[20px] font-black text-[#111]">
-            {tab === 'eventos' ? 'Eventos' : tab === 'blog' ? 'Blog' : 'Fotos'}
+            {tab === 'eventos' ? 'Eventos' : tab === 'blog' ? 'Blog' : tab === 'albuns' ? 'Fotos' : 'Leads'}
           </h1>
           <p className="text-[13px] text-[#999] mt-0.5">
-            {tab === 'eventos' ? 'Gerencie os eventos do site' : tab === 'blog' ? 'Gerencie os posts do blog' : 'Gerencie os álbuns de fotos'}
+            {tab === 'eventos' ? 'Gerencie os eventos do site' : tab === 'blog' ? 'Gerencie os posts do blog' : tab === 'albuns' ? 'Gerencie os álbuns de fotos' : 'Contatos capturados pelo popup do site'}
           </p>
         </div>
 
@@ -92,6 +92,7 @@ export default function Admin() {
           {tab === 'eventos' && <TabEventos toast={toast} />}
           {tab === 'blog'    && <TabBlog    toast={toast} />}
           {tab === 'albuns'  && <TabAlbuns  toast={toast} />}
+          {tab === 'leads'   && <TabLeads   toast={toast} />}
         </div>
       </div>
 
