@@ -94,26 +94,6 @@ export default function Ingressos() {
           )}
         </div>
       </div>
-
-        {/* Grid */}
-        <div>
-          <div className="flex items-end justify-between mb-7">
-            <span className="text-sm text-[#aaa]">
-              {filtered.length} evento{filtered.length !== 1 ? 's' : ''} encontrado{filtered.length !== 1 ? 's' : ''}
-            </span>
-          </div>
-
-          {!ready ? (
-            <p className="text-[#aaa]">Carregando...</p>
-          ) : filtered.length === 0 ? (
-            <p className="text-[#aaa] py-6">Nenhum evento disponível no momento.</p>
-          ) : (
-            <div className="grid gap-5" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))' }}>
-              {filtered.map(ev => <EventoCard key={ev.id} ev={ev} linkLabel="Ver ingresso" />)}
-            </div>
-          )}
-        </div>
-      </div>
     </>
   );
 }
