@@ -43,43 +43,40 @@ export default function Ingressos() {
           </div>
 
           {/* Genre dropdown */}
-          <div className="flex flex-col gap-2">
-            <span className="text-[11px] font-bold text-[#aaa] uppercase tracking-[1.5px] pb-[6px] border-b-2 border-[#f0f0f0]">GÊNERO MUSICAL</span>
-            <div className="relative w-full">
-              <button
-                onClick={() => setDropOpen(o => !o)}
-                className={`w-full flex items-center justify-between px-[14px] py-[10px] bg-white border-[1.5px] rounded-[10px] text-sm font-semibold text-[#333] cursor-pointer transition-all hover:border-[#1a3a6b] hover:text-[#1a3a6b] ${dropOpen ? 'border-[#1a3a6b] text-[#1a3a6b] rounded-b-none' : 'border-[#ddd]'}`}
-              >
-                {genero || '— Todos os gêneros —'}
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform flex-shrink-0" style={{ transform: dropOpen ? 'rotate(180deg)' : '' }}>
-                  <polyline points="6 9 12 15 18 9"/>
-                </svg>
-              </button>
-              {dropOpen && (
-                <div className="absolute top-full left-0 right-0 bg-white border-[1.5px] border-[#1a3a6b] border-t-0 rounded-b-[10px] shadow-[0_8px_24px_rgba(0,0,0,0.1)] z-50 max-h-[280px] overflow-y-auto">
-                  <div
-                    className={`px-[14px] py-[10px] text-sm text-[#555] cursor-pointer font-medium transition-colors hover:bg-[#f0f4ff] hover:text-[#1a3a6b] ${!genero ? 'bg-[#1a3a6b] text-white font-bold' : ''}`}
-                    onClick={() => { setGenero(''); setDropOpen(false); }}
-                  >
-                    Todos
-                  </div>
-                  {GENEROS.map(g => (
-                    <div
-                      key={g}
-                      className={`px-[14px] py-[10px] text-sm text-[#555] cursor-pointer font-medium transition-colors hover:bg-[#f0f4ff] hover:text-[#1a3a6b] ${genero === g ? 'bg-[#1a3a6b] text-white font-bold' : ''}`}
-                      onClick={() => { setGenero(g); setDropOpen(false); }}
-                    >
-                      {g.charAt(0) + g.slice(1).toLowerCase()}
-                    </div>
-                  ))}
+          <div className="relative sm:w-[260px]">
+            <button
+              onClick={() => setDropOpen(o => !o)}
+              className={`w-full flex items-center justify-between px-[14px] py-[10px] bg-white border-[1.5px] rounded-[10px] text-sm font-semibold text-[#333] cursor-pointer transition-all hover:border-[#1a3a6b] hover:text-[#1a3a6b] ${dropOpen ? 'border-[#1a3a6b] text-[#1a3a6b] rounded-b-none' : 'border-[#ddd]'}`}
+            >
+              {genero || '— Todos os gêneros —'}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform flex-shrink-0" style={{ transform: dropOpen ? 'rotate(180deg)' : '' }}>
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            {dropOpen && (
+              <div className="absolute top-full left-0 right-0 bg-white border-[1.5px] border-[#1a3a6b] border-t-0 rounded-b-[10px] shadow-[0_8px_24px_rgba(0,0,0,0.1)] z-50 max-h-[280px] overflow-y-auto">
+                <div
+                  className={`px-[14px] py-[10px] text-sm text-[#555] cursor-pointer font-medium transition-colors hover:bg-[#f0f4ff] hover:text-[#1a3a6b] ${!genero ? 'bg-[#1a3a6b] text-white font-bold' : ''}`}
+                  onClick={() => { setGenero(''); setDropOpen(false); }}
+                >
+                  Todos
                 </div>
-              )}
-            </div>
+                {GENEROS.map(g => (
+                  <div
+                    key={g}
+                    className={`px-[14px] py-[10px] text-sm text-[#555] cursor-pointer font-medium transition-colors hover:bg-[#f0f4ff] hover:text-[#1a3a6b] ${genero === g ? 'bg-[#1a3a6b] text-white font-bold' : ''}`}
+                    onClick={() => { setGenero(g); setDropOpen(false); }}
+                  >
+                    {g.charAt(0) + g.slice(1).toLowerCase()}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-        </aside>
+        </div>
 
         {/* Grid */}
-        <div className="px-10 pt-10 pb-20">
+        <div>
           <div className="flex items-end justify-between mb-7">
             <span className="text-sm text-[#aaa]">
               {filtered.length} evento{filtered.length !== 1 ? 's' : ''} encontrado{filtered.length !== 1 ? 's' : ''}
