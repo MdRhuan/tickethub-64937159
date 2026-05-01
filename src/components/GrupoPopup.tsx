@@ -5,6 +5,7 @@ export default function GrupoPopup() {
   const [nome, setNome] = useState('');
   const [tel, setTel] = useState('');
   const [email, setEmail] = useState('');
+  const [nascimento, setNascimento] = useState('');
 
   useEffect(() => {
     if (sessionStorage.getItem('grupoPopupDone')) return;
@@ -51,6 +52,11 @@ export default function GrupoPopup() {
           <input
             value={email} onChange={e => setEmail(e.target.value)}
             type="email" placeholder="Seu e-mail"
+            className="w-full px-[14px] py-[10px] border border-[#e0e0e0] rounded-lg text-[13px] text-[#333] outline-none focus:border-[#aaa] transition-colors"
+          />
+          <input
+            value={nascimento} onChange={e => setNascimento(e.target.value)}
+            type="date" placeholder="Data de nascimento"
             className="w-full px-[14px] py-[10px] border border-[#e0e0e0] rounded-lg text-[13px] text-[#333] outline-none focus:border-[#aaa] transition-colors"
           />
           <button
