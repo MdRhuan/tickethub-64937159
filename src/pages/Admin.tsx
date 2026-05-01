@@ -156,29 +156,40 @@ export default function Admin() {
 }
 
 // ── Login Screen ──────────────────────────────────────────────────────────
-function LoginScreen({ pass, setPass, passErr, onLogin }: { pass: string; setPass: (v:string)=>void; passErr: boolean; onLogin: ()=>void }) {
+function LoginScreen({ email, setEmail, pass, setPass, passErr, onLogin }: {
+  email: string; setEmail: (v:string)=>void;
+  pass: string; setPass: (v:string)=>void;
+  passErr: string; onLogin: ()=>void;
+}) {
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-[#0d1a2e] to-[#1a3a6b] flex items-center justify-center z-[1000]">
+    <div className="fixed inset-0 bg-gradient-to-br from-[#0d1a2e] to-[#1a3a6b] flex items-center justify-center z-[1000] p-4">
       <div className="bg-white rounded-[20px] px-10 py-12 w-full max-w-[400px] text-center shadow-[0_20px_60px_rgba(0,0,0,0.3)] flex flex-col items-center gap-4">
         <div className="flex items-center gap-[10px] font-black text-base tracking-wide">
           <img src="/Icon/Logo.png" alt="TH" className="w-[42px] h-[42px] object-contain" />
           TICKET HUB
         </div>
         <h1 className="text-[22px] font-black text-[#111]">Painel Administrativo</h1>
-        <p className="text-[13px] text-[#888]">Digite a senha para acessar o painel.</p>
-        <div className="flex gap-2 w-full">
+        <p className="text-[13px] text-[#888]">Entre com seu email e senha de admin.</p>
+        <div className="flex flex-col gap-2 w-full">
+          <input
+            type="email" value={email}
+            onChange={e => setEmail(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && onLogin()}
+            placeholder="Email"
+            className="w-full px-4 py-3 border-2 border-[#e0e0e0] rounded-[10px] text-sm outline-none focus:border-[#1a3a6b] transition-colors"
+          />
           <input
             type="password" value={pass}
             onChange={e => setPass(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && onLogin()}
             placeholder="Senha"
-            className="flex-1 px-4 py-3 border-2 border-[#e0e0e0] rounded-[10px] text-sm outline-none focus:border-[#1a3a6b] transition-colors"
+            className="w-full px-4 py-3 border-2 border-[#e0e0e0] rounded-[10px] text-sm outline-none focus:border-[#1a3a6b] transition-colors"
           />
-          <button onClick={onLogin} className="px-5 py-3 bg-[#1a3a6b] text-white border-none rounded-[10px] text-sm font-bold cursor-pointer hover:bg-[#102a4e] transition-colors whitespace-nowrap btn-pulse">
+          <button onClick={onLogin} className="w-full px-5 py-3 bg-[#1a3a6b] text-white border-none rounded-[10px] text-sm font-bold cursor-pointer hover:bg-[#102a4e] transition-colors whitespace-nowrap btn-pulse mt-1">
             Entrar
           </button>
         </div>
-        {passErr && <p className="text-[13px] text-[#e74c3c]">Senha incorreta. Tente novamente.</p>}
+        {passErr && <p className="text-[13px] text-[#e74c3c]">{passErr}</p>}
       </div>
     </div>
   );
