@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { useDB } from '@/contexts/DBContext';
+import { supabase } from '@/integrations/supabase/client';
 import type { Evento, Post, Album, Atracao } from '@/types';
 import { fmtDataBlog } from '@/lib/utils';
 
 const PASS = 'tickethub';
-type Tab = 'eventos' | 'blog' | 'albuns';
+type Tab = 'eventos' | 'blog' | 'albuns' | 'leads';
 
 // ── Toast ──────────────────────────────────────────────────────────────────
 function useToast() {
@@ -56,7 +57,7 @@ export default function Admin() {
           TICKET HUB
         </div>
         <nav className="flex-1 flex flex-col p-3 gap-1 max-md:flex-row max-md:p-0 max-md:gap-1">
-          {([['eventos','Eventos'],['blog','Blog'],['albuns','Fotos']] as [Tab, string][]).map(([t, label]) => (
+          {([['eventos','Eventos'],['blog','Blog'],['albuns','Fotos'],['leads','Leads']] as [Tab, string][]).map(([t, label]) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -81,10 +82,10 @@ export default function Admin() {
       <div className="ml-[220px] flex-1 flex flex-col min-h-screen max-md:ml-0 max-md:pt-14">
         <div className="bg-white px-9 py-[22px] border-b border-[#e8e8e8] shadow-sm max-md:px-5 max-md:py-4">
           <h1 className="text-[20px] font-black text-[#111]">
-            {tab === 'eventos' ? 'Eventos' : tab === 'blog' ? 'Blog' : 'Fotos'}
+            {tab === 'eventos' ? 'Eventos' : tab === 'blog' ? 'Blog' : tab === 'albuns' ? 'Fotos' : 'Leads'}
           </h1>
           <p className="text-[13px] text-[#999] mt-0.5">
-            {tab === 'eventos' ? 'Gerencie os eventos do site' : tab === 'blog' ? 'Gerencie os posts do blog' : 'Gerencie os álbuns de fotos'}
+            {tab === 'eventos' ? 'Gerencie os eventos do site' : tab === 'blog' ? 'Gerencie os posts do blog' : tab === 'albuns' ? 'Gerencie os álbuns de fotos' : 'Contatos capturados pelo popup do site'}
           </p>
         </div>
 
@@ -92,6 +93,7 @@ export default function Admin() {
           {tab === 'eventos' && <TabEventos toast={toast} />}
           {tab === 'blog'    && <TabBlog    toast={toast} />}
           {tab === 'albuns'  && <TabAlbuns  toast={toast} />}
+          {tab === 'leads'   && <TabLeads   toast={toast} />}
         </div>
       </div>
 
@@ -518,3 +520,93 @@ const FormInputStyle = () => (
 
 // Inject styles
 export { FormInputStyle };
+
+// ── TAB LEADS ──────────────────────────────────────────────────────────────
+interface Lead {
+  id: string;
+  nome: string;
+  whatsapp: string;
+  email: string;
+  nascimento: string;
+  created_at: string;
+}
+
+function TabLeads({ toast }: { toast: (m:string)=>void }) {
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  async function load() {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('leads')
+      .select('*')
+      .order('_ts', { ascending: false });
+    if (!error && data) setLeads(data as unknown as Lead[]);
+    setLoading(false);
+  }
+
+  useEffect(() => { load(); }, []);
+
+  async function del(id: string) {
+    if (!confirm('Excluir este contato?')) return;
+    const { error } = await supabase.from('leads').delete().eq('id', id);
+    if (error) { toast('Erro ao excluir.'); return; }
+    setLeads(prev => prev.filter(l => l.id !== id));
+    toast('Contato removido.');
+  }
+
+  if (loading) return <p className="text-[#999]">Carregando...</p>;
+
+  if (leads.length === 0) {
+    return (
+      <div className="bg-white rounded-2xl p-10 text-center shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
+        <p className="text-[15px] font-bold text-[#333] mb-1">Nenhum contato ainda</p>
+        <p className="text-[13px] text-[#999]">Quando alguém preencher o popup do site, vai aparecer aqui.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
+      {leads.map(l => (
+        <div key={l.id} className="bg-white rounded-2xl p-5 shadow-[0_2px_10px_rgba(0,0,0,0.06)] flex flex-col gap-3 border border-[#f0f0f0] hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition-shadow">
+          <div className="flex items-start justify-between gap-2">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-11 h-11 rounded-full bg-gradient-to-br from-[#1a3a6b] to-[#4a90e2] flex items-center justify-center text-white font-black text-base flex-shrink-0">
+                {(l.nome || '?').charAt(0).toUpperCase()}
+              </div>
+              <div className="min-w-0">
+                <p className="text-[14px] font-black text-[#111] truncate">{l.nome || '—'}</p>
+                <p className="text-[11px] text-[#999]">
+                  {l.created_at ? new Date(l.created_at).toLocaleDateString('pt-BR') : ''}
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => del(l.id)}
+              className="text-[#e74c3c] bg-transparent border-none cursor-pointer p-1 rounded hover:bg-[#fde8e6] transition-colors flex-shrink-0"
+              title="Excluir"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>
+            </button>
+          </div>
+
+          <div className="flex flex-col gap-2 text-[13px] text-[#444]">
+            <div className="flex items-center gap-2">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#25d366" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
+              <a href={`https://wa.me/${l.whatsapp.replace(/\D/g,'')}`} target="_blank" rel="noreferrer" className="text-[#333] hover:text-[#25d366] truncate no-underline">{l.whatsapp || '—'}</a>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4a90e2" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <a href={`mailto:${l.email}`} className="text-[#333] hover:text-[#4a90e2] truncate no-underline">{l.email || '—'}</a>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span className="text-[#666]">{l.nascimento || 'Sem data'}</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}

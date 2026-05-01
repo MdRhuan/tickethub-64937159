@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 
 export default function GrupoPopup() {
   const [visible, setVisible] = useState(false);
@@ -6,6 +7,7 @@ export default function GrupoPopup() {
   const [tel, setTel] = useState('');
   const [email, setEmail] = useState('');
   const [nascimento, setNascimento] = useState('');
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (sessionStorage.getItem('grupoPopupDone')) return;
@@ -20,7 +22,21 @@ export default function GrupoPopup() {
     }
   }
 
-  function submit() {
+  async function submit() {
+    if (!nome.trim() || !tel.trim() || !email.trim()) return;
+    setSaving(true);
+    try {
+      await supabase.from('leads').insert({
+        id: Date.now().toString(),
+        nome: nome.trim(),
+        whatsapp: tel.trim(),
+        email: email.trim(),
+        nascimento: nascimento.trim(),
+      } as any);
+    } catch (e) {
+      console.error('Erro ao salvar lead', e);
+    }
+    setSaving(false);
     setVisible(false);
     sessionStorage.setItem('grupoPopupDone', '1');
   }
@@ -70,9 +86,10 @@ export default function GrupoPopup() {
           />
           <button
             onClick={submit}
-            className="w-full py-3 bg-[#25d366] text-white border-none rounded-lg text-sm font-bold mt-1 cursor-pointer hover:bg-[#1ebe5a] transition-colors btn-pulse"
+            disabled={saving}
+            className="w-full py-3 bg-[#25d366] text-white border-none rounded-lg text-sm font-bold mt-1 cursor-pointer hover:bg-[#1ebe5a] transition-colors btn-pulse disabled:opacity-60"
           >
-            Entrar no Grupo
+            {saving ? 'Enviando...' : 'Entrar no Grupo'}
           </button>
         </div>
         <p className="text-[11px] text-[#bbb] text-center mt-[10px]">Receba ofertas e novidades exclusivas</p>
