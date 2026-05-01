@@ -119,6 +119,36 @@ export type Database = {
         }
         Relationships: []
       }
+      leads: {
+        Row: {
+          _ts: number
+          created_at: string
+          email: string
+          id: string
+          nascimento: string
+          nome: string
+          whatsapp: string
+        }
+        Insert: {
+          _ts?: number
+          created_at?: string
+          email?: string
+          id: string
+          nascimento?: string
+          nome?: string
+          whatsapp?: string
+        }
+        Update: {
+          _ts?: number
+          created_at?: string
+          email?: string
+          id?: string
+          nascimento?: string
+          nome?: string
+          whatsapp?: string
+        }
+        Relationships: []
+      }
       posts: {
         Row: {
           _ts: number
