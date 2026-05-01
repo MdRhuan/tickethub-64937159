@@ -55,8 +55,17 @@ export default function GrupoPopup() {
             className="w-full px-[14px] py-[10px] border border-[#e0e0e0] rounded-lg text-[13px] text-[#333] outline-none focus:border-[#aaa] transition-colors"
           />
           <input
-            value={nascimento} onChange={e => setNascimento(e.target.value)}
-            type="date" placeholder="Data de nascimento"
+            value={nascimento}
+            onChange={e => {
+              const digits = e.target.value.replace(/\D/g, '').slice(0, 8);
+              let out = digits;
+              if (digits.length > 4) out = `${digits.slice(0,2)}/${digits.slice(2,4)}/${digits.slice(4)}`;
+              else if (digits.length > 2) out = `${digits.slice(0,2)}/${digits.slice(2)}`;
+              setNascimento(out);
+            }}
+            inputMode="numeric"
+            maxLength={10}
+            placeholder="Data de nascimento (dd/mm/aaaa)"
             className="w-full px-[14px] py-[10px] border border-[#e0e0e0] rounded-lg text-[13px] text-[#333] outline-none focus:border-[#aaa] transition-colors"
           />
           <button
