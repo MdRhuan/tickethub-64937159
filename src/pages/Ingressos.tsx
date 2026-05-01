@@ -27,28 +27,28 @@ export default function Ingressos() {
       </section>
 
       {/* Body */}
-      <div className="page-px pt-10 pb-20">
+      <div className="page-px pt-10 pb-20 max-w-[1280px] mx-auto w-full">
 
         {/* Filtros centralizados */}
-        <div className="max-w-[760px] mx-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-10">
+        <div className="w-full max-w-[760px] mx-auto flex flex-col sm:flex-row items-stretch gap-3 mb-10">
           {/* Search */}
-          <div className="flex-1 flex items-center bg-[#f2f2f2] rounded-full px-[14px] gap-1.5 border-2 border-transparent focus-within:bg-white focus-within:border-[#ddd] transition-all">
+          <div className="flex-1 min-w-0 flex items-center bg-[#f2f2f2] rounded-full px-[14px] gap-1.5 border-2 border-transparent focus-within:bg-white focus-within:border-[#ddd] transition-all">
             <svg className="text-[#888] flex-shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             <input
               value={busca}
               onChange={e => setBusca(e.target.value)}
-              className="flex-1 py-[11px] bg-transparent border-none text-sm outline-none text-[#333] placeholder-[#aaa] min-w-0"
+              className="flex-1 py-[11px] bg-transparent border-none text-sm outline-none text-[#333] placeholder-[#aaa] min-w-0 w-full"
               placeholder="Buscar eventos..."
             />
           </div>
 
           {/* Genre dropdown */}
-          <div className="relative sm:w-[260px]">
+          <div className="relative w-full sm:w-[260px] sm:flex-shrink-0">
             <button
               onClick={() => setDropOpen(o => !o)}
               className={`w-full flex items-center justify-between px-[14px] py-[10px] bg-white border-[1.5px] rounded-[10px] text-sm font-semibold text-[#333] cursor-pointer transition-all hover:border-[#1a3a6b] hover:text-[#1a3a6b] ${dropOpen ? 'border-[#1a3a6b] text-[#1a3a6b] rounded-b-none' : 'border-[#ddd]'}`}
             >
-              {genero || '— Todos os gêneros —'}
+              <span className="truncate">{genero || '— Todos os gêneros —'}</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform flex-shrink-0" style={{ transform: dropOpen ? 'rotate(180deg)' : '' }}>
                 <polyline points="6 9 12 15 18 9"/>
               </svg>
@@ -77,18 +77,18 @@ export default function Ingressos() {
 
         {/* Grid */}
         <div>
-          <div className="flex items-end justify-between mb-7">
+          <div className="flex items-end justify-center mb-7">
             <span className="text-sm text-[#aaa]">
               {filtered.length} evento{filtered.length !== 1 ? 's' : ''} encontrado{filtered.length !== 1 ? 's' : ''}
             </span>
           </div>
 
           {!ready ? (
-            <p className="text-[#aaa]">Carregando...</p>
+            <p className="text-[#aaa] text-center">Carregando...</p>
           ) : filtered.length === 0 ? (
-            <p className="text-[#aaa] py-6">Nenhum evento disponível no momento.</p>
+            <p className="text-[#aaa] py-6 text-center">Nenhum evento disponível no momento.</p>
           ) : (
-            <div className="grid gap-5" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))' }}>
+            <div className="grid gap-5 justify-center" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(220px, 100%), 1fr))' }}>
               {filtered.map(ev => <EventoCard key={ev.id} ev={ev} linkLabel="Ver ingresso" />)}
             </div>
           )}
