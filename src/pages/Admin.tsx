@@ -4,7 +4,6 @@ import { supabase } from '@/integrations/supabase/client';
 import type { Evento, Post, Album, Atracao } from '@/types';
 import { fmtDataBlog } from '@/lib/utils';
 
-const PASS = 'tickethub';
 type Tab = 'eventos' | 'blog' | 'albuns' | 'leads';
 
 // ── Toast ──────────────────────────────────────────────────────────────────
@@ -33,20 +32,71 @@ function useImgUpload() {
 
 // ── Main Admin component ───────────────────────────────────────────────────
 export default function Admin() {
-  const [authed, setAuthed] = useState(() => sessionStorage.getItem('th_admin') === '1');
-  const [pass, setPass]     = useState('');
-  const [passErr, setPassErr] = useState(false);
+  const [authed, setAuthed] = useState(false);
+  const [checking, setChecking] = useState(true);
+  const [email, setEmail] = useState('');
+  const [pass, setPass] = useState('');
+  const [passErr, setPassErr] = useState('');
   const [tab, setTab] = useState<Tab>('eventos');
   const { toast, msg, show } = useToast();
 
-  function doLogin() {
-    if (pass === PASS) { sessionStorage.setItem('th_admin','1'); setAuthed(true); }
-    else setPassErr(true);
+  useEffect(() => {
+    let mounted = true;
+
+    async function checkAdmin(userId: string | undefined) {
+      if (!userId) { if (mounted) { setAuthed(false); setChecking(false); } return; }
+      const { data } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', userId)
+        .eq('role', 'admin')
+        .maybeSingle();
+      if (mounted) {
+        setAuthed(!!data);
+        setChecking(false);
+      }
+    }
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      checkAdmin(session?.user?.id);
+    });
+    supabase.auth.getSession().then(({ data }) => checkAdmin(data.session?.user?.id));
+
+    return () => { mounted = false; sub.subscription.unsubscribe(); };
+  }, []);
+
+  async function doLogin() {
+    setPassErr('');
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password: pass });
+    if (error || !data.user) { setPassErr('Email ou senha incorretos.'); return; }
+    const { data: roleData } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', data.user.id)
+      .eq('role', 'admin')
+      .maybeSingle();
+    if (!roleData) {
+      await supabase.auth.signOut();
+      setPassErr('Esta conta não tem permissão de admin.');
+      return;
+    }
+    setAuthed(true);
   }
 
-  function doLogout() { sessionStorage.removeItem('th_admin'); setAuthed(false); }
+  async function doLogout() {
+    await supabase.auth.signOut();
+    setAuthed(false);
+  }
 
-  if (!authed) return <LoginScreen pass={pass} setPass={setPass} passErr={passErr} onLogin={doLogin} />;
+  if (checking) {
+    return (
+      <div className="fixed inset-0 bg-gradient-to-br from-[#0d1a2e] to-[#1a3a6b] flex items-center justify-center z-[1000]">
+        <p className="text-white text-sm">Carregando...</p>
+      </div>
+    );
+  }
+
+  if (!authed) return <LoginScreen email={email} setEmail={setEmail} pass={pass} setPass={setPass} passErr={passErr} onLogin={doLogin} />;
 
   return (
     <div className="flex min-h-screen bg-[#f0f2f7]">
