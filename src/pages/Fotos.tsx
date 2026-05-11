@@ -60,7 +60,7 @@ export default function Fotos() {
       ) : (
         <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))' }}>
           {filtered.map(al => (
-            <div key={al.id} className="bg-white rounded-2xl overflow-hidden border border-[#eee] shadow-sm flex flex-col hover:-translate-y-1 hover:shadow-[0_8px_28px_rgba(0,0,0,0.12)] transition-all">
+            <div key={al.id} className="bg-white rounded-2xl overflow-hidden border border-[#eee] shadow-[0_2px_12px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.04)] flex flex-col hover:-translate-y-2 hover:shadow-[0_14px_44px_rgba(0,0,0,0.12),0_4px_10px_rgba(0,0,0,0.05)] transition-all duration-300">
               <div
                 className="w-full bg-[#e8edf5] flex items-center justify-center"
                 style={{

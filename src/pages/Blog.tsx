@@ -28,7 +28,7 @@ export default function Blog() {
         {!ready ? (
           <div className="min-h-[200px] flex items-center justify-center text-[#aaa]">Carregando...</div>
         ) : destaque ? (
-          <div className="flex rounded-2xl overflow-hidden border border-[#eee] shadow-sm mb-16 min-h-[300px]" style={{ flexWrap: 'wrap' }}>
+          <div className="flex rounded-2xl overflow-hidden border border-[#eee] shadow-[0_4px_20px_rgba(0,0,0,0.08),0_1px_4px_rgba(0,0,0,0.04)] mb-16 min-h-[300px] transition-all duration-300 hover:shadow-[0_16px_52px_rgba(0,0,0,0.14),0_4px_12px_rgba(0,0,0,0.06)]" style={{ flexWrap: 'wrap' }}>
             <div
               className="flex-shrink-0"
               style={{
@@ -70,7 +70,7 @@ export default function Blog() {
         ) : (
           <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
             {outros.map(p => (
-              <div key={p.id} className="flex flex-col rounded-xl overflow-hidden border border-[#eee] shadow-sm hover:-translate-y-1 hover:shadow-md transition-all">
+              <div key={p.id} className="flex flex-col rounded-xl overflow-hidden border border-[#eee] shadow-[0_2px_12px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.04)] hover:-translate-y-2 hover:shadow-[0_14px_44px_rgba(0,0,0,0.12),0_4px_10px_rgba(0,0,0,0.05)] transition-all duration-300">
                 <div
                   className="w-full"
                   style={{

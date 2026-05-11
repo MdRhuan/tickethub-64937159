@@ -20,7 +20,7 @@ export default function EventoCard({ ev, linkLabel = 'Comprar' }: Props) {
     'bg-[#111]';
 
   return (
-    <div className="flex flex-col rounded-2xl overflow-hidden bg-white border border-black transition-all hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(0,0,0,0.10)] cursor-pointer">
+    <div className="flex flex-col rounded-2xl overflow-hidden bg-white border border-[#eee] shadow-[0_2px_12px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_16px_48px_rgba(0,0,0,0.12),0_4px_12px_rgba(0,0,0,0.06)] cursor-pointer">
       {/* Image */}
       <div className="relative w-full aspect-[3/4]">
         <div
