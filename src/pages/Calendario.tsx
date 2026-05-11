@@ -170,7 +170,7 @@ export default function Calendario() {
                 {diaAtivoEvs.length === 0 ? (
                   <p className="text-[#aaa] text-sm">Nenhum evento neste dia.</p>
                 ) : diaAtivoEvs.map(ev => (
-                  <div key={ev.id} className="bg-white rounded-[14px] p-4 border border-[#eee] flex flex-col gap-[6px] hover:shadow-md transition-shadow">
+                  <div key={ev.id} className="bg-white rounded-[14px] p-4 border border-[#eee] flex flex-col gap-[6px] shadow-[0_2px_10px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_28px_rgba(0,0,0,0.10)] hover:-translate-y-0.5 transition-all duration-300">
                     <span className="text-[15px] font-bold text-[#111]">{ev.titulo}</span>
                     {ev.hora && <span className="flex items-center gap-[6px] text-[13px] text-[#888]"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>{ev.hora}</span>}
                     {ev.local && <span className="text-[13px] text-[#aaa]">{ev.local}</span>}
@@ -204,7 +204,7 @@ export default function Calendario() {
                   {ev.hora && <span className="text-[12px] text-[#888]">{ev.hora}</span>}
                 </div>
                 <div className="absolute left-[-34px] w-[14px] h-[14px] bg-[#4a90e2] rounded-full border-[3px] border-white shadow-[0_0_0_2px_#4a90e2] flex-shrink-0 max-md:left-[-32px] max-[480px]:hidden" />
-                <div className="flex-1 bg-[#f7f7f7] rounded-[14px] px-[22px] py-[18px] border border-[#eee] flex flex-col gap-[6px] hover:shadow-md transition-shadow max-[480px]:w-full">
+                <div className="flex-1 bg-[#f7f7f7] rounded-[14px] px-[22px] py-[18px] border border-[#eee] flex flex-col gap-[6px] shadow-[0_2px_10px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_28px_rgba(0,0,0,0.10)] hover:-translate-y-0.5 transition-all duration-300 max-[480px]:w-full">
                   <span className="text-base font-bold text-[#111]">{ev.titulo}</span>
                   {ev.local && <span className="text-[13px] text-[#888] flex items-center gap-[6px]"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>{ev.local}</span>}
                   {ev.categoria && <span className="inline-block bg-[#eef5ff] text-[#4a90e2] text-[11px] font-bold px-[10px] py-[3px] rounded-full w-fit mt-1">{ev.categoria}</span>}
