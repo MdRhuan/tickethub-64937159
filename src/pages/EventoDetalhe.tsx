@@ -99,7 +99,7 @@ export default function EventoDetalhe() {
               <h2 className="text-[20px] font-black text-[#111] mb-[14px] pb-[10px] border-b-2 border-[#f0f0f0]">Atrações</h2>
               <div className="flex flex-row gap-3 flex-wrap">
                 {ev.atracoes.map((at, i) => (
-                  <div key={i} className="flex flex-col items-center gap-3 p-5 px-4 bg-[#f7f7f7] rounded-xl border border-[#eee] flex-1 min-w-[120px] text-center hover:shadow-md transition-shadow max-md:min-w-[100px] max-md:p-[14px]">
+                  <div key={i} className="flex flex-col items-center gap-3 p-5 px-4 bg-white rounded-xl border border-[#eee] flex-1 min-w-[120px] text-center shadow-[0_2px_10px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] hover:-translate-y-1 transition-all duration-300 max-md:min-w-[100px] max-md:p-[14px]">
                     <div
                       className="w-20 h-20 bg-[#ddd] rounded-[10px] flex-shrink-0 max-md:w-16 max-md:h-16"
                       style={at.foto ? { backgroundImage: `url(${at.foto})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
@@ -114,7 +114,7 @@ export default function EventoDetalhe() {
           {/* Local */}
           <div>
             <h2 className="text-[20px] font-black text-[#111] mb-[14px] pb-[10px] border-b-2 border-[#f0f0f0]">Local</h2>
-            <div className="bg-[#f7f7f7] rounded-2xl p-5 border border-[#eee]">
+            <div className="bg-white rounded-2xl p-5 border border-[#eee] shadow-[0_2px_12px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.04)]">
               {ev.local && <p className="text-base font-bold text-[#111] mb-1">{ev.local}</p>}
               {embedSrc && (
                 <div className="rounded-xl overflow-hidden mb-[10px]">
@@ -139,7 +139,7 @@ export default function EventoDetalhe() {
         <div className="flex flex-col gap-4 sticky top-20 max-md:static">
 
           {/* Info box */}
-          <div className="bg-[#f7f7f7] rounded-2xl p-5 flex flex-col gap-[14px] border border-[#eee]">
+          <div className="bg-white rounded-2xl p-5 flex flex-col gap-[14px] border border-[#eee] shadow-[0_2px_12px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.04)]">
             {[
               { icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4a90e2" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>, label: 'Data', value: ev.data ? fmtDataFull(ev.data) : null },
               { icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4a90e2" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>, label: 'Horário', value: ev.hora || null },
@@ -158,7 +158,7 @@ export default function EventoDetalhe() {
 
           {/* Tickets */}
           {ingressos.length > 0 ? ingressos.map((ing, i) => (
-            <div key={i} className="border-2 border-[#eee] rounded-2xl p-5 bg-white flex flex-col gap-3 transition-all hover:border-[#4a90e2] hover:shadow-[0_4px_20px_rgba(74,144,226,0.12)] cursor-pointer">
+            <div key={i} className="border border-[#eee] rounded-2xl p-5 bg-white flex flex-col gap-3 shadow-[0_2px_10px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1 hover:border-[#4a90e2] hover:shadow-[0_10px_32px_rgba(74,144,226,0.15)] cursor-pointer">
               <span className="text-[17px] font-black text-[#111]">{ing!.nome}</span>
               {ing!.link ? (
                 <a href={ing!.link} target="_blank" rel="noopener noreferrer" className="block mt-2 py-[10px] bg-[#1a3a6b] text-white rounded-lg text-[13px] font-bold text-center no-underline hover:bg-[#102a4e] transition-colors btn-pulse">
