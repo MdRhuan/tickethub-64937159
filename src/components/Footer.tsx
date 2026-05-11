@@ -20,54 +20,54 @@ export default function Footer() {
   return (
     <footer className="border-t border-gray-100 bg-white">
       {/* Top trust badges */}
-      <div className="flex flex-wrap items-center justify-around gap-4 page-px py-5 border-b border-gray-100">
-        <div className="flex items-center gap-4">
-          <img src="/Icon/Compra segura.png" alt="Compra Segura" className="w-[80px] h-[80px] object-contain" />
-          <span className="font-bold text-sm text-[#333]">Compra 100% Segura</span>
+      <div className="flex flex-wrap items-center justify-around gap-4 page-px py-5 border-b border-gray-100 max-md:gap-3 max-md:py-4">
+        <div className="flex items-center gap-3 max-md:flex-1 max-md:min-w-[45%]">
+          <img src="/Icon/Compra segura.png" alt="Compra Segura" className="w-[70px] h-[70px] object-contain max-md:w-[48px] max-md:h-[48px]" />
+          <span className="font-bold text-sm text-[#333] max-md:text-xs">Compra 100% Segura</span>
         </div>
-        <div className="flex items-center gap-4">
-          <img src="/Icon/OffConsu.png" alt="OffConsu" className="w-[80px] h-[80px] object-contain" />
-          <span className="font-bold text-sm text-[#333]">Ingressos e consumação de graça</span>
+        <div className="flex items-center gap-3 max-md:flex-1 max-md:min-w-[45%]">
+          <img src="/Icon/OffConsu.png" alt="OffConsu" className="w-[70px] h-[70px] object-contain max-md:w-[48px] max-md:h-[48px]" />
+          <span className="font-bold text-sm text-[#333] max-md:text-xs">Ingressos e consumação de graça</span>
         </div>
-        <div className="flex items-center gap-4">
-          <img src="/Icon/Ingresso.png" alt="Ingresso" className="w-[80px] h-[80px] object-contain" />
-          <span className="font-bold text-sm text-[#333]">Ingresso mais barato</span>
+        <div className="flex items-center gap-3 max-md:flex-1 max-md:min-w-[45%]">
+          <img src="/Icon/Ingresso.png" alt="Ingresso" className="w-[70px] h-[70px] object-contain max-md:w-[48px] max-md:h-[48px]" />
+          <span className="font-bold text-sm text-[#333] max-md:text-xs">Ingresso mais barato</span>
         </div>
       </div>
 
       {/* Main columns */}
-      <div className="grid grid-cols-4 gap-10 page-px py-12 max-md:grid-cols-2 max-md:gap-8 max-md:py-8">
+      <div className="grid grid-cols-4 gap-10 page-px py-12 max-md:grid-cols-1 max-md:gap-7 max-md:py-8 max-md:text-center">
         {/* Brand */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3 max-md:items-center">
           <div className="flex items-center gap-2">
             <img src="/Icon/Logo.png" alt="TicketHub" className="w-12 h-12 object-contain" />
             <span className="font-black text-xl tracking-wide text-[#1a3a6b]">TICKET HUB</span>
           </div>
-          <p className="text-sm text-[#666] leading-relaxed max-w-[260px]">
+          <p className="text-sm text-[#666] leading-relaxed max-w-[280px] max-md:text-[13px]">
             A TicketHub é uma plataforma de venda de ingressos para eventos de todos os tipos. Facilitamos a compra e venda de ingressos de forma segura e prática.
           </p>
         </div>
 
         {/* Links Úteis */}
-        <div className="flex flex-col gap-3">
-          <h4 className="font-black text-sm tracking-wider text-[#111] mb-2">LINKS ÚTEIS</h4>
+        <div className="flex flex-col gap-3 max-md:items-center">
+          <h4 className="font-black text-sm tracking-wider text-[#111] mb-1">LINKS ÚTEIS</h4>
           {['Sobre nós', 'Dúvidas Frequentes', 'Status dos Serviços', 'Contato'].map(l => (
             <a key={l} href="#" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">{l}</a>
           ))}
         </div>
 
         {/* Informações Legais */}
-        <div className="flex flex-col gap-3">
-          <h4 className="font-black text-sm tracking-wider text-[#111] mb-2">INFORMAÇÕES LEGAIS</h4>
+        <div className="flex flex-col gap-3 max-md:items-center">
+          <h4 className="font-black text-sm tracking-wider text-[#111] mb-1">INFORMAÇÕES LEGAIS</h4>
           {['Termos de uso', 'Política de privacidade', 'Política de cookies', 'Política de reembolso'].map(l => (
             <a key={l} href="#" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">{l}</a>
           ))}
         </div>
 
         {/* Atendimento */}
-        <div className="flex flex-col gap-3">
-          <h4 className="font-black text-sm tracking-wider text-[#111] mb-2">ATENDIMENTO</h4>
-          <p className="text-sm text-[#666]"><span className="font-bold text-[#111]">E-mail:</span> contato@tickethub.com.br</p>
+        <div className="flex flex-col gap-3 max-md:items-center">
+          <h4 className="font-black text-sm tracking-wider text-[#111] mb-1">ATENDIMENTO</h4>
+          <p className="text-sm text-[#666] break-all max-md:break-normal"><span className="font-bold text-[#111]">E-mail:</span> contato@tickethub.com.br</p>
           <p className="text-sm text-[#666]"><span className="font-bold text-[#111]">Horário:</span> Seg-Sex, 9h às 18h</p>
           <div className="flex items-center gap-3 mt-2">
             {[
@@ -86,8 +86,8 @@ export default function Footer() {
       </div>
 
       {/* Copyright */}
-      <div className="flex items-center justify-center page-px py-5 border-t border-gray-100">
-        <span className="text-sm text-[#aaa]">© 2025 Ticket Hub. Todos os direitos reservados.</span>
+      <div className="flex items-center justify-center page-px py-5 border-t border-gray-100 text-center">
+        <span className="text-xs text-[#aaa] md:text-sm">© 2025 Ticket Hub. Todos os direitos reservados.</span>
       </div>
     </footer>
   );
