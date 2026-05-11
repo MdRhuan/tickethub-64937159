@@ -96,7 +96,7 @@ export default function Footer() {
         <div className="flex flex-col gap-3 max-md:items-center">
           <h4 className="font-black text-sm tracking-wider text-[#111] mb-1">ATENDIMENTO</h4>
           <p className="text-sm text-[#666] break-all max-md:break-normal">
-            <span className="font-bold text-[#111]">E-mail:</span> contato@tickethub.com.br
+            <span className="font-bold text-[#111]">WhatsApp</span> +55 (31) 98423-5225
           </p>
           <p className="text-sm text-[#666]">
             <span className="font-bold text-[#111]">Horário:</span> Seg-Sex, 9h às 18h
