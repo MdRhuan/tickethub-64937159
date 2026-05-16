@@ -133,9 +133,9 @@ export default function Home() {
 
       {/* ── Eventos ── */}
       <section className="page-px py-[48px] pb-16">
-        <div className="flex justify-between items-end mb-7">
-          <h2 className="text-[28px] font-black text-[#111]">Principais Eventos</h2>
-          <Link to="/ingressos" className="text-[#4a90e2] font-bold text-base no-underline border-b border-transparent hover:border-[#4a90e2] transition-all">Ver todos →</Link>
+        <div className="flex justify-between items-end gap-3 mb-7">
+          <h2 className="text-xl md:text-[28px] font-black text-[#111]">Principais Eventos</h2>
+          <Link to="/ingressos" className="text-[#4a90e2] font-bold text-sm md:text-base no-underline border-b border-transparent hover:border-[#4a90e2] transition-all whitespace-nowrap">Ver todos →</Link>
         </div>
 
         {!ready ? (
