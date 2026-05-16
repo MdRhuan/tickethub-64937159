@@ -51,9 +51,46 @@
     letter-spacing: -0.025em;
   }
 
+  /* Global typography hardening for mobile */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  h1, h2, h3, h4, h5, h6,
+  [role="heading"] {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+
+  p, li, dd, dt, span, label, button, a {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  /* Prevent flex/grid children from forcing parent wider than viewport */
+  /* Tailwind grid uses minmax(0, 1fr) by default, so this is purely defensive on flex children */
+
+  img, video, svg, picture, canvas, iframe {
+    max-width: 100%;
+    height: auto;
+  }
+
+  iframe {
+    height: auto;
+  }
+
   #root {
     width: 100%;
     text-align: left;
+    overflow-x: clip;
   }
 }
 
@@ -71,8 +108,8 @@
   }
   @media (max-width: 768px) {
     .page-px {
-      padding-left: 20px;
-      padding-right: 20px;
+      padding-left: 16px;
+      padding-right: 16px;
     }
   }
 
@@ -213,5 +250,17 @@
   img, video, svg { max-width: 100%; }
   @media (max-width: 640px) {
     body, #root { overflow-x: hidden; }
+  }
+
+  /* Mobile touch targets — buttons & links should be tappable */
+  @media (max-width: 768px) {
+    button,
+    a[role="button"],
+    [type="button"],
+    [type="submit"] {
+      min-height: 44px;
+    }
+    /* Tighter line-height kept readable on small screens */
+    p { line-height: 1.6; }
   }
 }

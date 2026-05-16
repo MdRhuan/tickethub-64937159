@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <>
       {/* ── Search ── */}
-      <div className="flex justify-center px-10 pt-7 pb-6">
+      <div className="flex justify-center px-4 md:px-10 pt-7 pb-6">
         <div className="flex items-center w-full max-w-[680px] bg-[#f2f2f2] rounded-full px-5 pr-[6px] gap-2 border-2 border-transparent focus-within:bg-white focus-within:border-[#ddd] transition-all">
           <svg className="text-[#888] flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -81,15 +81,15 @@ export default function Home() {
           {/* Arrows */}
           <button
             onClick={() => { goTo(current - 1); resetTimer(); }}
-            className="absolute top-1/2 -translate-y-1/2 w-11 h-11 rounded-full border-2 border-[#ddd] bg-white flex items-center justify-center z-[20] text-[#333] cursor-pointer transition-all hover:bg-[#111] hover:border-[#111] hover:text-white shadow-md btn-pulse"
-            style={{ left: 'calc(50% - 490px)' }}
+            className="hidden md:flex absolute top-1/2 -translate-y-1/2 w-11 h-11 rounded-full border-2 border-[#ddd] bg-white items-center justify-center z-[20] text-[#333] cursor-pointer transition-all hover:bg-[#111] hover:border-[#111] hover:text-white shadow-md btn-pulse"
+            style={{ left: 'max(12px, calc(50% - 490px))' }}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
           </button>
           <button
             onClick={() => { goTo(current + 1); resetTimer(); }}
-            className="absolute top-1/2 -translate-y-1/2 w-11 h-11 rounded-full border-2 border-[#ddd] bg-white flex items-center justify-center z-[20] text-[#333] cursor-pointer transition-all hover:bg-[#111] hover:border-[#111] hover:text-white shadow-md btn-pulse"
-            style={{ right: 'calc(50% - 490px)' }}
+            className="hidden md:flex absolute top-1/2 -translate-y-1/2 w-11 h-11 rounded-full border-2 border-[#ddd] bg-white items-center justify-center z-[20] text-[#333] cursor-pointer transition-all hover:bg-[#111] hover:border-[#111] hover:text-white shadow-md btn-pulse"
+            style={{ right: 'max(12px, calc(50% - 490px))' }}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
           </button>
@@ -133,9 +133,9 @@ export default function Home() {
 
       {/* ── Eventos ── */}
       <section className="page-px py-[48px] pb-16">
-        <div className="flex justify-between items-end mb-7">
-          <h2 className="text-[28px] font-black text-[#111]">Principais Eventos</h2>
-          <Link to="/ingressos" className="text-[#4a90e2] font-bold text-base no-underline border-b border-transparent hover:border-[#4a90e2] transition-all">Ver todos →</Link>
+        <div className="flex justify-between items-end gap-3 mb-7">
+          <h2 className="text-xl md:text-[28px] font-black text-[#111]">Principais Eventos</h2>
+          <Link to="/ingressos" className="text-[#4a90e2] font-bold text-sm md:text-base no-underline border-b border-transparent hover:border-[#4a90e2] transition-all whitespace-nowrap">Ver todos →</Link>
         </div>
 
         {!ready ? (
@@ -150,7 +150,7 @@ export default function Home() {
       </section>
 
       {/* ── Banner Promo ── */}
-      <section className="flex items-center bg-[#111] rounded-[24px] overflow-hidden mb-20" style={{ margin: '0 120px 80px', minHeight: '260px' }}>
+      <section className="flex items-center bg-[#111] rounded-[24px] overflow-hidden mx-4 md:mx-[120px] mb-12 md:mb-20 min-h-[260px]">
         <div className="flex-1 px-[60px] py-[56px] flex flex-col gap-[14px] max-md:px-6 max-md:py-8">
           <span className="text-[38px] font-black text-[#4a90e2] max-md:text-2xl">🎉 Seu mês, suas regras!</span>
           <p className="text-[15px] font-black text-white leading-[1.6] max-w-[480px]">
