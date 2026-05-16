@@ -26,3 +26,20 @@ export function fmtDataBlog(str: string): string {
   const p = str.split('-');
   return `${p[2]} ${MESES_ABR[parseInt(p[1]) - 1] || ''} ${p[0]}`;
 }
+
+export function daysUntil(dateStr: string): number | null {
+  if (!dateStr) return null;
+  const [y, m, d] = dateStr.split('-').map(Number);
+  if (!y || !m || !d) return null;
+  const target = new Date(y, m - 1, d);
+  const now = new Date();
+  const t0 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  return Math.round((target.getTime() - t0.getTime()) / 86400000);
+}
+
+export function dayBadge(days: number): { text: string; kind: 'future' | 'soon' | 'today' | 'past' } {
+  if (days < 0)  return { text: 'Encerrado',          kind: 'past' };
+  if (days === 0) return { text: 'Hoje!',             kind: 'today' };
+  if (days === 1) return { text: 'Amanhã!',           kind: 'soon' };
+  return { text: `Faltam ${days} dias`,               kind: 'future' };
+}
