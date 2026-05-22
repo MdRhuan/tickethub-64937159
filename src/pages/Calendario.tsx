@@ -171,7 +171,7 @@ export default function Calendario() {
           </div>
 
           {/* Detalhes */}
-          <div className="bg-[#f7f7f7] rounded-[20px] p-6 min-h-[420px] border border-[#eee] flex flex-col gap-4 max-md:col-span-full">
+          <div className="bg-[#f7f7f7] rounded-[20px] p-6 max-md:p-4 min-h-[420px] border border-[#eee] flex flex-col gap-4 min-w-0">
             <span className="text-[11px] font-bold text-[#1a3a6b] tracking-[3px] uppercase">EVENTOS DO DIA</span>
             {diaAtivo ? (
               <>
