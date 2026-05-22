@@ -52,6 +52,8 @@ export type Database = {
           _ts: number
           atracoes: Json
           badge: string
+          btnLabel: string
+          btnUrl: string
           categoria: string
           classificacao: string
           corCal: string
@@ -77,6 +79,8 @@ export type Database = {
           _ts?: number
           atracoes?: Json
           badge?: string
+          btnLabel?: string
+          btnUrl?: string
           categoria?: string
           classificacao?: string
           corCal?: string
@@ -102,6 +106,8 @@ export type Database = {
           _ts?: number
           atracoes?: Json
           badge?: string
+          btnLabel?: string
+          btnUrl?: string
           categoria?: string
           classificacao?: string
           corCal?: string
