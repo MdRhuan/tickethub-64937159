@@ -419,6 +419,10 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
             <FG label="Preço a partir de"><FI value={form.preco} onChange={f('preco')} placeholder="R$ 50,00" /></FG>
             <FG label="Cor no calendário"><FSel value={form.corCal} onChange={f('corCal')} options={['azul','verde','vermelho']} labels={['Azul','Verde','Vermelho']} /></FG>
           </div>
+          <div className="grid grid-cols-2 gap-3">
+            <FG label="Texto do botão"><FI value={form.btnLabel} onChange={f('btnLabel')} placeholder='Ex: Comprar agora (padrão: "Saiba mais")' /></FG>
+            <FG label="Link do botão (abre em nova aba)"><FI value={form.btnUrl} onChange={f('btnUrl')} placeholder="https://... (deixe vazio para ocultar)" /></FG>
+          </div>
 
           <div className="flex gap-2 mt-[6px]">
             <button type="submit" disabled={saving} className="px-[22px] py-[11px] bg-[#1a3a6b] text-white border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#102a4e] transition-colors disabled:opacity-60 btn-pulse">
