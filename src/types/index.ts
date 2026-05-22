@@ -30,6 +30,8 @@ export interface Evento {
   badge: string;
   preco: string;
   corCal: 'azul' | 'verde' | 'vermelho';
+  btnLabel?: string;
+  btnUrl?: string;
   _ts?: number;
 }
 

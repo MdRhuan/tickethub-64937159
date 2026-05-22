@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import type { Evento } from '@/types';
 import { fmtDataCard, daysUntil, dayBadge } from '@/lib/utils';
 
@@ -88,13 +88,17 @@ export default function EventoCard({ ev, linkLabel = 'Comprar' }: Props) {
         )}
         <div className="flex items-center justify-between mt-3 gap-2">
           <span className="text-[13px] font-bold text-[#111]">{ev.preco || 'Consultar'}</span>
-          <Link
-            to={`/ingresso/${ev.id}`}
-            onClick={(e) => e.stopPropagation()}
-            className="px-4 py-[7px] bg-[#4a90e2] text-white rounded-md text-[12px] font-bold no-underline transition-colors hover:bg-[#2d6abf] btn-pulse min-h-[36px] inline-flex items-center"
-          >
-            {linkLabel}
-          </Link>
+          {ev.btnUrl && ev.btnUrl.trim() && (
+            <a
+              href={ev.btnUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="px-4 py-[7px] bg-[#4a90e2] text-white rounded-md text-[12px] font-bold no-underline transition-colors hover:bg-[#2d6abf] btn-pulse min-h-[36px] inline-flex items-center"
+            >
+              {ev.btnLabel?.trim() || 'Saiba mais'}
+            </a>
+          )}
         </div>
 
         {db && (

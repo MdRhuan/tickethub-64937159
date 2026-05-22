@@ -212,6 +212,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
     titulo:'', sobre:'', hora:'', local:'', mapaUrl:'',
     classificacao:'Livre', categoria:'',
     tagCard:'', badge:'', preco:'', corCal:'azul',
+    btnLabel:'', btnUrl:'',
   };
   const [form, setForm] = useState(emptyForm);
 
@@ -258,6 +259,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
       categoria: ev.categoria || '',
       tagCard: ev.tagCard || '', badge: ev.badge || '',
       preco: ev.preco || '', corCal: ev.corCal || 'azul',
+      btnLabel: ev.btnLabel || '', btnUrl: ev.btnUrl || '',
     });
     setAtracoes(ev.atracoes || []);
     const ds = ev.datas && ev.datas.length > 0 ? ev.datas : (ev.data ? [ev.data] : ['']);
@@ -294,6 +296,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
       ing3: ingsClean[2] || null,
       tagCard: form.tagCard.toUpperCase(), badge: form.badge,
       preco: form.preco, corCal: form.corCal as Evento['corCal'],
+      btnLabel: form.btnLabel.trim(), btnUrl: form.btnUrl.trim(),
     };
     try {
       await addEvento(ev);
@@ -415,6 +418,10 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
           <div className="grid grid-cols-2 gap-3">
             <FG label="Preço a partir de"><FI value={form.preco} onChange={f('preco')} placeholder="R$ 50,00" /></FG>
             <FG label="Cor no calendário"><FSel value={form.corCal} onChange={f('corCal')} options={['azul','verde','vermelho']} labels={['Azul','Verde','Vermelho']} /></FG>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <FG label="Texto do botão"><FI value={form.btnLabel} onChange={f('btnLabel')} placeholder='Ex: Comprar agora (padrão: "Saiba mais")' /></FG>
+            <FG label="Link do botão (abre em nova aba)"><FI value={form.btnUrl} onChange={f('btnUrl')} placeholder="https://... (deixe vazio para ocultar)" /></FG>
           </div>
 
           <div className="flex gap-2 mt-[6px]">
