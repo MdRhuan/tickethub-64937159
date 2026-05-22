@@ -10,16 +10,23 @@ type View = 'grid' | 'agenda';
 
 interface DayData { cor: string; evs: Evento[] }
 
+function eventDates(ev: Evento): string[] {
+  if (ev.datas && ev.datas.length > 0) return ev.datas;
+  return ev.data ? [ev.data] : [];
+}
+
 function buildEventMap(eventos: Evento[]): Record<string, Record<number, DayData>> {
   const map: Record<string, Record<number, DayData>> = {};
   for (const ev of eventos) {
-    if (!ev.data) continue;
-    const [ano, mes, dia] = ev.data.split('-');
-    const key = `${ano}-${parseInt(mes)}`;
-    const d = parseInt(dia);
-    if (!map[key]) map[key] = {};
-    if (!map[key][d]) map[key][d] = { cor: ev.corCal || 'azul', evs: [] };
-    map[key][d].evs.push(ev);
+    for (const dt of eventDates(ev)) {
+      const [ano, mes, dia] = dt.split('-');
+      if (!ano || !mes || !dia) continue;
+      const key = `${ano}-${parseInt(mes)}`;
+      const d = parseInt(dia);
+      if (!map[key]) map[key] = {};
+      if (!map[key][d]) map[key][d] = { cor: ev.corCal || 'azul', evs: [] };
+      map[key][d].evs.push(ev);
+    }
   }
   return map;
 }
