@@ -34,7 +34,9 @@ export default function EventoDetalhe() {
     setTimeout(() => setCopied(false), 2000);
   }
 
-  const ingressos = [ev.ing1, ev.ing2, ev.ing3].filter(Boolean);
+  const ingressos = (ev.ingressos && ev.ingressos.length > 0)
+    ? ev.ingressos
+    : [ev.ing1, ev.ing2, ev.ing3].filter(Boolean);
   const allDates = (ev.datas && ev.datas.length > 0 ? ev.datas : (ev.data ? [ev.data] : [])).slice().sort();
   const datasLabel = allDates.map(d => fmtDataFull(d)).join(' • ');
 
