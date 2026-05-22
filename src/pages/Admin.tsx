@@ -203,14 +203,14 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
   const [editId, setEditId] = useState<string | null>(null);
   const [atracoes, setAtracoes] = useState<Atracao[]>([]);
   const [datas, setDatas] = useState<string[]>(['']);
+  const [ingressos, setIngressos] = useState<Ingresso[]>([{ nome:'', link:'' }]);
   const img = useImgUpload();
   const banner = useImgUpload();
   const formRef = useRef<HTMLDivElement>(null);
 
   const emptyForm = {
     titulo:'', sobre:'', hora:'', local:'', mapaUrl:'',
-    classificacao:'Livre', categoria:'', ing1Nome:'', ing1Link:'',
-    ing2Nome:'', ing2Link:'', ing3Nome:'', ing3Link:'',
+    classificacao:'Livre', categoria:'',
     tagCard:'', badge:'', preco:'', corCal:'azul',
   };
   const [form, setForm] = useState(emptyForm);
