@@ -57,6 +57,7 @@ export type Database = {
           corCal: string
           created_at: string
           data: string
+          datas: Json
           hora: string
           id: string
           imgBanner: string
@@ -80,6 +81,7 @@ export type Database = {
           corCal?: string
           created_at?: string
           data?: string
+          datas?: Json
           hora?: string
           id: string
           imgBanner?: string
@@ -103,6 +105,7 @@ export type Database = {
           corCal?: string
           created_at?: string
           data?: string
+          datas?: Json
           hora?: string
           id?: string
           imgBanner?: string
