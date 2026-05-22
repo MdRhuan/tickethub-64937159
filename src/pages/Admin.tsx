@@ -237,9 +237,16 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
     setForm(emptyForm);
     setAtracoes([]);
     setDatas(['']);
+    setIngressos([{ nome:'', link:'' }]);
     img.reset();
     banner.reset();
   }
+
+  function setIng(i: number, key: keyof Ingresso, val: string) {
+    setIngressos(p => p.map((x, j) => j === i ? { ...x, [key]: val } : x));
+  }
+  function addIng() { setIngressos(p => [...p, { nome:'', link:'' }]); }
+  function removeIng(i: number) { setIngressos(p => p.length === 1 ? [{ nome:'', link:'' }] : p.filter((_, j) => j !== i)); }
 
   function startEdit(ev: Evento) {
     setEditId(ev.id);
