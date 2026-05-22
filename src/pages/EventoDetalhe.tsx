@@ -86,7 +86,8 @@ export default function EventoDetalhe() {
       </section>
 
       {/* Content */}
-      <div className="grid gap-[52px] page-px py-[44px] pb-20 items-start" style={{ gridTemplateColumns: '1fr 380px' }}>
+      <div className="grid gap-[52px] page-px py-[44px] pb-20 items-start grid-cols-1 md:[grid-template-columns:minmax(0,1fr)_380px] max-md:gap-8">
+
 
         {/* Left */}
         <div className="flex flex-col gap-9">
