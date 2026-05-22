@@ -24,21 +24,22 @@ export default function Fotos() {
           <span className="block text-[11px] font-bold tracking-[2px] text-[#4a90e2] uppercase mb-[6px]">GALERIA DE FOTOS</span>
           <h1 className="text-[32px] font-black text-[#111] leading-[1.1]">Álbuns</h1>
         </div>
-        <div className="flex items-center gap-[10px]" style={{ flexWrap: 'wrap' }}>
-          <div className="flex items-center gap-2 bg-[#f5f5f5] border border-[#e0e0e0] rounded-[10px] px-[14px] py-[9px] focus-within:border-[#4a90e2] focus-within:bg-white transition-all">
+        <div className="flex items-center gap-[10px] w-full md:w-auto" style={{ flexWrap: 'wrap' }}>
+          <div className="flex items-center gap-2 bg-[#f5f5f5] border border-[#e0e0e0] rounded-[10px] px-[14px] py-[9px] focus-within:border-[#4a90e2] focus-within:bg-white transition-all flex-1 min-w-0 md:flex-none md:w-auto">
             <svg className="text-[#888] flex-shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             <input
               value={busca} onChange={e => setBusca(e.target.value)}
               placeholder="Buscar por nome..."
-              className="border-none bg-transparent outline-none text-[13px] text-[#111] placeholder-[#aaa] w-[180px]"
+              className="border-none bg-transparent outline-none text-[13px] text-[#111] placeholder-[#aaa] w-full md:w-[180px] min-w-0"
             />
           </div>
           <input
             type="date"
             value={dataFiltro}
             onChange={e => setDataFiltro(e.target.value)}
-            className="bg-[#f5f5f5] border border-[#e0e0e0] rounded-[10px] px-[14px] py-[9px] text-[13px] text-[#111] outline-none focus:border-[#4a90e2] focus:bg-white transition-all"
+            className="bg-[#f5f5f5] border border-[#e0e0e0] rounded-[10px] px-[14px] py-[9px] text-[13px] text-[#111] outline-none focus:border-[#4a90e2] focus:bg-white transition-all min-w-0"
           />
+
           {(busca || dataFiltro) && (
             <button
               onClick={() => { setBusca(''); setDataFiltro(''); }}
