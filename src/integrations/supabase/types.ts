@@ -65,6 +65,7 @@ export type Database = {
           ing1: Json | null
           ing2: Json | null
           ing3: Json | null
+          ingressos: Json
           local: string
           mapaUrl: string
           preco: string
@@ -89,6 +90,7 @@ export type Database = {
           ing1?: Json | null
           ing2?: Json | null
           ing3?: Json | null
+          ingressos?: Json
           local?: string
           mapaUrl?: string
           preco?: string
@@ -113,6 +115,7 @@ export type Database = {
           ing1?: Json | null
           ing2?: Json | null
           ing3?: Json | null
+          ingressos?: Json
           local?: string
           mapaUrl?: string
           preco?: string

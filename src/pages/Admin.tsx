@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useDB } from '@/contexts/DBContext';
 import { supabase } from '@/integrations/supabase/client';
-import type { Evento, Post, Album, Atracao } from '@/types';
+import type { Evento, Post, Album, Atracao, Ingresso } from '@/types';
 import { fmtDataBlog } from '@/lib/utils';
 
 type Tab = 'eventos' | 'blog' | 'albuns' | 'leads';
@@ -203,14 +203,14 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
   const [editId, setEditId] = useState<string | null>(null);
   const [atracoes, setAtracoes] = useState<Atracao[]>([]);
   const [datas, setDatas] = useState<string[]>(['']);
+  const [ingressos, setIngressos] = useState<Ingresso[]>([{ nome:'', link:'' }]);
   const img = useImgUpload();
   const banner = useImgUpload();
   const formRef = useRef<HTMLDivElement>(null);
 
   const emptyForm = {
     titulo:'', sobre:'', hora:'', local:'', mapaUrl:'',
-    classificacao:'Livre', categoria:'', ing1Nome:'', ing1Link:'',
-    ing2Nome:'', ing2Link:'', ing3Nome:'', ing3Link:'',
+    classificacao:'Livre', categoria:'',
     tagCard:'', badge:'', preco:'', corCal:'azul',
   };
   const [form, setForm] = useState(emptyForm);
@@ -237,9 +237,16 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
     setForm(emptyForm);
     setAtracoes([]);
     setDatas(['']);
+    setIngressos([{ nome:'', link:'' }]);
     img.reset();
     banner.reset();
   }
+
+  function setIng(i: number, key: keyof Ingresso, val: string) {
+    setIngressos(p => p.map((x, j) => j === i ? { ...x, [key]: val } : x));
+  }
+  function addIng() { setIngressos(p => [...p, { nome:'', link:'' }]); }
+  function removeIng(i: number) { setIngressos(p => p.length === 1 ? [{ nome:'', link:'' }] : p.filter((_, j) => j !== i)); }
 
   function startEdit(ev: Evento) {
     setEditId(ev.id);
@@ -249,15 +256,16 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
       local: ev.local || '', mapaUrl: ev.mapaUrl || '',
       classificacao: ev.classificacao || 'Livre',
       categoria: ev.categoria || '',
-      ing1Nome: ev.ing1?.nome || '', ing1Link: ev.ing1?.link || '',
-      ing2Nome: ev.ing2?.nome || '', ing2Link: ev.ing2?.link || '',
-      ing3Nome: ev.ing3?.nome || '', ing3Link: ev.ing3?.link || '',
       tagCard: ev.tagCard || '', badge: ev.badge || '',
       preco: ev.preco || '', corCal: ev.corCal || 'azul',
     });
     setAtracoes(ev.atracoes || []);
     const ds = ev.datas && ev.datas.length > 0 ? ev.datas : (ev.data ? [ev.data] : ['']);
     setDatas(ds);
+    const ings = (ev.ingressos && ev.ingressos.length > 0)
+      ? ev.ingressos
+      : [ev.ing1, ev.ing2, ev.ing3].filter(Boolean) as Ingresso[];
+    setIngressos(ings.length > 0 ? ings : [{ nome:'', link:'' }]);
     if (ev.imgUrl) img.setExisting(ev.imgUrl); else img.reset();
     if (ev.imgBanner) banner.setExisting(ev.imgBanner); else banner.reset();
     setTimeout(() => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
@@ -267,6 +275,9 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
     e.preventDefault();
     const datasClean = datas.map(d => d.trim()).filter(Boolean).sort();
     if (datasClean.length === 0) { toast('Adicione pelo menos uma data.'); return; }
+    const ingsClean = ingressos
+      .map(i => ({ nome: i.nome.trim(), link: i.link.trim() }))
+      .filter(i => i.nome || i.link);
     setSaving(true);
     const ev: Evento = {
       id: editId ?? Date.now().toString(),
@@ -277,9 +288,10 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
       mapaUrl: form.mapaUrl, classificacao: form.classificacao,
       categoria: form.categoria.toUpperCase(),
       imgUrl: img.data, imgBanner: banner.data,
-      ing1: form.ing1Nome ? { nome: form.ing1Nome, link: form.ing1Link } : null,
-      ing2: form.ing2Nome ? { nome: form.ing2Nome, link: form.ing2Link } : null,
-      ing3: form.ing3Nome ? { nome: form.ing3Nome, link: form.ing3Link } : null,
+      ingressos: ingsClean,
+      ing1: ingsClean[0] || null,
+      ing2: ingsClean[1] || null,
+      ing3: ingsClean[2] || null,
       tagCard: form.tagCard.toUpperCase(), badge: form.badge,
       preco: form.preco, corCal: form.corCal as Evento['corCal'],
     };
@@ -373,19 +385,27 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
           <FG label="Capa (400×500 px)"><ImgUpload img={img} label={img.preview ? 'Trocar imagem' : 'Subir imagem'} /></FG>
           <FG label="Banner (1440×500 px)"><ImgUpload img={banner} label={banner.preview ? 'Trocar imagem' : 'Subir imagem'} /></FG>
 
-          <div className="block text-[11px] font-bold uppercase tracking-[1px] text-[#1a3a6b] border-b-2 border-[#e8edf5] pb-[6px] my-2">Ingressos</div>
-          <div className="grid grid-cols-2 gap-3">
-            <FG label="Ingresso 01"><FI value={form.ing1Nome} onChange={f('ing1Nome')} placeholder="Nome" /></FG>
-            <FG label="Link de compra"><FI value={form.ing1Link} onChange={f('ing1Link')} placeholder="https://..." /></FG>
+          <div className="flex items-center justify-between border-b-2 border-[#e8edf5] pb-[6px] my-2">
+            <span className="block text-[11px] font-bold uppercase tracking-[1px] text-[#1a3a6b]">Ingressos</span>
+            <button type="button" onClick={addIng} className="text-[11px] font-bold uppercase tracking-[1px] text-[#1a3a6b] hover:text-[#0a1f3d]">+ Adicionar ingresso</button>
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            <FG label="Lounge/Camarote"><FI value={form.ing2Nome} onChange={f('ing2Nome')} placeholder="Nome" /></FG>
-            <FG label="Link de compra"><FI value={form.ing2Link} onChange={f('ing2Link')} placeholder="https://..." /></FG>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <FG label="Condições Especiais"><FI value={form.ing3Nome} onChange={f('ing3Nome')} placeholder="Nome" /></FG>
-            <FG label="Link"><FI value={form.ing3Link} onChange={f('ing3Link')} placeholder="https://..." /></FG>
-          </div>
+          {ingressos.map((ing, i) => (
+            <div key={i} className="grid grid-cols-[1fr_1fr_auto] gap-3 items-end">
+              <FG label={`Ingresso ${String(i+1).padStart(2,'0')}`}>
+                <FI value={ing.nome} onChange={e => setIng(i, 'nome', e.target.value)} placeholder="Nome (ex: Pista, Camarote)" />
+              </FG>
+              <FG label="Link de compra">
+                <FI value={ing.link} onChange={e => setIng(i, 'link', e.target.value)} placeholder="https://..." />
+              </FG>
+              <button
+                type="button"
+                onClick={() => removeIng(i)}
+                disabled={ingressos.length === 1}
+                className="h-[40px] px-3 rounded-lg border border-[#e8edf5] text-[#9ca3af] hover:text-red-500 hover:border-red-300 disabled:opacity-40 disabled:cursor-not-allowed text-sm"
+                aria-label="Remover ingresso"
+              >✕</button>
+            </div>
+          ))}
 
           <div className="block text-[11px] font-bold uppercase tracking-[1px] text-[#1a3a6b] border-b-2 border-[#e8edf5] pb-[6px] my-2">Card & Calendário</div>
           <div className="grid grid-cols-2 gap-3">
