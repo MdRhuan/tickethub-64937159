@@ -385,19 +385,27 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
           <FG label="Capa (400×500 px)"><ImgUpload img={img} label={img.preview ? 'Trocar imagem' : 'Subir imagem'} /></FG>
           <FG label="Banner (1440×500 px)"><ImgUpload img={banner} label={banner.preview ? 'Trocar imagem' : 'Subir imagem'} /></FG>
 
-          <div className="block text-[11px] font-bold uppercase tracking-[1px] text-[#1a3a6b] border-b-2 border-[#e8edf5] pb-[6px] my-2">Ingressos</div>
-          <div className="grid grid-cols-2 gap-3">
-            <FG label="Ingresso 01"><FI value={form.ing1Nome} onChange={f('ing1Nome')} placeholder="Nome" /></FG>
-            <FG label="Link de compra"><FI value={form.ing1Link} onChange={f('ing1Link')} placeholder="https://..." /></FG>
+          <div className="flex items-center justify-between border-b-2 border-[#e8edf5] pb-[6px] my-2">
+            <span className="block text-[11px] font-bold uppercase tracking-[1px] text-[#1a3a6b]">Ingressos</span>
+            <button type="button" onClick={addIng} className="text-[11px] font-bold uppercase tracking-[1px] text-[#1a3a6b] hover:text-[#0a1f3d]">+ Adicionar ingresso</button>
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            <FG label="Lounge/Camarote"><FI value={form.ing2Nome} onChange={f('ing2Nome')} placeholder="Nome" /></FG>
-            <FG label="Link de compra"><FI value={form.ing2Link} onChange={f('ing2Link')} placeholder="https://..." /></FG>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <FG label="Condições Especiais"><FI value={form.ing3Nome} onChange={f('ing3Nome')} placeholder="Nome" /></FG>
-            <FG label="Link"><FI value={form.ing3Link} onChange={f('ing3Link')} placeholder="https://..." /></FG>
-          </div>
+          {ingressos.map((ing, i) => (
+            <div key={i} className="grid grid-cols-[1fr_1fr_auto] gap-3 items-end">
+              <FG label={`Ingresso ${String(i+1).padStart(2,'0')}`}>
+                <FI value={ing.nome} onChange={e => setIng(i, 'nome', e.target.value)} placeholder="Nome (ex: Pista, Camarote)" />
+              </FG>
+              <FG label="Link de compra">
+                <FI value={ing.link} onChange={e => setIng(i, 'link', e.target.value)} placeholder="https://..." />
+              </FG>
+              <button
+                type="button"
+                onClick={() => removeIng(i)}
+                disabled={ingressos.length === 1}
+                className="h-[40px] px-3 rounded-lg border border-[#e8edf5] text-[#9ca3af] hover:text-red-500 hover:border-red-300 disabled:opacity-40 disabled:cursor-not-allowed text-sm"
+                aria-label="Remover ingresso"
+              >✕</button>
+            </div>
+          ))}
 
           <div className="block text-[11px] font-bold uppercase tracking-[1px] text-[#1a3a6b] border-b-2 border-[#e8edf5] pb-[6px] my-2">Card & Calendário</div>
           <div className="grid grid-cols-2 gap-3">
