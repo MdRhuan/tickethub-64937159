@@ -14,6 +14,7 @@ export interface Evento {
   sobre: string;
   atracoes: Atracao[];
   data: string;
+  datas?: string[];
   hora: string;
   local: string;
   mapaUrl: string;
