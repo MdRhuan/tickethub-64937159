@@ -70,7 +70,9 @@ export default function Calendario() {
   const dotColorClass = (cor: string) =>
     cor === 'vermelho' ? 'bg-[#e03535]' : cor === 'verde' ? 'bg-[#27ae60]' : 'bg-[#4a90e2]';
 
-  const agendaEvs = [...eventos].sort((a, b) => (a.data || '').localeCompare(b.data || ''));
+  const agendaEvs = eventos
+    .flatMap(ev => eventDates(ev).map(dt => ({ ev, dt })))
+    .sort((a, b) => a.dt.localeCompare(b.dt));
 
   return (
     <main className="page-px py-10 pb-20">
