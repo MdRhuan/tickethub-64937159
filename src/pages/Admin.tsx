@@ -608,16 +608,21 @@ function ImgUpload({ img, label }: { img: ReturnType<typeof useImgUpload>; label
   );
 }
 
-function ListItem({ img, title, meta, sub, onDelete }: { img?: string; title: string; meta?: string; sub?: string; onDelete: ()=>void }) {
+function ListItem({ img, title, meta, sub, active, onEdit, onDelete }: { img?: string; title: string; meta?: string; sub?: string; active?: boolean; onEdit?: ()=>void; onDelete: ()=>void }) {
   return (
-    <div className="flex items-center gap-3 bg-[#fafafa] border border-[#f0f0f0] rounded-[10px] px-3 py-[10px] hover:shadow-sm transition-shadow">
+    <div className={`flex items-center gap-3 border rounded-[10px] px-3 py-[10px] transition-all ${active ? 'bg-[#eef5ff] border-[#1a3a6b] shadow-sm' : 'bg-[#fafafa] border-[#f0f0f0] hover:shadow-sm'}`}>
       <div className="w-12 h-12 rounded-lg flex-shrink-0 bg-[#e0e0e0]" style={img ? { backgroundImage: `url(${img})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined} />
       <div className="flex-1 min-w-0 flex flex-col gap-[3px]">
         <span className="text-[13px] font-bold text-[#111] truncate">{title}</span>
         {meta && <span className="text-[11px] text-[#999] truncate">{meta}</span>}
         {sub && <span className="text-[11px] font-bold text-[#1a3a6b]">{sub}</span>}
       </div>
-      <button onClick={onDelete} className="w-8 h-8 flex-shrink-0 bg-[#fff0f0] border border-[#ffd0d0] rounded-lg cursor-pointer text-[#e74c3c] flex items-center justify-center hover:bg-[#e74c3c] hover:text-white hover:border-[#e74c3c] transition-all">
+      {onEdit && (
+        <button onClick={onEdit} title="Editar" className="w-8 h-8 flex-shrink-0 bg-[#eef5ff] border border-[#cfe0ff] rounded-lg cursor-pointer text-[#1a3a6b] flex items-center justify-center hover:bg-[#1a3a6b] hover:text-white hover:border-[#1a3a6b] transition-all">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </button>
+      )}
+      <button onClick={onDelete} title="Excluir" className="w-8 h-8 flex-shrink-0 bg-[#fff0f0] border border-[#ffd0d0] rounded-lg cursor-pointer text-[#e74c3c] flex items-center justify-center hover:bg-[#e74c3c] hover:text-white hover:border-[#e74c3c] transition-all">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
       </button>
     </div>
