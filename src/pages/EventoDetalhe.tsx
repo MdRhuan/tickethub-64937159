@@ -52,10 +52,10 @@ export default function EventoDetalhe() {
           )}
           <h1 className="text-[56px] font-black text-white leading-[1.05] mb-[18px] max-md:text-[30px]">{ev.titulo}</h1>
           <div className="flex gap-7 items-center flex-wrap max-md:flex-col max-md:items-start max-md:gap-2">
-            {ev.data && (
+            {datasLabel && (
               <div className="flex items-center gap-2 text-[15px] text-[#ccc]">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                {fmtDataFull(ev.data)}
+                {datasLabel}
               </div>
             )}
             {ev.hora && (
