@@ -296,6 +296,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
       ing3: ingsClean[2] || null,
       tagCard: form.tagCard.toUpperCase(), badge: form.badge,
       preco: form.preco, corCal: form.corCal as Evento['corCal'],
+      btnLabel: form.btnLabel.trim(), btnUrl: form.btnUrl.trim(),
     };
     try {
       await addEvento(ev);
