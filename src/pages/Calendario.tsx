@@ -202,12 +202,12 @@ export default function Calendario() {
             <p className="text-[#aaa]">Carregando...</p>
           ) : agendaEvs.length === 0 ? (
             <p className="text-[#aaa] text-sm py-6">Nenhum evento na agenda.</p>
-          ) : agendaEvs.map(ev => {
-            const parts = ev.data ? ev.data.split('-') : [];
+          ) : agendaEvs.map(({ ev, dt }, idx) => {
+            const parts = dt ? dt.split('-') : [];
             const dia = parts[2] || '';
             const mesAbr = parts[1] ? MESES[parseInt(parts[1]) - 1]?.substring(0, 3) : '';
             return (
-              <div key={ev.id} className="flex items-center gap-5 relative max-[480px]:flex-col max-[480px]:items-start max-[480px]:gap-2">
+              <div key={`${ev.id}-${dt}-${idx}`} className="flex items-center gap-5 relative max-[480px]:flex-col max-[480px]:items-start max-[480px]:gap-2">
                 <div className="absolute left-[-110px] w-[76px] flex flex-col items-end gap-0.5 max-md:left-[-80px] max-md:w-[50px] max-[480px]:static max-[480px]:flex-row max-[480px]:items-center max-[480px]:gap-2">
                   <span className="text-sm font-black text-[#111] max-md:text-[12px]">{dia} {mesAbr}</span>
                   {ev.hora && <span className="text-[12px] text-[#888]">{ev.hora}</span>}
