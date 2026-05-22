@@ -26,8 +26,9 @@ function useImgUpload() {
     reader.onload = e => { const r = e.target?.result as string; setPreview(r); setData(r); };
     reader.readAsDataURL(file);
   }
+  function setExisting(url: string) { setPreview(url); setData(url); }
   function reset() { setPreview(''); setData(''); }
-  return { preview, data, handle, reset };
+  return { preview, data, handle, setExisting, reset };
 }
 
 // ── Main Admin component ───────────────────────────────────────────────────
