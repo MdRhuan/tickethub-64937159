@@ -44,7 +44,7 @@ export default function GrupoPopup() {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-7 right-7 w-[300px] bg-white rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.18)] z-[9999] overflow-hidden">
+    <div className="fixed bottom-4 right-4 left-4 sm:left-auto sm:bottom-7 sm:right-7 sm:w-[300px] max-w-[calc(100vw-32px)] bg-white rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.18)] z-[9999] overflow-hidden">
       <button
         onClick={hide}
         className="absolute top-3 right-3 bg-transparent border-none text-[#aaa] text-xl cursor-pointer leading-none hover:text-[#333] transition-colors"
