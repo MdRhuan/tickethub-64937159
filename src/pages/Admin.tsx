@@ -278,7 +278,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
     const datasClean = datas.map(d => d.trim()).filter(Boolean).sort();
     if (datasClean.length === 0) { toast('Adicione pelo menos uma data.'); return; }
     const ingsClean = ingressos
-      .map(i => ({ nome: i.nome.trim(), link: i.link.trim() }))
+      .map(i => ({ nome: i.nome.trim(), link: i.link.trim(), btnLabel: (i.btnLabel || '').trim() }))
       .filter(i => i.nome || i.link);
     setSaving(true);
     const ev: Evento = {
@@ -393,12 +393,15 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
             <button type="button" onClick={addIng} className="text-[11px] font-bold uppercase tracking-[1px] text-[#1a3a6b] hover:text-[#0a1f3d]">+ Adicionar ingresso</button>
           </div>
           {ingressos.map((ing, i) => (
-            <div key={i} className="grid grid-cols-[1fr_1fr_auto] gap-3 items-end">
+            <div key={i} className="grid grid-cols-[1fr_1fr_1fr_auto] gap-3 items-end">
               <FG label={`Ingresso ${String(i+1).padStart(2,'0')}`}>
                 <FI value={ing.nome} onChange={e => setIng(i, 'nome', e.target.value)} placeholder="Nome (ex: Pista, Camarote)" />
               </FG>
               <FG label="Link de compra">
                 <FI value={ing.link} onChange={e => setIng(i, 'link', e.target.value)} placeholder="https://..." />
+              </FG>
+              <FG label="Texto do botão">
+                <FI value={ing.btnLabel || ''} onChange={e => setIng(i, 'btnLabel', e.target.value)} placeholder='Padrão: "Garantir ingresso com desconto"' />
               </FG>
               <button
                 type="button"

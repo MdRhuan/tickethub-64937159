@@ -166,7 +166,7 @@ export default function EventoDetalhe() {
               <span className="text-[17px] font-black text-[#111]">{ing!.nome}</span>
               {ing!.link ? (
                 <a href={ing!.link} target="_blank" rel="noopener noreferrer" className="block mt-2 py-[10px] bg-[#1a3a6b] text-white rounded-lg text-[13px] font-bold text-center no-underline hover:bg-[#102a4e] transition-colors btn-pulse">
-                  Garantir ingresso com desconto
+                  {ing!.btnLabel?.trim() || 'Garantir ingresso com desconto'}
                 </a>
               ) : (
                 <span className="block mt-2 py-[10px] bg-[#eee] text-[#999] rounded-lg text-[13px] text-center">Em breve</span>

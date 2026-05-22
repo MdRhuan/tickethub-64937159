@@ -6,6 +6,7 @@ export interface Atracao {
 export interface Ingresso {
   nome: string;
   link: string;
+  btnLabel?: string;
 }
 
 export interface Evento {
