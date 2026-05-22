@@ -10,16 +10,23 @@ type View = 'grid' | 'agenda';
 
 interface DayData { cor: string; evs: Evento[] }
 
+function eventDates(ev: Evento): string[] {
+  if (ev.datas && ev.datas.length > 0) return ev.datas;
+  return ev.data ? [ev.data] : [];
+}
+
 function buildEventMap(eventos: Evento[]): Record<string, Record<number, DayData>> {
   const map: Record<string, Record<number, DayData>> = {};
   for (const ev of eventos) {
-    if (!ev.data) continue;
-    const [ano, mes, dia] = ev.data.split('-');
-    const key = `${ano}-${parseInt(mes)}`;
-    const d = parseInt(dia);
-    if (!map[key]) map[key] = {};
-    if (!map[key][d]) map[key][d] = { cor: ev.corCal || 'azul', evs: [] };
-    map[key][d].evs.push(ev);
+    for (const dt of eventDates(ev)) {
+      const [ano, mes, dia] = dt.split('-');
+      if (!ano || !mes || !dia) continue;
+      const key = `${ano}-${parseInt(mes)}`;
+      const d = parseInt(dia);
+      if (!map[key]) map[key] = {};
+      if (!map[key][d]) map[key][d] = { cor: ev.corCal || 'azul', evs: [] };
+      map[key][d].evs.push(ev);
+    }
   }
   return map;
 }
@@ -63,7 +70,9 @@ export default function Calendario() {
   const dotColorClass = (cor: string) =>
     cor === 'vermelho' ? 'bg-[#e03535]' : cor === 'verde' ? 'bg-[#27ae60]' : 'bg-[#4a90e2]';
 
-  const agendaEvs = [...eventos].sort((a, b) => (a.data || '').localeCompare(b.data || ''));
+  const agendaEvs = eventos
+    .flatMap(ev => eventDates(ev).map(dt => ({ ev, dt })))
+    .sort((a, b) => a.dt.localeCompare(b.dt));
 
   return (
     <main className="page-px py-10 pb-20">
@@ -193,12 +202,12 @@ export default function Calendario() {
             <p className="text-[#aaa]">Carregando...</p>
           ) : agendaEvs.length === 0 ? (
             <p className="text-[#aaa] text-sm py-6">Nenhum evento na agenda.</p>
-          ) : agendaEvs.map(ev => {
-            const parts = ev.data ? ev.data.split('-') : [];
+          ) : agendaEvs.map(({ ev, dt }, idx) => {
+            const parts = dt ? dt.split('-') : [];
             const dia = parts[2] || '';
             const mesAbr = parts[1] ? MESES[parseInt(parts[1]) - 1]?.substring(0, 3) : '';
             return (
-              <div key={ev.id} className="flex items-center gap-5 relative max-[480px]:flex-col max-[480px]:items-start max-[480px]:gap-2">
+              <div key={`${ev.id}-${dt}-${idx}`} className="flex items-center gap-5 relative max-[480px]:flex-col max-[480px]:items-start max-[480px]:gap-2">
                 <div className="absolute left-[-110px] w-[76px] flex flex-col items-end gap-0.5 max-md:left-[-80px] max-md:w-[50px] max-[480px]:static max-[480px]:flex-row max-[480px]:items-center max-[480px]:gap-2">
                   <span className="text-sm font-black text-[#111] max-md:text-[12px]">{dia} {mesAbr}</span>
                   {ev.hora && <span className="text-[12px] text-[#888]">{ev.hora}</span>}

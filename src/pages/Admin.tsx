@@ -202,12 +202,13 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
   const [saving, setSaving] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
   const [atracoes, setAtracoes] = useState<Atracao[]>([]);
+  const [datas, setDatas] = useState<string[]>(['']);
   const img = useImgUpload();
   const banner = useImgUpload();
   const formRef = useRef<HTMLDivElement>(null);
 
   const emptyForm = {
-    titulo:'', sobre:'', data:'', hora:'', local:'', mapaUrl:'',
+    titulo:'', sobre:'', hora:'', local:'', mapaUrl:'',
     classificacao:'Livre', categoria:'', ing1Nome:'', ing1Link:'',
     ing2Nome:'', ing2Link:'', ing3Nome:'', ing3Link:'',
     tagCard:'', badge:'', preco:'', corCal:'azul',
@@ -227,10 +228,15 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
     reader.readAsDataURL(file);
   }
 
+  function setDataAt(i: number, val: string) { setDatas(p => p.map((d, j) => j === i ? val : d)); }
+  function addDataRow() { setDatas(p => [...p, '']); }
+  function removeDataRow(i: number) { setDatas(p => p.length === 1 ? [''] : p.filter((_, j) => j !== i)); }
+
   function resetAll() {
     setEditId(null);
     setForm(emptyForm);
     setAtracoes([]);
+    setDatas(['']);
     img.reset();
     banner.reset();
   }
@@ -239,7 +245,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
     setEditId(ev.id);
     setForm({
       titulo: ev.titulo || '', sobre: ev.sobre || '',
-      data: ev.data || '', hora: ev.hora || '',
+      hora: ev.hora || '',
       local: ev.local || '', mapaUrl: ev.mapaUrl || '',
       classificacao: ev.classificacao || 'Livre',
       categoria: ev.categoria || '',
@@ -250,6 +256,8 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
       preco: ev.preco || '', corCal: ev.corCal || 'azul',
     });
     setAtracoes(ev.atracoes || []);
+    const ds = ev.datas && ev.datas.length > 0 ? ev.datas : (ev.data ? [ev.data] : ['']);
+    setDatas(ds);
     if (ev.imgUrl) img.setExisting(ev.imgUrl); else img.reset();
     if (ev.imgBanner) banner.setExisting(ev.imgBanner); else banner.reset();
     setTimeout(() => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
@@ -257,12 +265,15 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    const datasClean = datas.map(d => d.trim()).filter(Boolean).sort();
+    if (datasClean.length === 0) { toast('Adicione pelo menos uma data.'); return; }
     setSaving(true);
     const ev: Evento = {
       id: editId ?? Date.now().toString(),
       titulo: form.titulo, sobre: form.sobre,
       atracoes: atracoes.filter(a => a.nome || a.foto),
-      data: form.data, hora: form.hora, local: form.local,
+      data: datasClean[0], datas: datasClean,
+      hora: form.hora, local: form.local,
       mapaUrl: form.mapaUrl, classificacao: form.classificacao,
       categoria: form.categoria.toUpperCase(),
       imgUrl: img.data, imgBanner: banner.data,
@@ -335,10 +346,22 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
           </FG>
 
           <div className="block text-[11px] font-bold uppercase tracking-[1px] text-[#1a3a6b] border-b-2 border-[#e8edf5] pb-[6px] my-2">Local & Data</div>
-          <div className="grid grid-cols-2 gap-3">
-            <FG label="Data *"><input type="date" required value={form.data} onChange={f('data')} className="form-i" /></FG>
-            <FG label="Horário"><input type="time" value={form.hora} onChange={f('hora')} className="form-i" /></FG>
-          </div>
+          <FG label={`Datas do evento * (${datas.filter(Boolean).length})`}>
+            <div className="flex flex-col gap-2">
+              {datas.map((d, i) => (
+                <div key={i} className="flex gap-2 items-center">
+                  <input type="date" required={i === 0} value={d} onChange={e => setDataAt(i, e.target.value)} className="form-i" />
+                  {datas.length > 1 ? (
+                    <button type="button" onClick={() => removeDataRow(i)} className="w-9 h-9 bg-[#fee] text-[#c0392b] border-none rounded-lg cursor-pointer text-[14px] hover:bg-[#c0392b] hover:text-white transition-colors flex-shrink-0">✕</button>
+                  ) : (
+                    <span className="w-9 h-9 flex-shrink-0" />
+                  )}
+                </div>
+              ))}
+              <button type="button" onClick={addDataRow} className="px-[14px] py-[7px] bg-[#f0f4ff] text-[#1a3a6b] border border-dashed border-[#1a3a6b] rounded-lg text-[12px] font-bold cursor-pointer hover:bg-[#dce8ff] transition-colors self-start">+ Adicionar outra data</button>
+            </div>
+          </FG>
+          <FG label="Horário"><input type="time" value={form.hora} onChange={f('hora')} className="form-i" /></FG>
           <FG label="Local"><FI value={form.local} onChange={f('local')} placeholder="Ex: Arena XYZ" /></FG>
           <FG label="Link Google Maps"><FI value={form.mapaUrl} onChange={f('mapaUrl')} placeholder="https://..." /></FG>
           <div className="grid grid-cols-2 gap-3">
