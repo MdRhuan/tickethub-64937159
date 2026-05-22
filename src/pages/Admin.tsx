@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useDB } from '@/contexts/DBContext';
 import { supabase } from '@/integrations/supabase/client';
-import type { Evento, Post, Album, Atracao } from '@/types';
+import type { Evento, Post, Album, Atracao, Ingresso } from '@/types';
 import { fmtDataBlog } from '@/lib/utils';
 
 type Tab = 'eventos' | 'blog' | 'albuns' | 'leads';
