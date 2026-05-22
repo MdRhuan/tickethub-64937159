@@ -26,8 +26,9 @@ function useImgUpload() {
     reader.onload = e => { const r = e.target?.result as string; setPreview(r); setData(r); };
     reader.readAsDataURL(file);
   }
+  function setExisting(url: string) { setPreview(url); setData(url); }
   function reset() { setPreview(''); setData(''); }
-  return { preview, data, handle, reset };
+  return { preview, data, handle, setExisting, reset };
 }
 
 // ── Main Admin component ───────────────────────────────────────────────────
@@ -199,16 +200,19 @@ function LoginScreen({ email, setEmail, pass, setPass, passErr, onLogin }: {
 function TabEventos({ toast }: { toast: (m:string)=>void }) {
   const { eventos, addEvento, deleteEvento } = useDB();
   const [saving, setSaving] = useState(false);
+  const [editId, setEditId] = useState<string | null>(null);
   const [atracoes, setAtracoes] = useState<Atracao[]>([]);
   const img = useImgUpload();
   const banner = useImgUpload();
+  const formRef = useRef<HTMLDivElement>(null);
 
-  const [form, setForm] = useState({
+  const emptyForm = {
     titulo:'', sobre:'', data:'', hora:'', local:'', mapaUrl:'',
     classificacao:'Livre', categoria:'', ing1Nome:'', ing1Link:'',
     ing2Nome:'', ing2Link:'', ing3Nome:'', ing3Link:'',
     tagCard:'', badge:'', preco:'', corCal:'azul',
-  });
+  };
+  const [form, setForm] = useState(emptyForm);
 
   function f(k: string) { return (e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>) => setForm(p => ({...p, [k]: e.target.value})); }
 
@@ -217,12 +221,45 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
   function setAt(i: number, key: keyof Atracao, val: string) {
     setAtracoes(p => p.map((a, j) => j === i ? { ...a, [key]: val } : a));
   }
+  function uploadAtFoto(i: number, file: File) {
+    const reader = new FileReader();
+    reader.onload = e => setAt(i, 'foto', e.target?.result as string);
+    reader.readAsDataURL(file);
+  }
+
+  function resetAll() {
+    setEditId(null);
+    setForm(emptyForm);
+    setAtracoes([]);
+    img.reset();
+    banner.reset();
+  }
+
+  function startEdit(ev: Evento) {
+    setEditId(ev.id);
+    setForm({
+      titulo: ev.titulo || '', sobre: ev.sobre || '',
+      data: ev.data || '', hora: ev.hora || '',
+      local: ev.local || '', mapaUrl: ev.mapaUrl || '',
+      classificacao: ev.classificacao || 'Livre',
+      categoria: ev.categoria || '',
+      ing1Nome: ev.ing1?.nome || '', ing1Link: ev.ing1?.link || '',
+      ing2Nome: ev.ing2?.nome || '', ing2Link: ev.ing2?.link || '',
+      ing3Nome: ev.ing3?.nome || '', ing3Link: ev.ing3?.link || '',
+      tagCard: ev.tagCard || '', badge: ev.badge || '',
+      preco: ev.preco || '', corCal: ev.corCal || 'azul',
+    });
+    setAtracoes(ev.atracoes || []);
+    if (ev.imgUrl) img.setExisting(ev.imgUrl); else img.reset();
+    if (ev.imgBanner) banner.setExisting(ev.imgBanner); else banner.reset();
+    setTimeout(() => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+  }
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
     const ev: Evento = {
-      id: Date.now().toString(),
+      id: editId ?? Date.now().toString(),
       titulo: form.titulo, sobre: form.sobre,
       atracoes: atracoes.filter(a => a.nome || a.foto),
       data: form.data, hora: form.hora, local: form.local,
@@ -237,36 +274,57 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
     };
     try {
       await addEvento(ev);
-      setForm({ titulo:'', sobre:'', data:'', hora:'', local:'', mapaUrl:'', classificacao:'Livre', categoria:'', ing1Nome:'', ing1Link:'', ing2Nome:'', ing2Link:'', ing3Nome:'', ing3Link:'', tagCard:'', badge:'', preco:'', corCal:'azul' });
-      setAtracoes([]); img.reset(); banner.reset();
-      toast('Evento adicionado com sucesso!');
+      toast(editId ? 'Evento atualizado!' : 'Evento adicionado com sucesso!');
+      resetAll();
     } catch { toast('Erro ao salvar evento.'); }
     setSaving(false);
   }
 
   async function del(id: string) {
     if (!confirm('Remover este evento?')) return;
-    try { await deleteEvento(id); toast('Evento removido.'); }
+    try {
+      await deleteEvento(id);
+      if (editId === id) resetAll();
+      toast('Evento removido.');
+    }
     catch { toast('Erro ao remover evento.'); }
   }
 
   return (
     <div className="grid grid-cols-2 gap-6 items-start max-md:grid-cols-1">
       {/* Form */}
-      <div className="bg-white rounded-2xl overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
+      <div ref={formRef} className="bg-white rounded-2xl overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
         <div className="flex items-center justify-between px-[22px] py-[18px] border-b border-[#f2f2f2]">
-          <h2 className="text-[15px] font-black text-[#111]">Novo Evento</h2>
+          <h2 className="text-[15px] font-black text-[#111]">{editId ? 'Editar Evento' : 'Novo Evento'}</h2>
+          {editId && (
+            <button type="button" onClick={resetAll} className="text-[12px] font-bold text-[#888] hover:text-[#111] bg-transparent border-none cursor-pointer">
+              Cancelar edição
+            </button>
+          )}
         </div>
         <form onSubmit={submit} className="px-[22px] py-5 flex flex-col gap-[14px]">
           <FG label="Nome do evento *"><FI required value={form.titulo} onChange={f('titulo')} placeholder="Ex: Show do Artista XYZ" /></FG>
           <FG label="Sobre o evento"><textarea className="form-i resize-y min-h-[70px] leading-[1.5]" value={form.sobre} onChange={f('sobre')} placeholder="Descrição..." /></FG>
 
           <FG label={`Atrações (${atracoes.length}/7)`}>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-3">
               {atracoes.map((at, i) => (
-                <div key={i} className="grid gap-2 items-center" style={{ gridTemplateColumns: '1fr 1fr auto' }}>
-                  <FI value={at.nome} onChange={e => setAt(i,'nome',e.target.value)} placeholder="Nome" />
-                  <FI value={at.foto} onChange={e => setAt(i,'foto',e.target.value)} placeholder="URL da foto" />
+                <div key={i} className="flex items-start gap-2 bg-[#fafafa] border border-[#eee] rounded-lg p-2">
+                  <div className="relative w-[60px] h-[60px] flex-shrink-0 rounded-md overflow-hidden border border-[#e0e0e0] bg-[#eef0f4]">
+                    {at.foto ? (
+                      <img src={at.foto} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-[10px] text-[#aaa] text-center px-1">Sem foto</div>
+                    )}
+                    <label className="absolute inset-0 cursor-pointer flex items-end justify-center bg-black/0 hover:bg-black/40 transition-colors group">
+                      <span className="text-white text-[10px] font-bold opacity-0 group-hover:opacity-100 pb-1">Trocar</span>
+                      <input type="file" accept="image/*" className="hidden" onChange={e => { const file = e.target.files?.[0]; if (file) uploadAtFoto(i, file); }} />
+                    </label>
+                  </div>
+                  <div className="flex-1 min-w-0 flex flex-col gap-1.5">
+                    <FI value={at.nome} onChange={e => setAt(i,'nome',e.target.value)} placeholder="Nome da atração" />
+                    <FI value={at.foto.startsWith('data:') ? '' : at.foto} onChange={e => setAt(i,'foto',e.target.value)} placeholder="ou cole URL da foto" />
+                  </div>
                   <button type="button" onClick={() => removeAt(i)} className="w-8 h-8 bg-[#fee] text-[#c0392b] border-none rounded-lg cursor-pointer text-[13px] hover:bg-[#c0392b] hover:text-white transition-colors flex-shrink-0">✕</button>
                 </div>
               ))}
@@ -289,8 +347,8 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
           </div>
 
           <div className="block text-[11px] font-bold uppercase tracking-[1px] text-[#1a3a6b] border-b-2 border-[#e8edf5] pb-[6px] my-2">Imagens</div>
-          <FG label="Capa (400×500 px)"><ImgUpload img={img} label="Subir imagem" /></FG>
-          <FG label="Banner (1440×500 px)"><ImgUpload img={banner} label="Subir imagem" /></FG>
+          <FG label="Capa (400×500 px)"><ImgUpload img={img} label={img.preview ? 'Trocar imagem' : 'Subir imagem'} /></FG>
+          <FG label="Banner (1440×500 px)"><ImgUpload img={banner} label={banner.preview ? 'Trocar imagem' : 'Subir imagem'} /></FG>
 
           <div className="block text-[11px] font-bold uppercase tracking-[1px] text-[#1a3a6b] border-b-2 border-[#e8edf5] pb-[6px] my-2">Ingressos</div>
           <div className="grid grid-cols-2 gap-3">
@@ -316,9 +374,16 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
             <FG label="Cor no calendário"><FSel value={form.corCal} onChange={f('corCal')} options={['azul','verde','vermelho']} labels={['Azul','Verde','Vermelho']} /></FG>
           </div>
 
-          <button type="submit" disabled={saving} className="px-[22px] py-[11px] bg-[#1a3a6b] text-white border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#102a4e] transition-colors self-start mt-[6px] disabled:opacity-60 btn-pulse">
-            {saving ? 'Salvando...' : 'Adicionar Evento'}
-          </button>
+          <div className="flex gap-2 mt-[6px]">
+            <button type="submit" disabled={saving} className="px-[22px] py-[11px] bg-[#1a3a6b] text-white border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#102a4e] transition-colors disabled:opacity-60 btn-pulse">
+              {saving ? 'Salvando...' : editId ? 'Salvar Alterações' : 'Adicionar Evento'}
+            </button>
+            {editId && (
+              <button type="button" onClick={resetAll} className="px-[18px] py-[11px] bg-[#eee] text-[#333] border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#ddd] transition-colors">
+                Cancelar
+              </button>
+            )}
+          </div>
         </form>
       </div>
 
@@ -332,7 +397,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
           {eventos.length === 0 ? (
             <p className="text-[#bbb] text-[13px] text-center py-7">Nenhum evento cadastrado.</p>
           ) : [...eventos].reverse().map(ev => (
-            <ListItem key={ev.id} img={ev.imgUrl} title={ev.titulo} meta={[ev.data ? fmtDataBlog(ev.data) : '', ev.hora].filter(Boolean).join(' • ')} sub={ev.preco} onDelete={() => del(ev.id)} />
+            <ListItem key={ev.id} img={ev.imgUrl} title={ev.titulo} meta={[ev.data ? fmtDataBlog(ev.data) : '', ev.hora].filter(Boolean).join(' • ')} sub={ev.preco} active={editId === ev.id} onEdit={() => startEdit(ev)} onDelete={() => del(ev.id)} />
           ))}
         </div>
       </div>
@@ -543,16 +608,21 @@ function ImgUpload({ img, label }: { img: ReturnType<typeof useImgUpload>; label
   );
 }
 
-function ListItem({ img, title, meta, sub, onDelete }: { img?: string; title: string; meta?: string; sub?: string; onDelete: ()=>void }) {
+function ListItem({ img, title, meta, sub, active, onEdit, onDelete }: { img?: string; title: string; meta?: string; sub?: string; active?: boolean; onEdit?: ()=>void; onDelete: ()=>void }) {
   return (
-    <div className="flex items-center gap-3 bg-[#fafafa] border border-[#f0f0f0] rounded-[10px] px-3 py-[10px] hover:shadow-sm transition-shadow">
+    <div className={`flex items-center gap-3 border rounded-[10px] px-3 py-[10px] transition-all ${active ? 'bg-[#eef5ff] border-[#1a3a6b] shadow-sm' : 'bg-[#fafafa] border-[#f0f0f0] hover:shadow-sm'}`}>
       <div className="w-12 h-12 rounded-lg flex-shrink-0 bg-[#e0e0e0]" style={img ? { backgroundImage: `url(${img})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined} />
       <div className="flex-1 min-w-0 flex flex-col gap-[3px]">
         <span className="text-[13px] font-bold text-[#111] truncate">{title}</span>
         {meta && <span className="text-[11px] text-[#999] truncate">{meta}</span>}
         {sub && <span className="text-[11px] font-bold text-[#1a3a6b]">{sub}</span>}
       </div>
-      <button onClick={onDelete} className="w-8 h-8 flex-shrink-0 bg-[#fff0f0] border border-[#ffd0d0] rounded-lg cursor-pointer text-[#e74c3c] flex items-center justify-center hover:bg-[#e74c3c] hover:text-white hover:border-[#e74c3c] transition-all">
+      {onEdit && (
+        <button onClick={onEdit} title="Editar" className="w-8 h-8 flex-shrink-0 bg-[#eef5ff] border border-[#cfe0ff] rounded-lg cursor-pointer text-[#1a3a6b] flex items-center justify-center hover:bg-[#1a3a6b] hover:text-white hover:border-[#1a3a6b] transition-all">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </button>
+      )}
+      <button onClick={onDelete} title="Excluir" className="w-8 h-8 flex-shrink-0 bg-[#fff0f0] border border-[#ffd0d0] rounded-lg cursor-pointer text-[#e74c3c] flex items-center justify-center hover:bg-[#e74c3c] hover:text-white hover:border-[#e74c3c] transition-all">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
       </button>
     </div>
