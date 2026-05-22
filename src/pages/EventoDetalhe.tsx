@@ -43,7 +43,7 @@ export default function EventoDetalhe() {
   return (
     <>
       {/* Hero */}
-      <section className="relative h-[440px] flex items-end page-px pb-12 overflow-hidden">
+      <section className="relative min-h-[440px] max-md:min-h-[360px] flex items-end page-px pb-20 max-md:pb-24 pt-8 overflow-hidden">
         <div className="absolute inset-0 bg-[#2a2a3e]" style={heroBg ? { backgroundImage: `url(${heroBg})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined} />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/10 z-[1]" />
         <div className="relative z-[2] max-w-[700px]">
@@ -86,7 +86,9 @@ export default function EventoDetalhe() {
       </section>
 
       {/* Content */}
-      <div className="grid gap-[52px] page-px py-[44px] pb-20 items-start" style={{ gridTemplateColumns: '1fr 380px' }}>
+      <div className="grid gap-[52px] page-px py-[44px] pb-20 items-start max-md:gap-8 grid-cols-1 md:grid-cols-[minmax(0,1fr)_380px]">
+
+
 
         {/* Left */}
         <div className="flex flex-col gap-9">

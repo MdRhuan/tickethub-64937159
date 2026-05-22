@@ -262,5 +262,13 @@
     }
     /* Tighter line-height kept readable on small screens */
     p { line-height: 1.6; }
+
+    /* Prevent iOS auto-zoom on focus by forcing >=16px font-size on form fields */
+    input:not([type="checkbox"]):not([type="radio"]),
+    select,
+    textarea {
+      font-size: 16px;
+    }
   }
+
 }
