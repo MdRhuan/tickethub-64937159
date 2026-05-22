@@ -30,8 +30,14 @@ export default function EventoCard({ ev, linkLabel = 'Comprar' }: Props) {
     ev.badge === 'esgotando' ? 'bg-[#e67e00]' :
     'bg-[#111]';
 
-  const days = ev.data ? daysUntil(ev.data) : null;
+  const allDates = (ev.datas && ev.datas.length > 0 ? ev.datas : (ev.data ? [ev.data] : [])).slice().sort();
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const nextDate = allDates.find(d => d >= todayStr) || allDates[0] || '';
+  const days = nextDate ? daysUntil(nextDate) : null;
   const db = days !== null ? dayBadge(days) : null;
+  const dateLabel = allDates.length > 1
+    ? `${fmtDataCard(nextDate)} +${allDates.length - 1}`
+    : (nextDate ? fmtDataCard(nextDate) : '');
 
   const onImgError = (e: React.SyntheticEvent<HTMLDivElement>) => {
     (e.currentTarget as HTMLDivElement).style.backgroundImage = 'none';
