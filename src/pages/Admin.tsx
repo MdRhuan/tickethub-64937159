@@ -212,6 +212,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
     titulo:'', sobre:'', hora:'', local:'', mapaUrl:'',
     classificacao:'Livre', categoria:'',
     tagCard:'', badge:'', preco:'', corCal:'azul',
+    btnLabel:'', btnUrl:'',
   };
   const [form, setForm] = useState(emptyForm);
 
