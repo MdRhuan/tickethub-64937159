@@ -256,15 +256,16 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
       local: ev.local || '', mapaUrl: ev.mapaUrl || '',
       classificacao: ev.classificacao || 'Livre',
       categoria: ev.categoria || '',
-      ing1Nome: ev.ing1?.nome || '', ing1Link: ev.ing1?.link || '',
-      ing2Nome: ev.ing2?.nome || '', ing2Link: ev.ing2?.link || '',
-      ing3Nome: ev.ing3?.nome || '', ing3Link: ev.ing3?.link || '',
       tagCard: ev.tagCard || '', badge: ev.badge || '',
       preco: ev.preco || '', corCal: ev.corCal || 'azul',
     });
     setAtracoes(ev.atracoes || []);
     const ds = ev.datas && ev.datas.length > 0 ? ev.datas : (ev.data ? [ev.data] : ['']);
     setDatas(ds);
+    const ings = (ev.ingressos && ev.ingressos.length > 0)
+      ? ev.ingressos
+      : [ev.ing1, ev.ing2, ev.ing3].filter(Boolean) as Ingresso[];
+    setIngressos(ings.length > 0 ? ings : [{ nome:'', link:'' }]);
     if (ev.imgUrl) img.setExisting(ev.imgUrl); else img.reset();
     if (ev.imgBanner) banner.setExisting(ev.imgBanner); else banner.reset();
     setTimeout(() => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
@@ -274,6 +275,9 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
     e.preventDefault();
     const datasClean = datas.map(d => d.trim()).filter(Boolean).sort();
     if (datasClean.length === 0) { toast('Adicione pelo menos uma data.'); return; }
+    const ingsClean = ingressos
+      .map(i => ({ nome: i.nome.trim(), link: i.link.trim() }))
+      .filter(i => i.nome || i.link);
     setSaving(true);
     const ev: Evento = {
       id: editId ?? Date.now().toString(),
@@ -284,9 +288,10 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
       mapaUrl: form.mapaUrl, classificacao: form.classificacao,
       categoria: form.categoria.toUpperCase(),
       imgUrl: img.data, imgBanner: banner.data,
-      ing1: form.ing1Nome ? { nome: form.ing1Nome, link: form.ing1Link } : null,
-      ing2: form.ing2Nome ? { nome: form.ing2Nome, link: form.ing2Link } : null,
-      ing3: form.ing3Nome ? { nome: form.ing3Nome, link: form.ing3Link } : null,
+      ingressos: ingsClean,
+      ing1: ingsClean[0] || null,
+      ing2: ingsClean[1] || null,
+      ing3: ingsClean[2] || null,
       tagCard: form.tagCard.toUpperCase(), badge: form.badge,
       preco: form.preco, corCal: form.corCal as Evento['corCal'],
     };
