@@ -135,7 +135,7 @@ export default function Calendario() {
       {/* Grid view */}
       {view === 'grid' && (
         <div className="grid gap-6 grid-cols-1 md:grid-cols-[minmax(0,1fr)_380px]">
-          <div className="bg-[#f7f7f7] rounded-[20px] p-7 border border-[#eee] max-md:col-span-full">
+          <div className="bg-[#f7f7f7] rounded-[20px] p-7 max-md:p-4 border border-[#eee] min-w-0">
             {/* Nav */}
             <div className="flex items-center justify-between mb-6">
               <span className="text-lg font-black text-[#111]">{MESES[curMes]} {curAno}</span>
