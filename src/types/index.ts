@@ -25,6 +25,7 @@ export interface Evento {
   ing1: Ingresso | null;
   ing2: Ingresso | null;
   ing3: Ingresso | null;
+  ingressos?: Ingresso[];
   tagCard: string;
   badge: string;
   preco: string;
