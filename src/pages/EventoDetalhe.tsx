@@ -35,6 +35,8 @@ export default function EventoDetalhe() {
   }
 
   const ingressos = [ev.ing1, ev.ing2, ev.ing3].filter(Boolean);
+  const allDates = (ev.datas && ev.datas.length > 0 ? ev.datas : (ev.data ? [ev.data] : [])).slice().sort();
+  const datasLabel = allDates.map(d => fmtDataFull(d)).join(' • ');
 
   return (
     <>
