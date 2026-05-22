@@ -278,7 +278,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
     const datasClean = datas.map(d => d.trim()).filter(Boolean).sort();
     if (datasClean.length === 0) { toast('Adicione pelo menos uma data.'); return; }
     const ingsClean = ingressos
-      .map(i => ({ nome: i.nome.trim(), link: i.link.trim() }))
+      .map(i => ({ nome: i.nome.trim(), link: i.link.trim(), btnLabel: (i.btnLabel || '').trim() }))
       .filter(i => i.nome || i.link);
     setSaving(true);
     const ev: Evento = {
