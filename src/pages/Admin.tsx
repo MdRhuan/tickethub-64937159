@@ -202,12 +202,13 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
   const [saving, setSaving] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
   const [atracoes, setAtracoes] = useState<Atracao[]>([]);
+  const [datas, setDatas] = useState<string[]>(['']);
   const img = useImgUpload();
   const banner = useImgUpload();
   const formRef = useRef<HTMLDivElement>(null);
 
   const emptyForm = {
-    titulo:'', sobre:'', data:'', hora:'', local:'', mapaUrl:'',
+    titulo:'', sobre:'', hora:'', local:'', mapaUrl:'',
     classificacao:'Livre', categoria:'', ing1Nome:'', ing1Link:'',
     ing2Nome:'', ing2Link:'', ing3Nome:'', ing3Link:'',
     tagCard:'', badge:'', preco:'', corCal:'azul',
@@ -227,10 +228,15 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
     reader.readAsDataURL(file);
   }
 
+  function setDataAt(i: number, val: string) { setDatas(p => p.map((d, j) => j === i ? val : d)); }
+  function addDataRow() { setDatas(p => [...p, '']); }
+  function removeDataRow(i: number) { setDatas(p => p.length === 1 ? [''] : p.filter((_, j) => j !== i)); }
+
   function resetAll() {
     setEditId(null);
     setForm(emptyForm);
     setAtracoes([]);
+    setDatas(['']);
     img.reset();
     banner.reset();
   }
@@ -239,7 +245,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
     setEditId(ev.id);
     setForm({
       titulo: ev.titulo || '', sobre: ev.sobre || '',
-      data: ev.data || '', hora: ev.hora || '',
+      hora: ev.hora || '',
       local: ev.local || '', mapaUrl: ev.mapaUrl || '',
       classificacao: ev.classificacao || 'Livre',
       categoria: ev.categoria || '',
@@ -250,6 +256,8 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
       preco: ev.preco || '', corCal: ev.corCal || 'azul',
     });
     setAtracoes(ev.atracoes || []);
+    const ds = ev.datas && ev.datas.length > 0 ? ev.datas : (ev.data ? [ev.data] : ['']);
+    setDatas(ds);
     if (ev.imgUrl) img.setExisting(ev.imgUrl); else img.reset();
     if (ev.imgBanner) banner.setExisting(ev.imgBanner); else banner.reset();
     setTimeout(() => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
@@ -257,12 +265,15 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    const datasClean = datas.map(d => d.trim()).filter(Boolean).sort();
+    if (datasClean.length === 0) { toast('Adicione pelo menos uma data.'); return; }
     setSaving(true);
     const ev: Evento = {
       id: editId ?? Date.now().toString(),
       titulo: form.titulo, sobre: form.sobre,
       atracoes: atracoes.filter(a => a.nome || a.foto),
-      data: form.data, hora: form.hora, local: form.local,
+      data: datasClean[0], datas: datasClean,
+      hora: form.hora, local: form.local,
       mapaUrl: form.mapaUrl, classificacao: form.classificacao,
       categoria: form.categoria.toUpperCase(),
       imgUrl: img.data, imgBanner: banner.data,
