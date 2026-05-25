@@ -38,13 +38,13 @@ export default function Home() {
   return (
     <>
       {/* ── Search ── */}
-      <div className="flex justify-center px-4 md:px-10 pt-7 pb-6">
-        <div className="flex items-center w-full max-w-[680px] bg-[#f2f2f2] rounded-full px-5 pr-[6px] gap-2 border-2 border-transparent focus-within:bg-white focus-within:border-[#ddd] transition-all">
+      <div className="flex justify-center px-4 md:px-10 pt-7 pb-6 w-full">
+        <div className="flex items-center w-full max-w-[680px] min-w-0 bg-[#f2f2f2] rounded-full pl-4 pr-[6px] sm:pl-5 gap-2 border-2 border-transparent focus-within:bg-white focus-within:border-[#ddd] transition-all">
           <svg className="text-[#888] flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
-          <input className="flex-1 py-[13px] bg-transparent border-none text-[15px] outline-none text-[#333] placeholder-[#aaa]" type="text" placeholder="Buscar Eventos" />
-          <button className="px-[22px] py-[9px] bg-[#4a90e2] text-white border-none rounded-full text-sm font-bold cursor-pointer hover:bg-[#2d6abf] transition-colors btn-pulse">
+          <input className="flex-1 min-w-0 w-full py-[13px] bg-transparent border-none text-[15px] outline-none text-[#333] placeholder-[#aaa]" type="text" placeholder="Buscar Eventos" />
+          <button className="flex-shrink-0 px-4 sm:px-[22px] py-[9px] bg-[#4a90e2] text-white border-none rounded-full text-sm font-bold cursor-pointer hover:bg-[#2d6abf] transition-colors btn-pulse">
             Buscar
           </button>
         </div>
