@@ -173,11 +173,11 @@ export default function EventoDetalhe() {
             <div key={i} className="border border-[#eee] rounded-2xl p-5 bg-white flex flex-col gap-3 shadow-[0_2px_10px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1 hover:border-[#4a90e2] hover:shadow-[0_10px_32px_rgba(74,144,226,0.15)] cursor-pointer">
               <span className="text-[17px] font-black text-[#111]">{ing!.nome}</span>
               {ing!.link ? (
-                <a href={ing!.link} target="_blank" rel="noopener noreferrer" className="block mt-2 py-[10px] bg-[#1a3a6b] text-white rounded-lg text-[13px] font-bold text-center no-underline hover:bg-[#102a4e] transition-colors btn-pulse">
+                <a href={ing!.link} target="_blank" rel="noopener noreferrer" className="block mt-2 py-[14px] px-5 bg-[#1a3a6b] text-white rounded-lg text-[15px] font-bold text-center no-underline hover:bg-[#102a4e] transition-colors btn-pulse">
                   {ing!.btnLabel?.trim() || 'Garantir ingresso com desconto'}
                 </a>
               ) : (
-                <span className="block mt-2 py-[10px] bg-[#eee] text-[#999] rounded-lg text-[13px] text-center">Em breve</span>
+                <span className="block mt-2 py-[14px] px-5 bg-[#eee] text-[#999] rounded-lg text-[15px] text-center">Em breve</span>
               )}
             </div>
           )) : ev.preco ? (
