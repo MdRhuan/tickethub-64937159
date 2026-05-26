@@ -216,17 +216,41 @@
     padding: 4px 10px;
     border-radius: var(--border-radius-sm);
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.01em;
     line-height: 1;
     z-index: 2;
     pointer-events: none;
     box-shadow: var(--shadow-xs);
+    opacity: 1;
+    width: fit-content;
   }
-  .days-badge--future { background: hsl(var(--accent) / 0.12); color: hsl(var(--primary)); }
-  .days-badge--soon   { background: #fff4e0; color: #b45309; }
-  .days-badge--today  { background: #d1fae5; color: #047857; }
-  .days-badge--past   { background: hsl(var(--muted)); color: hsl(var(--muted-foreground)); opacity: 0.85; }
+  .days-badge--future { background: hsl(var(--accent) / 0.18); color: #111; }
+  .days-badge--soon   { background: #fff4e0; color: #7a3e00; }
+  .days-badge--today  { background: #d1fae5; color: #064e3b; }
+  .days-badge--past   { background: hsl(var(--muted)); color: #111; opacity: 1; }
+
+  @media (max-width: 767px) {
+    .card-badge-stack {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      z-index: 2;
+    }
+    .card-badge-stack > * {
+      position: static !important;
+      top: auto !important;
+      left: auto !important;
+      right: auto !important;
+      bottom: auto !important;
+      width: fit-content;
+    }
+  }
 }
 
 @layer utilities {
