@@ -275,6 +275,8 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (saving) return;
+    if (!form.titulo.trim()) { toast('Informe o nome do evento.'); return; }
     const datasClean = datas.map(d => d.trim()).filter(Boolean).sort();
     if (datasClean.length === 0) { toast('Adicione pelo menos uma data.'); return; }
     const ingsClean = ingressos
@@ -283,7 +285,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
     setSaving(true);
     const ev: Evento = {
       id: editId ?? Date.now().toString(),
-      titulo: form.titulo, sobre: form.sobre,
+      titulo: form.titulo.trim(), sobre: form.sobre,
       atracoes: atracoes.filter(a => a.nome || a.foto),
       data: datasClean[0], datas: datasClean,
       hora: form.hora, local: form.local,
@@ -302,8 +304,12 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
       await addEvento(ev);
       toast(editId ? 'Evento atualizado!' : 'Evento adicionado com sucesso!');
       resetAll();
-    } catch { toast('Erro ao salvar evento.'); }
-    setSaving(false);
+    } catch (err: any) {
+      console.error('[Admin] Erro ao salvar evento:', err);
+      toast(`Erro ao salvar: ${err?.message || 'tente novamente.'}`);
+    } finally {
+      setSaving(false);
+    }
   }
 
   async function del(id: string) {
