@@ -230,6 +230,8 @@
   .days-badge--today  { background: #d1fae5; color: #064e3b; }
   .days-badge--past   { background: hsl(var(--muted)); color: #111; opacity: 1; }
 
+  .card-badge-stack { display: contents; }
+
   @media (max-width: 767px) {
     .card-badge-stack {
       position: absolute;
