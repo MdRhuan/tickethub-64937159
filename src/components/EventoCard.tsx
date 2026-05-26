@@ -133,12 +133,8 @@ export default function EventoCard({ ev, linkLabel = 'Comprar' }: Props) {
           Participe e receba ofertas exclusivas
         </span>
 
-        {db && (
-          <span className={`days-badge days-badge--${db.kind}`} aria-label={db.text}>
-            {db.text}
-          </span>
-        )}
       </div>
     </div>
   );
 }
+
