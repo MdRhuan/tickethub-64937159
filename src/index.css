@@ -275,4 +275,15 @@
     }
   }
 
+  /* Global button hover — apply to interactive elements unless opted out via .no-lift */
+  :where(button, a[role="button"], [type="button"], [type="submit"], a.btn-pulse):not(.no-lift) {
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  :where(button, a[role="button"], [type="button"], [type="submit"], a.btn-pulse):not(.no-lift):not(:disabled):not([aria-disabled="true"]):hover {
+    filter: brightness(1.08);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
 }
+
