@@ -74,7 +74,7 @@ export default function EventoCard({ ev, linkLabel = 'Comprar' }: Props) {
         <div style={{ display: ev.imgUrl ? 'none' : 'flex' }} className="absolute inset-0">
           <FallbackImg />
         </div>
-        <div className="card-badge-stack contents md:contents">
+        <div className="card-badge-stack">
           {(ev.tagCard || ev.categoria) && (
             <span className={`absolute top-3 left-3 ${badgeClass} text-white text-[11px] font-bold px-[10px] py-1 rounded-full tracking-[0.5px] z-[2]`}>
               {ev.tagCard || ev.categoria}
