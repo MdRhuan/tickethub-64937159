@@ -109,6 +109,21 @@ export default function EventoCard({ ev, linkLabel = 'Comprar' }: Props) {
           )}
         </div>
 
+        {/* Grupo de Ofertas */}
+        <a
+          href={GRUPO_OFERTAS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          className="mt-3 w-full inline-flex items-center justify-center gap-2 bg-[#25D366] text-white no-underline font-bold text-[13px] px-5 py-3 rounded-full btn-pulse"
+        >
+          <WppIcon />
+          Grupo de Ofertas
+        </a>
+        <span className="block text-center text-[11px] text-[#888] mt-1.5 font-normal">
+          Participe e receba ofertas exclusivas
+        </span>
+
         {db && (
           <span className={`days-badge days-badge--${db.kind}`} aria-label={db.text}>
             {db.text}
