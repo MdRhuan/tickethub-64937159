@@ -79,10 +79,19 @@ export default function EventoCard({ ev, linkLabel = 'Comprar' }: Props) {
             {ev.tagCard || ev.categoria}
           </span>
         )}
+        {db && (
+          <span
+            className={`days-badge days-badge--${db.kind}`}
+            style={{ top: 12, right: 12, bottom: 'auto' }}
+            aria-label={db.text}
+          >
+            {db.text}
+          </span>
+        )}
       </div>
 
       {/* Info */}
-      <div className="relative px-4 pt-[14px] pb-12 flex flex-col gap-1 flex-1">
+      <div className="relative px-4 pt-[14px] pb-4 flex flex-col gap-1 flex-1">
         <span className="font-bold text-[15px] text-[#111] leading-snug break-words">{ev.titulo}</span>
         {dateLabel && (
           <span className="text-[12px] text-[#aaa]">
