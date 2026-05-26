@@ -118,21 +118,6 @@ export default function EventoCard({ ev, linkLabel = 'Comprar' }: Props) {
           )}
         </div>
 
-        {/* Card Promoções Exclusivas */}
-        <a
-          href={GRUPO_OFERTAS_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e) => e.stopPropagation()}
-          className="mt-3 block no-underline border-2 border-[#4a90e2] rounded-xl p-4 bg-white no-lift"
-        >
-          <p className="text-[14px] font-black text-[#111] leading-tight mb-3">
-            Entrar no grupo de promoções exclusivas
-          </p>
-          <span className="block w-full text-center bg-[#1a3a6b] text-white font-bold text-[13px] py-[10px] rounded-lg btn-pulse">
-            Promoções Exclusivas
-          </span>
-        </a>
 
       </div>
     </div>
