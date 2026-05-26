@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import type { Evento } from '@/types';
 import { fmtDataCard, daysUntil, dayBadge } from '@/lib/utils';
 
-const GRUPO_OFERTAS_URL = 'https://chat.whatsapp.com/';
+const GRUPO_OFERTAS_URL = 'https://chat.whatsapp.com/EGrwvkC1N8WJyfp9Rsb8LM';
 
 const WppIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
