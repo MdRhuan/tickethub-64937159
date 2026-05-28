@@ -425,7 +425,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
             </div>
           </FG>
           <FG label="Horário"><input type="time" value={form.hora} onChange={f('hora')} className="form-i" /></FG>
-          <FG label="Local"><FI value={form.local} onChange={f('local')} placeholder="Ex: Arena XYZ" /></FG>
+          <FG label="Local *" error={errors.local}><FI value={form.local} onChange={f('local')} placeholder="Ex: Arena XYZ" /></FG>
           <FG label="Link Google Maps"><FI value={form.mapaUrl} onChange={f('mapaUrl')} placeholder="https://..." /></FG>
           <div className="grid grid-cols-2 gap-3">
             <FG label="Classificação"><FSel value={form.classificacao} onChange={f('classificacao')} options={['Livre','12+','14+','16+','18+']} /></FG>
