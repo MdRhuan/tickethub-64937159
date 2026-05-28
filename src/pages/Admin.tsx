@@ -200,6 +200,7 @@ function LoginScreen({ email, setEmail, pass, setPass, passErr, onLogin }: {
 function TabEventos({ toast }: { toast: (m:string)=>void }) {
   const { eventos, addEvento, deleteEvento } = useDB();
   const [saving, setSaving] = useState(false);
+  const [savedLabel, setSavedLabel] = useState<string>('');
   const [editId, setEditId] = useState<string | null>(null);
   const [atracoes, setAtracoes] = useState<Atracao[]>([]);
   const [datas, setDatas] = useState<string[]>(['']);
@@ -217,6 +218,34 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
   const [form, setForm] = useState(emptyForm);
 
   function f(k: string) { return (e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>) => setForm(p => ({...p, [k]: e.target.value})); }
+
+  // Validações inline
+  function parsePreco(raw: string): number {
+    if (!raw) return NaN;
+    const cleaned = raw.replace(/[^\d,.-]/g, '').replace(/\.(?=\d{3}(\D|$))/g, '').replace(',', '.');
+    return parseFloat(cleaned);
+  }
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const datasClean = datas.map(d => d.trim()).filter(Boolean);
+  const errors = {
+    titulo: !form.titulo.trim() ? 'Informe o nome do evento.' : '',
+    data: datasClean.length === 0
+      ? 'Adicione pelo menos uma data.'
+      : datasClean.every(d => d < todayStr)
+        ? 'A data não pode estar no passado.'
+        : '',
+    local: !form.local.trim()
+      ? 'Informe o local do evento.'
+      : form.local.trim().length < 3
+        ? 'O local deve ter pelo menos 3 caracteres.'
+        : '',
+    preco: !form.preco.trim()
+      ? 'Informe o preço.'
+      : !(parsePreco(form.preco) > 0)
+        ? 'Preço deve ser um número maior que zero.'
+        : '',
+  };
+  const hasErrors = Object.values(errors).some(Boolean);
 
   function addAt() { if (atracoes.length < 7) setAtracoes(p => [...p, { nome:'', foto:'' }]); }
   function removeAt(i: number) { setAtracoes(p => p.filter((_,j) => j !== i)); }
@@ -276,19 +305,23 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (saving) return;
-    if (!form.titulo.trim()) { toast('Informe o nome do evento.'); return; }
-    const datasClean = datas.map(d => d.trim()).filter(Boolean).sort();
-    if (datasClean.length === 0) { toast('Adicione pelo menos uma data.'); return; }
+    if (hasErrors) {
+      const firstError = Object.values(errors).find(Boolean);
+      if (firstError) toast(firstError);
+      return;
+    }
+    const datasSorted = datasClean.slice().sort();
     const ingsClean = ingressos
       .map(i => ({ nome: i.nome.trim(), link: i.link.trim(), btnLabel: (i.btnLabel || '').trim() }))
       .filter(i => i.nome || i.link);
     setSaving(true);
+    const tituloFinal = form.titulo.trim();
     const ev: Evento = {
       id: editId ?? Date.now().toString(),
-      titulo: form.titulo.trim(), sobre: form.sobre,
+      titulo: tituloFinal, sobre: form.sobre,
       atracoes: atracoes.filter(a => a.nome || a.foto),
-      data: datasClean[0], datas: datasClean,
-      hora: form.hora, local: form.local,
+      data: datasSorted[0], datas: datasSorted,
+      hora: form.hora, local: form.local.trim(),
       mapaUrl: form.mapaUrl, classificacao: form.classificacao,
       categoria: form.categoria.toUpperCase(),
       imgUrl: img.data, imgBanner: banner.data,
@@ -302,15 +335,24 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
     };
     try {
       await addEvento(ev);
-      toast(editId ? 'Evento atualizado!' : 'Evento adicionado com sucesso!');
+      toast(`Evento "${tituloFinal}" salvo com sucesso!`);
+      setSavedLabel(tituloFinal);
+      setTimeout(() => setSavedLabel(s => s === tituloFinal ? '' : s), 3000);
       resetAll();
     } catch (err: any) {
       console.error('[Admin] Erro ao salvar evento:', err);
-      toast(`Erro ao salvar: ${err?.message || 'tente novamente.'}`);
+      const raw = err?.message || '';
+      const friendly = /permission denied|row-level security|not authorized/i.test(raw)
+        ? 'Sem permissão para salvar. Verifique seu login de admin e tente novamente.'
+        : raw
+          ? `Erro ao salvar: ${raw}`
+          : 'Erro ao salvar evento. Tente novamente.';
+      toast(friendly);
     } finally {
       setSaving(false);
     }
   }
+
 
   async function del(id: string) {
     if (!confirm('Remover este evento?')) return;
@@ -367,7 +409,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
           </FG>
 
           <div className="block text-[11px] font-bold uppercase tracking-[1px] text-[#1a3a6b] border-b-2 border-[#e8edf5] pb-[6px] my-2">Local & Data</div>
-          <FG label={`Datas do evento * (${datas.filter(Boolean).length})`}>
+          <FG label={`Datas do evento * (${datas.filter(Boolean).length})`} error={errors.data}>
             <div className="flex flex-col gap-2">
               {datas.map((d, i) => (
                 <div key={i} className="flex gap-2 items-center">
@@ -383,7 +425,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
             </div>
           </FG>
           <FG label="Horário"><input type="time" value={form.hora} onChange={f('hora')} className="form-i" /></FG>
-          <FG label="Local"><FI value={form.local} onChange={f('local')} placeholder="Ex: Arena XYZ" /></FG>
+          <FG label="Local *" error={errors.local}><FI value={form.local} onChange={f('local')} placeholder="Ex: Arena XYZ" /></FG>
           <FG label="Link Google Maps"><FI value={form.mapaUrl} onChange={f('mapaUrl')} placeholder="https://..." /></FG>
           <div className="grid grid-cols-2 gap-3">
             <FG label="Classificação"><FSel value={form.classificacao} onChange={f('classificacao')} options={['Livre','12+','14+','16+','18+']} /></FG>
@@ -425,7 +467,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
             <FG label="Cor da tag"><FSel value={form.badge} onChange={f('badge')} options={['','destaque','esgotando']} labels={['Padrão (preto)','Azul','Laranja']} /></FG>
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <FG label="Preço a partir de"><FI value={form.preco} onChange={f('preco')} placeholder="R$ 50,00" /></FG>
+            <FG label="Preço a partir de *" error={errors.preco}><FI value={form.preco} onChange={f('preco')} placeholder="R$ 50,00" /></FG>
             <FG label="Cor no calendário"><FSel value={form.corCal} onChange={f('corCal')} options={['azul','verde','vermelho']} labels={['Azul','Verde','Vermelho']} /></FG>
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -433,8 +475,15 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
             <FG label="Link do botão (abre em nova aba)"><FI value={form.btnUrl} onChange={f('btnUrl')} placeholder="https://... (deixe vazio para ocultar)" /></FG>
           </div>
 
-          <div className="flex gap-2 mt-[6px]">
-            <button type="submit" disabled={saving} className="px-[22px] py-[11px] bg-[#1a3a6b] text-white border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#102a4e] transition-colors disabled:opacity-60 btn-pulse">
+          <div className="flex gap-2 mt-[6px] items-center flex-wrap">
+            <button
+              type="submit"
+              disabled={saving || hasErrors}
+              className="px-[22px] py-[11px] bg-[#1a3a6b] text-white border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#102a4e] transition-colors disabled:opacity-60 disabled:cursor-not-allowed btn-pulse inline-flex items-center gap-2"
+            >
+              {saving && (
+                <span className="inline-block w-3 h-3 border-2 border-white/40 border-t-white rounded-full animate-spin" aria-hidden="true" />
+              )}
               {saving ? 'Salvando...' : editId ? 'Salvar Alterações' : 'Adicionar Evento'}
             </button>
             {editId && (
@@ -442,9 +491,19 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
                 Cancelar
               </button>
             )}
+            {savedLabel && (
+              <span
+                role="status"
+                className="inline-flex items-center gap-1.5 px-3 py-[7px] bg-[#e6f7ec] text-[#1b7a3d] rounded-full text-[12px] font-bold border border-[#bfe6cd] animate-in fade-in"
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
+                Salvo: {savedLabel}
+              </span>
+            )}
           </div>
         </form>
       </div>
+
 
       {/* List */}
       <div className="bg-white rounded-2xl overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
@@ -632,11 +691,12 @@ function TabAlbuns({ toast }: { toast: (m:string)=>void }) {
 }
 
 // ── Shared mini-components ─────────────────────────────────────────────────
-function FG({ label, children }: { label: string; children: React.ReactNode }) {
+function FG({ label, children, error }: { label: string; children: React.ReactNode; error?: string }) {
   return (
     <div className="flex flex-col gap-[5px]">
       <label className="text-[11px] font-bold text-[#666] uppercase tracking-[0.3px]">{label}</label>
       {children}
+      {error && <span className="text-[11px] font-bold text-[#e74c3c] mt-0.5">{error}</span>}
     </div>
   );
 }
