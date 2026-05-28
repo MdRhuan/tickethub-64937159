@@ -674,11 +674,12 @@ function TabAlbuns({ toast }: { toast: (m:string)=>void }) {
 }
 
 // ── Shared mini-components ─────────────────────────────────────────────────
-function FG({ label, children }: { label: string; children: React.ReactNode }) {
+function FG({ label, children, error }: { label: string; children: React.ReactNode; error?: string }) {
   return (
     <div className="flex flex-col gap-[5px]">
       <label className="text-[11px] font-bold text-[#666] uppercase tracking-[0.3px]">{label}</label>
       {children}
+      {error && <span className="text-[11px] font-bold text-[#e74c3c] mt-0.5">{error}</span>}
     </div>
   );
 }
