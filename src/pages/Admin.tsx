@@ -219,6 +219,34 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
 
   function f(k: string) { return (e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>) => setForm(p => ({...p, [k]: e.target.value})); }
 
+  // Validações inline
+  function parsePreco(raw: string): number {
+    if (!raw) return NaN;
+    const cleaned = raw.replace(/[^\d,.-]/g, '').replace(/\.(?=\d{3}(\D|$))/g, '').replace(',', '.');
+    return parseFloat(cleaned);
+  }
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const datasClean = datas.map(d => d.trim()).filter(Boolean);
+  const errors = {
+    titulo: !form.titulo.trim() ? 'Informe o nome do evento.' : '',
+    data: datasClean.length === 0
+      ? 'Adicione pelo menos uma data.'
+      : datasClean.every(d => d < todayStr)
+        ? 'A data não pode estar no passado.'
+        : '',
+    local: !form.local.trim()
+      ? 'Informe o local do evento.'
+      : form.local.trim().length < 3
+        ? 'O local deve ter pelo menos 3 caracteres.'
+        : '',
+    preco: !form.preco.trim()
+      ? 'Informe o preço.'
+      : !(parsePreco(form.preco) > 0)
+        ? 'Preço deve ser um número maior que zero.'
+        : '',
+  };
+  const hasErrors = Object.values(errors).some(Boolean);
+
   function addAt() { if (atracoes.length < 7) setAtracoes(p => [...p, { nome:'', foto:'' }]); }
   function removeAt(i: number) { setAtracoes(p => p.filter((_,j) => j !== i)); }
   function setAt(i: number, key: keyof Atracao, val: string) {
