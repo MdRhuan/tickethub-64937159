@@ -409,7 +409,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
           </FG>
 
           <div className="block text-[11px] font-bold uppercase tracking-[1px] text-[#1a3a6b] border-b-2 border-[#e8edf5] pb-[6px] my-2">Local & Data</div>
-          <FG label={`Datas do evento * (${datas.filter(Boolean).length})`}>
+          <FG label={`Datas do evento * (${datas.filter(Boolean).length})`} error={errors.data}>
             <div className="flex flex-col gap-2">
               {datas.map((d, i) => (
                 <div key={i} className="flex gap-2 items-center">
