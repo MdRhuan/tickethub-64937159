@@ -305,19 +305,23 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (saving) return;
-    if (!form.titulo.trim()) { toast('Informe o nome do evento.'); return; }
-    const datasClean = datas.map(d => d.trim()).filter(Boolean).sort();
-    if (datasClean.length === 0) { toast('Adicione pelo menos uma data.'); return; }
+    if (hasErrors) {
+      const firstError = Object.values(errors).find(Boolean);
+      if (firstError) toast(firstError);
+      return;
+    }
+    const datasSorted = datasClean.slice().sort();
     const ingsClean = ingressos
       .map(i => ({ nome: i.nome.trim(), link: i.link.trim(), btnLabel: (i.btnLabel || '').trim() }))
       .filter(i => i.nome || i.link);
     setSaving(true);
+    const tituloFinal = form.titulo.trim();
     const ev: Evento = {
       id: editId ?? Date.now().toString(),
-      titulo: form.titulo.trim(), sobre: form.sobre,
+      titulo: tituloFinal, sobre: form.sobre,
       atracoes: atracoes.filter(a => a.nome || a.foto),
-      data: datasClean[0], datas: datasClean,
-      hora: form.hora, local: form.local,
+      data: datasSorted[0], datas: datasSorted,
+      hora: form.hora, local: form.local.trim(),
       mapaUrl: form.mapaUrl, classificacao: form.classificacao,
       categoria: form.categoria.toUpperCase(),
       imgUrl: img.data, imgBanner: banner.data,
@@ -331,15 +335,24 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
     };
     try {
       await addEvento(ev);
-      toast(editId ? 'Evento atualizado!' : 'Evento adicionado com sucesso!');
+      toast(`Evento "${tituloFinal}" salvo com sucesso!`);
+      setSavedLabel(tituloFinal);
+      setTimeout(() => setSavedLabel(s => s === tituloFinal ? '' : s), 3000);
       resetAll();
     } catch (err: any) {
       console.error('[Admin] Erro ao salvar evento:', err);
-      toast(`Erro ao salvar: ${err?.message || 'tente novamente.'}`);
+      const raw = err?.message || '';
+      const friendly = /permission denied|row-level security|not authorized/i.test(raw)
+        ? 'Sem permissão para salvar. Verifique seu login de admin e tente novamente.'
+        : raw
+          ? `Erro ao salvar: ${raw}`
+          : 'Erro ao salvar evento. Tente novamente.';
+      toast(friendly);
     } finally {
       setSaving(false);
     }
   }
+
 
   async function del(id: string) {
     if (!confirm('Remover este evento?')) return;
