@@ -467,7 +467,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
             <FG label="Cor da tag"><FSel value={form.badge} onChange={f('badge')} options={['','destaque','esgotando']} labels={['Padrão (preto)','Azul','Laranja']} /></FG>
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <FG label="Preço a partir de"><FI value={form.preco} onChange={f('preco')} placeholder="R$ 50,00" /></FG>
+            <FG label="Preço a partir de *" error={errors.preco}><FI value={form.preco} onChange={f('preco')} placeholder="R$ 50,00" /></FG>
             <FG label="Cor no calendário"><FSel value={form.corCal} onChange={f('corCal')} options={['azul','verde','vermelho']} labels={['Azul','Verde','Vermelho']} /></FG>
           </div>
           <div className="grid grid-cols-2 gap-3">
