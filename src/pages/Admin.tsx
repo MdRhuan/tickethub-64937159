@@ -475,8 +475,15 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
             <FG label="Link do botão (abre em nova aba)"><FI value={form.btnUrl} onChange={f('btnUrl')} placeholder="https://... (deixe vazio para ocultar)" /></FG>
           </div>
 
-          <div className="flex gap-2 mt-[6px]">
-            <button type="submit" disabled={saving} className="px-[22px] py-[11px] bg-[#1a3a6b] text-white border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#102a4e] transition-colors disabled:opacity-60 btn-pulse">
+          <div className="flex gap-2 mt-[6px] items-center flex-wrap">
+            <button
+              type="submit"
+              disabled={saving || hasErrors}
+              className="px-[22px] py-[11px] bg-[#1a3a6b] text-white border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#102a4e] transition-colors disabled:opacity-60 disabled:cursor-not-allowed btn-pulse inline-flex items-center gap-2"
+            >
+              {saving && (
+                <span className="inline-block w-3 h-3 border-2 border-white/40 border-t-white rounded-full animate-spin" aria-hidden="true" />
+              )}
               {saving ? 'Salvando...' : editId ? 'Salvar Alterações' : 'Adicionar Evento'}
             </button>
             {editId && (
@@ -484,9 +491,19 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
                 Cancelar
               </button>
             )}
+            {savedLabel && (
+              <span
+                role="status"
+                className="inline-flex items-center gap-1.5 px-3 py-[7px] bg-[#e6f7ec] text-[#1b7a3d] rounded-full text-[12px] font-bold border border-[#bfe6cd] animate-in fade-in"
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
+                Salvo: {savedLabel}
+              </span>
+            )}
           </div>
         </form>
       </div>
+
 
       {/* List */}
       <div className="bg-white rounded-2xl overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
