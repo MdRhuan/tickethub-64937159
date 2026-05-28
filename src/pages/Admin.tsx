@@ -200,6 +200,7 @@ function LoginScreen({ email, setEmail, pass, setPass, passErr, onLogin }: {
 function TabEventos({ toast }: { toast: (m:string)=>void }) {
   const { eventos, addEvento, deleteEvento } = useDB();
   const [saving, setSaving] = useState(false);
+  const [savedLabel, setSavedLabel] = useState<string>('');
   const [editId, setEditId] = useState<string | null>(null);
   const [atracoes, setAtracoes] = useState<Atracao[]>([]);
   const [datas, setDatas] = useState<string[]>(['']);
