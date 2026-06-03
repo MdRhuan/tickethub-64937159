@@ -630,14 +630,22 @@ function TabAlbuns({ toast }: { toast: (m:string)=>void }) {
 
   function f(k: string) { return (e: React.ChangeEvent<HTMLInputElement>) => setForm(p => ({...p, [k]: e.target.value})); }
 
-  function addFotos(e: React.ChangeEvent<HTMLInputElement>) {
+  const [uploadingFotos, setUploadingFotos] = useState(0);
+  async function addFotos(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files || []);
-    files.forEach(file => {
-      const reader = new FileReader();
-      reader.onload = ev => setFotos(p => [...p, ev.target?.result as string]);
-      reader.readAsDataURL(file);
-    });
     e.target.value = '';
+    if (files.length === 0) return;
+    setUploadingFotos(n => n + files.length);
+    await Promise.all(files.map(async (file) => {
+      try {
+        const url = await uploadImage(file, 'albuns');
+        setFotos(p => [...p, url]);
+      } catch (err) {
+        console.error('[Admin] Falha no upload da foto do álbum:', err);
+      } finally {
+        setUploadingFotos(n => n - 1);
+      }
+    }));
   }
 
   async function submit(e: React.FormEvent) {
