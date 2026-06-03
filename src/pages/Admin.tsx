@@ -268,10 +268,17 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
   function setAt(i: number, key: keyof Atracao, val: string) {
     setAtracoes(p => p.map((a, j) => j === i ? { ...a, [key]: val } : a));
   }
-  function uploadAtFoto(i: number, file: File) {
-    const reader = new FileReader();
-    reader.onload = e => setAt(i, 'foto', e.target?.result as string);
-    reader.readAsDataURL(file);
+  async function uploadAtFoto(i: number, file: File) {
+    const localUrl = URL.createObjectURL(file);
+    setAt(i, 'foto', localUrl);
+    try {
+      const url = await uploadImage(file, 'atracoes');
+      setAt(i, 'foto', url);
+      URL.revokeObjectURL(localUrl);
+    } catch (e: any) {
+      console.error('[Admin] Falha no upload da foto da atração:', e);
+      setAt(i, 'foto', '');
+    }
   }
 
   function setDataAt(i: number, val: string) { setDatas(p => p.map((d, j) => j === i ? val : d)); }
