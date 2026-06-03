@@ -19,17 +19,32 @@ function useToast() {
 }
 
 // ── Image Upload helper ────────────────────────────────────────────────────
-function useImgUpload() {
+function useImgUpload(folder = 'uploads') {
   const [preview, setPreview] = useState('');
   const [data, setData] = useState('');
-  function handle(file: File) {
-    const reader = new FileReader();
-    reader.onload = e => { const r = e.target?.result as string; setPreview(r); setData(r); };
-    reader.readAsDataURL(file);
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState('');
+  async function handle(file: File) {
+    const localUrl = URL.createObjectURL(file);
+    setPreview(localUrl);
+    setError('');
+    setUploading(true);
+    try {
+      const url = await uploadImage(file, folder);
+      setData(url);
+      setPreview(url);
+      URL.revokeObjectURL(localUrl);
+    } catch (e: any) {
+      console.error('[Admin] Falha no upload da imagem:', e);
+      setError(e?.message || 'Erro ao enviar imagem.');
+      setData('');
+    } finally {
+      setUploading(false);
+    }
   }
-  function setExisting(url: string) { setPreview(url); setData(url); }
-  function reset() { setPreview(''); setData(''); }
-  return { preview, data, handle, setExisting, reset };
+  function setExisting(url: string) { setPreview(url); setData(url); setError(''); }
+  function reset() { setPreview(''); setData(''); setError(''); setUploading(false); }
+  return { preview, data, uploading, error, handle, setExisting, reset };
 }
 
 // ── Main Admin component ───────────────────────────────────────────────────
