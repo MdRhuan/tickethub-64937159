@@ -598,8 +598,8 @@ function TabBlog({ toast }: { toast: (m:string)=>void }) {
             <input type="checkbox" checked={form.destaque} onChange={e => setForm(p => ({...p, destaque: e.target.checked}))} className="w-4 h-4 cursor-pointer accent-[#1a3a6b]" />
             <span className="text-[13px] text-[#555]">Marcar como post em destaque</span>
           </label>
-          <button type="submit" disabled={saving} className="px-[22px] py-[11px] bg-[#1a3a6b] text-white border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#102a4e] transition-colors self-start mt-[6px] disabled:opacity-60 btn-pulse">
-            {saving ? 'Salvando...' : 'Adicionar Post'}
+          <button type="submit" disabled={saving || img.uploading} className="px-[22px] py-[11px] bg-[#1a3a6b] text-white border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#102a4e] transition-colors self-start mt-[6px] disabled:opacity-60 btn-pulse">
+            {saving ? 'Salvando...' : img.uploading ? 'Enviando imagem...' : 'Adicionar Post'}
           </button>
         </form>
       </div>
