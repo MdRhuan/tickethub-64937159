@@ -501,13 +501,13 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
           <div className="flex gap-2 mt-[6px] items-center flex-wrap">
             <button
               type="submit"
-              disabled={saving || hasErrors}
+              disabled={saving || hasErrors || img.uploading || banner.uploading}
               className="px-[22px] py-[11px] bg-[#1a3a6b] text-white border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#102a4e] transition-colors disabled:opacity-60 disabled:cursor-not-allowed btn-pulse inline-flex items-center gap-2"
             >
-              {saving && (
+              {(saving || img.uploading || banner.uploading) && (
                 <span className="inline-block w-3 h-3 border-2 border-white/40 border-t-white rounded-full animate-spin" aria-hidden="true" />
               )}
-              {saving ? 'Salvando...' : editId ? 'Salvar Alterações' : 'Adicionar Evento'}
+              {saving ? 'Salvando...' : (img.uploading || banner.uploading) ? 'Enviando imagens...' : editId ? 'Salvar Alterações' : 'Adicionar Evento'}
             </button>
             {editId && (
               <button type="button" onClick={resetAll} className="px-[18px] py-[11px] bg-[#eee] text-[#333] border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#ddd] transition-colors">
