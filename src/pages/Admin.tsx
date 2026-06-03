@@ -698,9 +698,12 @@ function TabAlbuns({ toast }: { toast: (m:string)=>void }) {
                 <p className="text-[12px] text-[#4a90e2] font-semibold mt-[6px]">{fotos.length} foto(s) adicionada(s)</p>
               </>
             )}
+            {uploadingFotos > 0 && (
+              <p className="text-[12px] text-[#888] mt-[6px]">Enviando {uploadingFotos} foto(s)...</p>
+            )}
           </FG>
-          <button type="submit" disabled={saving} className="px-[22px] py-[11px] bg-[#1a3a6b] text-white border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#102a4e] transition-colors self-start mt-[6px] disabled:opacity-60 btn-pulse">
-            {saving ? 'Salvando...' : 'Criar Álbum'}
+          <button type="submit" disabled={saving || capa.uploading || uploadingFotos > 0} className="px-[22px] py-[11px] bg-[#1a3a6b] text-white border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#102a4e] transition-colors self-start mt-[6px] disabled:opacity-60 btn-pulse">
+            {saving ? 'Salvando...' : (capa.uploading || uploadingFotos > 0) ? 'Enviando imagens...' : 'Criar Álbum'}
           </button>
         </form>
       </div>
