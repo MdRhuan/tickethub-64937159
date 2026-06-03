@@ -3,6 +3,7 @@ import { useDB } from '@/contexts/DBContext';
 import { supabase } from '@/integrations/supabase/client';
 import type { Evento, Post, Album, Atracao, Ingresso } from '@/types';
 import { fmtDataBlog } from '@/lib/utils';
+import { uploadImage } from '@/lib/imageUpload';
 
 type Tab = 'eventos' | 'blog' | 'albuns' | 'leads';
 
@@ -18,17 +19,32 @@ function useToast() {
 }
 
 // ── Image Upload helper ────────────────────────────────────────────────────
-function useImgUpload() {
+function useImgUpload(folder = 'uploads') {
   const [preview, setPreview] = useState('');
   const [data, setData] = useState('');
-  function handle(file: File) {
-    const reader = new FileReader();
-    reader.onload = e => { const r = e.target?.result as string; setPreview(r); setData(r); };
-    reader.readAsDataURL(file);
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState('');
+  async function handle(file: File) {
+    const localUrl = URL.createObjectURL(file);
+    setPreview(localUrl);
+    setError('');
+    setUploading(true);
+    try {
+      const url = await uploadImage(file, folder);
+      setData(url);
+      setPreview(url);
+      URL.revokeObjectURL(localUrl);
+    } catch (e: any) {
+      console.error('[Admin] Falha no upload da imagem:', e);
+      setError(e?.message || 'Erro ao enviar imagem.');
+      setData('');
+    } finally {
+      setUploading(false);
+    }
   }
-  function setExisting(url: string) { setPreview(url); setData(url); }
-  function reset() { setPreview(''); setData(''); }
-  return { preview, data, handle, setExisting, reset };
+  function setExisting(url: string) { setPreview(url); setData(url); setError(''); }
+  function reset() { setPreview(''); setData(''); setError(''); setUploading(false); }
+  return { preview, data, uploading, error, handle, setExisting, reset };
 }
 
 // ── Main Admin component ───────────────────────────────────────────────────
@@ -252,10 +268,17 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
   function setAt(i: number, key: keyof Atracao, val: string) {
     setAtracoes(p => p.map((a, j) => j === i ? { ...a, [key]: val } : a));
   }
-  function uploadAtFoto(i: number, file: File) {
-    const reader = new FileReader();
-    reader.onload = e => setAt(i, 'foto', e.target?.result as string);
-    reader.readAsDataURL(file);
+  async function uploadAtFoto(i: number, file: File) {
+    const localUrl = URL.createObjectURL(file);
+    setAt(i, 'foto', localUrl);
+    try {
+      const url = await uploadImage(file, 'atracoes');
+      setAt(i, 'foto', url);
+      URL.revokeObjectURL(localUrl);
+    } catch (e: any) {
+      console.error('[Admin] Falha no upload da foto da atração:', e);
+      setAt(i, 'foto', '');
+    }
   }
 
   function setDataAt(i: number, val: string) { setDatas(p => p.map((d, j) => j === i ? val : d)); }
@@ -478,13 +501,13 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
           <div className="flex gap-2 mt-[6px] items-center flex-wrap">
             <button
               type="submit"
-              disabled={saving || hasErrors}
+              disabled={saving || hasErrors || img.uploading || banner.uploading}
               className="px-[22px] py-[11px] bg-[#1a3a6b] text-white border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#102a4e] transition-colors disabled:opacity-60 disabled:cursor-not-allowed btn-pulse inline-flex items-center gap-2"
             >
-              {saving && (
+              {(saving || img.uploading || banner.uploading) && (
                 <span className="inline-block w-3 h-3 border-2 border-white/40 border-t-white rounded-full animate-spin" aria-hidden="true" />
               )}
-              {saving ? 'Salvando...' : editId ? 'Salvar Alterações' : 'Adicionar Evento'}
+              {saving ? 'Salvando...' : (img.uploading || banner.uploading) ? 'Enviando imagens...' : editId ? 'Salvar Alterações' : 'Adicionar Evento'}
             </button>
             {editId && (
               <button type="button" onClick={resetAll} className="px-[18px] py-[11px] bg-[#eee] text-[#333] border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#ddd] transition-colors">
@@ -575,8 +598,8 @@ function TabBlog({ toast }: { toast: (m:string)=>void }) {
             <input type="checkbox" checked={form.destaque} onChange={e => setForm(p => ({...p, destaque: e.target.checked}))} className="w-4 h-4 cursor-pointer accent-[#1a3a6b]" />
             <span className="text-[13px] text-[#555]">Marcar como post em destaque</span>
           </label>
-          <button type="submit" disabled={saving} className="px-[22px] py-[11px] bg-[#1a3a6b] text-white border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#102a4e] transition-colors self-start mt-[6px] disabled:opacity-60 btn-pulse">
-            {saving ? 'Salvando...' : 'Adicionar Post'}
+          <button type="submit" disabled={saving || img.uploading} className="px-[22px] py-[11px] bg-[#1a3a6b] text-white border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#102a4e] transition-colors self-start mt-[6px] disabled:opacity-60 btn-pulse">
+            {saving ? 'Salvando...' : img.uploading ? 'Enviando imagem...' : 'Adicionar Post'}
           </button>
         </form>
       </div>
@@ -607,14 +630,22 @@ function TabAlbuns({ toast }: { toast: (m:string)=>void }) {
 
   function f(k: string) { return (e: React.ChangeEvent<HTMLInputElement>) => setForm(p => ({...p, [k]: e.target.value})); }
 
-  function addFotos(e: React.ChangeEvent<HTMLInputElement>) {
+  const [uploadingFotos, setUploadingFotos] = useState(0);
+  async function addFotos(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files || []);
-    files.forEach(file => {
-      const reader = new FileReader();
-      reader.onload = ev => setFotos(p => [...p, ev.target?.result as string]);
-      reader.readAsDataURL(file);
-    });
     e.target.value = '';
+    if (files.length === 0) return;
+    setUploadingFotos(n => n + files.length);
+    await Promise.all(files.map(async (file) => {
+      try {
+        const url = await uploadImage(file, 'albuns');
+        setFotos(p => [...p, url]);
+      } catch (err) {
+        console.error('[Admin] Falha no upload da foto do álbum:', err);
+      } finally {
+        setUploadingFotos(n => n - 1);
+      }
+    }));
   }
 
   async function submit(e: React.FormEvent) {
@@ -667,9 +698,12 @@ function TabAlbuns({ toast }: { toast: (m:string)=>void }) {
                 <p className="text-[12px] text-[#4a90e2] font-semibold mt-[6px]">{fotos.length} foto(s) adicionada(s)</p>
               </>
             )}
+            {uploadingFotos > 0 && (
+              <p className="text-[12px] text-[#888] mt-[6px]">Enviando {uploadingFotos} foto(s)...</p>
+            )}
           </FG>
-          <button type="submit" disabled={saving} className="px-[22px] py-[11px] bg-[#1a3a6b] text-white border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#102a4e] transition-colors self-start mt-[6px] disabled:opacity-60 btn-pulse">
-            {saving ? 'Salvando...' : 'Criar Álbum'}
+          <button type="submit" disabled={saving || capa.uploading || uploadingFotos > 0} className="px-[22px] py-[11px] bg-[#1a3a6b] text-white border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#102a4e] transition-colors self-start mt-[6px] disabled:opacity-60 btn-pulse">
+            {saving ? 'Salvando...' : (capa.uploading || uploadingFotos > 0) ? 'Enviando imagens...' : 'Criar Álbum'}
           </button>
         </form>
       </div>
@@ -717,12 +751,20 @@ function ImgUpload({ img, label }: { img: ReturnType<typeof useImgUpload>; label
   const ref = useRef<HTMLInputElement>(null);
   return (
     <div className="flex flex-col gap-[10px]">
-      <label className="inline-flex items-center gap-2 px-4 py-[9px] bg-[#f0f0f0] border border-dashed border-[#ccc] rounded-lg text-[13px] font-semibold text-[#555] cursor-pointer hover:bg-[#e8edf5] hover:border-[#4a90e2] hover:text-[#1a3a6b] transition-all w-fit">
+      <label className={`inline-flex items-center gap-2 px-4 py-[9px] bg-[#f0f0f0] border border-dashed border-[#ccc] rounded-lg text-[13px] font-semibold text-[#555] transition-all w-fit ${img.uploading ? 'opacity-60 cursor-wait' : 'cursor-pointer hover:bg-[#e8edf5] hover:border-[#4a90e2] hover:text-[#1a3a6b]'}`}>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        {label}
-        <input ref={ref} type="file" accept="image/*" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) img.handle(f); }} />
+        {img.uploading ? 'Enviando...' : label}
+        <input ref={ref} type="file" accept="image/*" disabled={img.uploading} className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) img.handle(f); }} />
       </label>
-      {img.preview && <img src={img.preview} alt="preview" className="max-w-full max-h-[160px] rounded-lg object-cover border border-[#eee]" />}
+      {img.preview && (
+        <div className="relative w-fit">
+          <img src={img.preview} alt="preview" className="max-w-full max-h-[160px] rounded-lg object-cover border border-[#eee]" />
+          {img.uploading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-lg text-white text-[11px] font-bold">Enviando...</div>
+          )}
+        </div>
+      )}
+      {img.error && <span className="text-[11px] font-bold text-[#e74c3c]">{img.error}</span>}
     </div>
   );
 }
