@@ -751,12 +751,20 @@ function ImgUpload({ img, label }: { img: ReturnType<typeof useImgUpload>; label
   const ref = useRef<HTMLInputElement>(null);
   return (
     <div className="flex flex-col gap-[10px]">
-      <label className="inline-flex items-center gap-2 px-4 py-[9px] bg-[#f0f0f0] border border-dashed border-[#ccc] rounded-lg text-[13px] font-semibold text-[#555] cursor-pointer hover:bg-[#e8edf5] hover:border-[#4a90e2] hover:text-[#1a3a6b] transition-all w-fit">
+      <label className={`inline-flex items-center gap-2 px-4 py-[9px] bg-[#f0f0f0] border border-dashed border-[#ccc] rounded-lg text-[13px] font-semibold text-[#555] transition-all w-fit ${img.uploading ? 'opacity-60 cursor-wait' : 'cursor-pointer hover:bg-[#e8edf5] hover:border-[#4a90e2] hover:text-[#1a3a6b]'}`}>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        {label}
-        <input ref={ref} type="file" accept="image/*" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) img.handle(f); }} />
+        {img.uploading ? 'Enviando...' : label}
+        <input ref={ref} type="file" accept="image/*" disabled={img.uploading} className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) img.handle(f); }} />
       </label>
-      {img.preview && <img src={img.preview} alt="preview" className="max-w-full max-h-[160px] rounded-lg object-cover border border-[#eee]" />}
+      {img.preview && (
+        <div className="relative w-fit">
+          <img src={img.preview} alt="preview" className="max-w-full max-h-[160px] rounded-lg object-cover border border-[#eee]" />
+          {img.uploading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-lg text-white text-[11px] font-bold">Enviando...</div>
+          )}
+        </div>
+      )}
+      {img.error && <span className="text-[11px] font-bold text-[#e74c3c]">{img.error}</span>}
     </div>
   );
 }
