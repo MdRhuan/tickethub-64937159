@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useDB } from "@/contexts/DBContext";
 import { fmtDataFull } from "@/lib/utils";
+import { imgSrc } from "@/lib/responsiveImg";
 
 function buildEmbedUrl(mapaUrl: string, local: string): string | null {
   if (mapaUrl) {
