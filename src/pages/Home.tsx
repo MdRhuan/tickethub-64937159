@@ -79,6 +79,11 @@ export default function Home() {
             const abs = Math.abs(offset);
             const sign = offset >= 0 ? 1 : -1;
             const cfg = CFG[Math.min(abs, 3)];
+            // Largura aproximada por slide: 860px no desktop, ~88vw no mobile.
+            // Servimos versões progressivamente menores para slides afastados.
+            const baseW = abs === 0 ? 1280 : abs === 1 ? 900 : 640;
+            const raw = ev.imgBanner || ev.imgUrl || '';
+            const bg = raw ? imgSrc(raw, baseW, 70) : undefined;
             return (
               <div
                 key={ev.id}
@@ -87,7 +92,7 @@ export default function Home() {
                   transform: `translateX(${sign * cfg.x}px) scale(${cfg.scale}) rotateY(${sign * cfg.ry}deg)`,
                   opacity: cfg.op,
                   zIndex: cfg.z,
-                  backgroundImage: ev.imgBanner ? `url(${ev.imgBanner})` : ev.imgUrl ? `url(${ev.imgUrl})` : undefined,
+                  backgroundImage: bg ? `url(${bg})` : undefined,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   backgroundColor: "#d8d8d8",
