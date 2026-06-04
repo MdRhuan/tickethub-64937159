@@ -25,7 +25,10 @@ export default function EventoDetalhe() {
   if (!ready) return <div className="p-20 text-center text-[#aaa]">Carregando...</div>;
   if (!ev) return <div className="p-20 text-center text-[#aaa]">Evento não encontrado.</div>;
 
-  const heroBg = ev.imgBanner || ev.imgUrl;
+  const heroBgRaw = ev.imgBanner || ev.imgUrl;
+  // Banner full-width: ~1280px no desktop, ~720 no mobile. Servimos pelo proxy responsivo.
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const heroBg = heroBgRaw ? imgSrc(heroBgRaw, isMobile ? 768 : 1440, 72) : undefined;
   const embedSrc = buildEmbedUrl(ev.mapaUrl, ev.local);
   const shareUrl = window.location.href;
 
