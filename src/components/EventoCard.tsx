@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import type { Evento } from '@/types';
 import { fmtDataCard, daysUntil, dayBadge } from '@/lib/utils';
+import { imgSrc, imgSrcSet } from '@/lib/responsiveImg';
 
 const GRUPO_OFERTAS_URL = 'https://chat.whatsapp.com/EGrwvkC1N8WJyfp9Rsb8LM';
 
@@ -64,9 +65,12 @@ export default function EventoCard({ ev, linkLabel = 'Comprar' }: Props) {
       <div className="relative w-full aspect-[3/4] bg-[#ececec]">
         {ev.imgUrl ? (
           <img
-            src={ev.imgUrl}
+            src={imgSrc(ev.imgUrl, 480)}
+            srcSet={imgSrcSet(ev.imgUrl, [240, 360, 480, 720])}
+            sizes="(max-width: 768px) 50vw, (max-width: 1280px) 25vw, 320px"
             alt={ev.titulo || 'Evento'}
             loading="lazy"
+            decoding="async"
             onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; (e.currentTarget.nextElementSibling as HTMLElement)?.style.setProperty('display','flex'); }}
             className="absolute inset-0 w-full h-full object-cover"
           />
