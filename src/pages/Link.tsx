@@ -55,7 +55,22 @@ export default function Link() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap');
+        .lk-root { background:#1B2B44; font-family:'DM Sans', system-ui, -apple-system, sans-serif; display:flex; justify-content:center; padding:40px 16px 80px; min-height:100vh; min-height:100dvh; -webkit-tap-highlight-color:transparent; width:100%; overflow-x:hidden; }
+        @supports (padding-bottom: env(safe-area-inset-bottom)) { .lk-root { padding-bottom: calc(80px + env(safe-area-inset-bottom)); } }
+        .lk-wrap { width:100%; max-width:390px; display:flex; flex-direction:column; align-items:center; }
+        .lk-social { width:44px; height:44px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; text-decoration:none; transition: transform .15s ease, box-shadow .2s ease; }
+        .lk-social-inner { width:22px; height:22px; display:flex; align-items:center; justify-content:center; }
+        .lk-social-inner svg { width:22px; height:22px; display:block; }
+        .lk-social:active { transform: scale(0.92); }
+        .lk-social:focus-visible { outline: 3px solid #FFB347; outline-offset: 3px; box-shadow: 0 0 0 6px rgba(27,43,68,0.6); }
+        .lk-card { display:flex; align-items:center; gap:14px; padding:13px 14px; background:#fff; border:1.5px solid #e5e5e5; border-radius:16px; text-decoration:none; color:#111; min-height:72px; transition:background .2s, border-color .2s, box-shadow .2s, transform .2s; cursor:pointer; }
+        .lk-card:active { background:#f0f0f0; border-color:#ccc; transform:scale(0.98); }
+        .lk-card:focus-visible { outline: 3px solid #FFB347; outline-offset: 3px; box-shadow: 0 0 0 6px rgba(27,43,68,0.6); border-color:#E87722; }
+        @media (hover:hover) { .lk-card:hover { background:#e8f0fa; border-color:#E87722; border-width:2.5px; box-shadow:0 10px 28px rgba(0,0,0,0.25); transform:translateY(-4px) scale(1.02); } }
+        .lk-card-icon { width:50px; height:50px; border-radius:12px; background:#d9d9d9; flex-shrink:0; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+        .lk-card-icon svg { width:28px; height:28px; display:block; }
+        .lk-card-label { font-size:16px; font-weight:500; color:#111; flex:1; line-height:1.3; }
+      `}</style>
         .lk-root { background:#1B2B44; font-family:'DM Sans', system-ui, -apple-system, sans-serif; display:flex; justify-content:center; padding:40px 16px 80px; min-height:100vh; min-height:100dvh; -webkit-tap-highlight-color:transparent; width:100%; overflow-x:hidden; }
         @supports (padding-bottom: env(safe-area-inset-bottom)) { .lk-root { padding-bottom: calc(80px + env(safe-area-inset-bottom)); } }
         .lk-wrap { width:100%; max-width:390px; display:flex; flex-direction:column; align-items:center; }
