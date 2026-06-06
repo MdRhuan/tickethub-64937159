@@ -9,6 +9,7 @@ import Fotos from '@/pages/Fotos';
 import Galeria from '@/pages/Galeria';
 import Calendario from '@/pages/Calendario';
 import Admin from '@/pages/Admin';
+import Link from '@/pages/Link';
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
             <Route path="/calendario" element={<Calendario />} />
           </Route>
           <Route path="/admin" element={<Admin />} />
+          <Route path="/link" element={<Link />} />
         </Routes>
       </DBProvider>
     </BrowserRouter>
