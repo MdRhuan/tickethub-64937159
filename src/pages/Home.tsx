@@ -30,11 +30,25 @@ export default function Home() {
   }
 
   useEffect(() => {
+    if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => setCurrent((c) => (c + 1) % n), 4000);
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
   }, [n]);
+
+  useEffect(() => {
+    const prefetchLink = () => {
+      import('@/pages/Link').catch(() => {});
+    };
+    if ('requestIdleCallback' in window) {
+      const id = window.requestIdleCallback(prefetchLink);
+      return () => window.cancelIdleCallback(id);
+    } else {
+      const id = setTimeout(prefetchLink, 2000);
+      return () => clearTimeout(id);
+    }
+  }, []);
 
   const curEv = carouselEvs[current];
 
