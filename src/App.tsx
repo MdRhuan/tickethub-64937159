@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import { DBProvider } from '@/contexts/DBContext';
 import Layout from '@/components/Layout';
@@ -19,27 +19,40 @@ const Loading = () => (
   </div>
 );
 
+function AppRoutes() {
+  const location = useLocation();
+
+  if (location.pathname === '/link') {
+    return (
+      <Routes>
+        <Route path="/link" element={<Link />} />
+      </Routes>
+    );
+  }
+
+  return (
+    <DBProvider>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/ingressos" element={<Ingressos />} />
+          <Route path="/ingresso/:id" element={<EventoDetalhe />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/fotos" element={<Fotos />} />
+          <Route path="/galeria/:id" element={<Galeria />} />
+          <Route path="/calendario" element={<Calendario />} />
+        </Route>
+        <Route path="/admin" element={<Admin />} />
+      </Routes>
+    </DBProvider>
+  );
+}
+
 export default function App() {
   return (
     <BrowserRouter>
       <Suspense fallback={<Loading />}>
-        <Routes>
-          <Route path="/link" element={<Link />} />
-        </Routes>
-        <DBProvider>
-          <Routes>
-            <Route element={<Layout />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/ingressos" element={<Ingressos />} />
-              <Route path="/ingresso/:id" element={<EventoDetalhe />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/fotos" element={<Fotos />} />
-              <Route path="/galeria/:id" element={<Galeria />} />
-              <Route path="/calendario" element={<Calendario />} />
-            </Route>
-            <Route path="/admin" element={<Admin />} />
-          </Routes>
-        </DBProvider>
+        <AppRoutes />
       </Suspense>
     </BrowserRouter>
   );
