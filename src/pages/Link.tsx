@@ -99,13 +99,13 @@ export default function Link() {
           </p>
           <div style={{ display: 'flex', gap: 10, marginBottom: 24 }}>
             <SocialBtn href="https://tickethubbh.lovable.app/" label="Site oficial"><SiteIcon /></SocialBtn>
-            <SocialBtn href="https://wa.me/5531984235225" label="WhatsApp"><WhatsAppIcon /></SocialBtn>
+            <SocialBtn href="https://chat.whatsapp.com/EGrwvkC1N8WJyfp9Rsb8LM" label="WhatsApp"><WhatsAppIcon /></SocialBtn>
             <SocialBtn href="https://www.instagram.com/tickethubh/" label="Instagram"><InstagramIcon /></SocialBtn>
             <SocialBtn href="#" label="TikTok"><TikTokIcon /></SocialBtn>
           </div>
           <nav aria-label="Links principais" style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%' }}>
             <LinkCard href="https://tickethubbh.lovable.app/" icon={<SiteIcon />} label="Site Oficial" />
-            <LinkCard href="https://wa.me/5531984235225" icon={<WhatsAppIcon />} label="Grupo de Descontos" />
+            <LinkCard href="https://chat.whatsapp.com/EGrwvkC1N8WJyfp9Rsb8LM" icon={<WhatsAppIcon />} label="Grupo de Descontos" />
             <LinkCard href="https://www.instagram.com/tickethubh/" icon={<InstagramIcon />} label="Instagram" />
             <LinkCard href="#" icon={<TikTokIcon />} label="Tiktok" />
           </nav>
