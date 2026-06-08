@@ -241,8 +241,8 @@ export default function Home() {
           <p className="text-[#aaa] py-6">Nenhum evento disponível no momento.</p>
         ) : (
           <div className="grid grid-cols-4 gap-5 max-md:grid-cols-2 max-md:gap-3">
-            {featured.map((ev) => (
-              <EventoCard key={ev.id} ev={ev} />
+            {featured.map((ev, i) => (
+              <EventoCard key={ev.id} ev={ev} priority={i < 4} />
             ))}
           </div>
         )}

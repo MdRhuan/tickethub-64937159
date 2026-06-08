@@ -94,7 +94,7 @@ export default function Ingressos() {
             <p className="text-[#aaa] py-6 text-center">Nenhum evento disponível no momento.</p>
           ) : (
             <div className="grid gap-5 justify-center" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(220px, 100%), 1fr))' }}>
-              {filtered.map(ev => <EventoCard key={ev.id} ev={ev} linkLabel="Ver ingresso" />)}
+              {filtered.map((ev, i) => <EventoCard key={ev.id} ev={ev} linkLabel="Ver ingresso" priority={i < 4} />)}
             </div>
           )}
         </div>

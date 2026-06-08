@@ -30,9 +30,10 @@ const FallbackImg = () => (
 interface Props {
   ev: Evento;
   linkLabel?: string;
+  priority?: boolean;
 }
 
-export default function EventoCard({ ev, linkLabel = 'Comprar' }: Props) {
+export default function EventoCard({ ev, linkLabel = 'Comprar', priority = false }: Props) {
   const navigate = useNavigate();
   const badgeClass =
     ev.badge === 'destaque'  ? 'bg-[#1a3a6b]' :
@@ -69,7 +70,8 @@ export default function EventoCard({ ev, linkLabel = 'Comprar' }: Props) {
             srcSet={imgSrcSet(ev.imgUrl, [240, 360, 480, 720])}
             sizes="(max-width: 768px) 50vw, (max-width: 1280px) 25vw, 320px"
             alt={ev.titulo || 'Evento'}
-            loading="lazy"
+            loading={priority ? 'eager' : 'lazy'}
+            fetchPriority={priority ? 'high' : 'auto'}
             decoding="async"
             onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; (e.currentTarget.nextElementSibling as HTMLElement)?.style.setProperty('display','flex'); }}
             className="absolute inset-0 w-full h-full object-cover"
