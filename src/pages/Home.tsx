@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDB } from "@/contexts/DBContext";
 import EventoCard from "@/components/EventoCard";
 import { imgSrc } from "@/lib/responsiveImg";
+import { fmtDataFull } from "@/lib/utils";
 
 const CFG: Record<number, { x: number; scale: number; ry: number; z: number; op: number }> = {
   0: { x: 0, scale: 1, ry: 0, z: 10, op: 1 },
@@ -13,11 +14,19 @@ const CFG: Record<number, { x: number; scale: number; ry: number; z: number; op:
 
 export default function Home() {
   const { eventos, ready } = useDB();
+  const navigate = useNavigate();
+  const [busca, setBusca] = useState('');
   const [current, setCurrent] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const featured = eventos.slice(0, 4);
-  const carouselEvs = eventos.slice(0, 5);
+  function submitBusca() {
+    const q = busca.trim();
+    navigate(q ? `/ingressos?q=${encodeURIComponent(q)}` : '/ingressos');
+  }
+
+  const ordered = [...eventos].reverse();
+  const featured = ordered.slice(0, 4);
+  const carouselEvs = ordered.slice(0, 5);
   const n = carouselEvs.length || 1;
 
   function goTo(idx: number) {
@@ -75,8 +84,14 @@ export default function Home() {
             className="flex-1 min-w-0 w-full py-[13px] bg-transparent border-none text-[15px] outline-none text-[#333] placeholder-[#aaa]"
             type="text"
             placeholder="Buscar Eventos"
+            value={busca}
+            onChange={e => setBusca(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter') submitBusca(); }}
           />
-          <button className="flex-shrink-0 px-4 sm:px-[22px] py-[9px] bg-[#4a90e2] text-white border-none rounded-full text-sm font-bold cursor-pointer hover:bg-[#2d6abf] transition-colors btn-pulse">
+          <button
+            onClick={submitBusca}
+            className="flex-shrink-0 px-4 sm:px-[22px] py-[9px] bg-[#4a90e2] text-white border-none rounded-full text-sm font-bold cursor-pointer hover:bg-[#2d6abf] transition-colors btn-pulse"
+          >
             Buscar
           </button>
         </div>
@@ -185,7 +200,7 @@ export default function Home() {
                     <line x1="8" y1="2" x2="8" y2="6" />
                     <line x1="3" y1="10" x2="21" y2="10" />
                   </svg>
-                  {curEv.data}
+                  {fmtDataFull(curEv.data)}
                 </div>
               )}
               {curEv.local && (
