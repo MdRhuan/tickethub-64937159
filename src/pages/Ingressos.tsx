@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useDB } from '@/contexts/DBContext';
 import EventoCard from '@/components/EventoCard';
 
@@ -6,9 +7,13 @@ const GENEROS = ['FUNK','SERTANEJO','PAGODE','ROCK','POP','ELETRÔNICO','MPB','T
 
 export default function Ingressos() {
   const { eventos, ready } = useDB();
-  const [busca, setBusca] = useState('');
+  const [searchParams] = useSearchParams();
+  const qParam = searchParams.get('q') || '';
+  const [busca, setBusca] = useState(qParam);
   const [genero, setGenero] = useState('');
   const [dropOpen, setDropOpen] = useState(false);
+
+  useEffect(() => { setBusca(qParam); }, [qParam]);
 
   const filtered = eventos.filter(ev => {
     const okG = !genero || ev.categoria === genero;
