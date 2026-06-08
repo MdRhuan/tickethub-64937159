@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useDB } from '@/contexts/DBContext';
 import { fmtDataBlog } from '@/lib/utils';
 
@@ -50,9 +51,9 @@ export default function Blog() {
                 </div>
                 <span className="text-sm text-[#aaa]">{fmtDataBlog(destaque.data)}</span>
               </div>
-              <a href="#" className="inline-block mt-2 px-5 py-[9px] bg-[#1a3a6b] text-white rounded-lg text-sm font-bold no-underline hover:bg-[#102a4e] transition-colors self-start btn-pulse">
+              <Link to={`/blog/${destaque.id}`} className="inline-block mt-2 px-5 py-[9px] bg-[#1a3a6b] text-white rounded-lg text-sm font-bold no-underline hover:bg-[#102a4e] transition-colors self-start btn-pulse">
                 Ler post
-              </a>
+              </Link>
             </div>
           </div>
         ) : (
@@ -90,7 +91,7 @@ export default function Blog() {
                   )}
                   <div className="flex items-center justify-between mt-auto pt-2">
                     <span className="text-[12px] text-[#aaa]">{fmtDataBlog(p.data)}</span>
-                    <a href="#" className="text-[13px] text-[#4a90e2] font-semibold no-underline hover:underline">Ler mais →</a>
+                    <Link to={`/blog/${p.id}`} className="text-[13px] text-[#4a90e2] font-semibold no-underline hover:underline">Ler mais →</Link>
                   </div>
                 </div>
               </div>
