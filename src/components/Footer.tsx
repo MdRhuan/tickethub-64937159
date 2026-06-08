@@ -119,7 +119,7 @@ export default function Footer() {
 
       {/* Copyright */}
       <div className="flex items-center justify-center page-px py-5 border-t border-gray-100 text-center">
-        <span className="text-xs text-[#aaa] md:text-sm">© 2025 Ticket Hub. Todos os direitos reservados.</span>
+        <span className="text-xs text-[#aaa] md:text-sm">© 2026 Ticket Hub. Todos os direitos reservados.</span>
       </div>
     </footer>
   );
