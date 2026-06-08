@@ -84,8 +84,14 @@ export default function Home() {
             className="flex-1 min-w-0 w-full py-[13px] bg-transparent border-none text-[15px] outline-none text-[#333] placeholder-[#aaa]"
             type="text"
             placeholder="Buscar Eventos"
+            value={busca}
+            onChange={e => setBusca(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter') submitBusca(); }}
           />
-          <button className="flex-shrink-0 px-4 sm:px-[22px] py-[9px] bg-[#4a90e2] text-white border-none rounded-full text-sm font-bold cursor-pointer hover:bg-[#2d6abf] transition-colors btn-pulse">
+          <button
+            onClick={submitBusca}
+            className="flex-shrink-0 px-4 sm:px-[22px] py-[9px] bg-[#4a90e2] text-white border-none rounded-full text-sm font-bold cursor-pointer hover:bg-[#2d6abf] transition-colors btn-pulse"
+          >
             Buscar
           </button>
         </div>
