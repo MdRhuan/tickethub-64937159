@@ -30,9 +30,10 @@ const FallbackImg = () => (
 interface Props {
   ev: Evento;
   linkLabel?: string;
+  priority?: boolean;
 }
 
-export default function EventoCard({ ev, linkLabel = 'Comprar' }: Props) {
+export default function EventoCard({ ev, linkLabel = 'Comprar', priority = false }: Props) {
   const navigate = useNavigate();
   const badgeClass =
     ev.badge === 'destaque'  ? 'bg-[#1a3a6b]' :
