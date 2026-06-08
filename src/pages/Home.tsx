@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDB } from "@/contexts/DBContext";
 import EventoCard from "@/components/EventoCard";
 import { imgSrc } from "@/lib/responsiveImg";
+import { fmtDataFull } from "@/lib/utils";
 
 const CFG: Record<number, { x: number; scale: number; ry: number; z: number; op: number }> = {
   0: { x: 0, scale: 1, ry: 0, z: 10, op: 1 },
@@ -13,11 +14,19 @@ const CFG: Record<number, { x: number; scale: number; ry: number; z: number; op:
 
 export default function Home() {
   const { eventos, ready } = useDB();
+  const navigate = useNavigate();
+  const [busca, setBusca] = useState('');
   const [current, setCurrent] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const featured = eventos.slice(0, 4);
-  const carouselEvs = eventos.slice(0, 5);
+  function submitBusca() {
+    const q = busca.trim();
+    navigate(q ? `/ingressos?q=${encodeURIComponent(q)}` : '/ingressos');
+  }
+
+  const ordered = [...eventos].reverse();
+  const featured = ordered.slice(0, 4);
+  const carouselEvs = ordered.slice(0, 5);
   const n = carouselEvs.length || 1;
 
   function goTo(idx: number) {
