@@ -68,7 +68,11 @@ export default function Calendario() {
     : null;
 
   const dotColorClass = (cor: string) =>
-    cor === 'vermelho' ? 'bg-[#e03535]' : cor === 'verde' ? 'bg-[#27ae60]' : 'bg-[#4a90e2]';
+    cor === 'vermelho' ? 'bg-[#e03535]' :
+    cor === 'verde'    ? 'bg-[#27ae60]' :
+    cor === 'laranja'  ? 'bg-[#e67e00]' :
+    cor === 'roxo'     ? 'bg-[#8b5cf6]' :
+    'bg-[#4a90e2]';  // azul (padrão)
 
   const agendaEvs = eventos
     .flatMap(ev => eventDates(ev).map(dt => ({ ev, dt })))
