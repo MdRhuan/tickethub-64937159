@@ -49,11 +49,6 @@ export default function EventoCard({ ev, linkLabel = 'Comprar', priority = false
     ? `${fmtDataCard(nextDate)} +${allDates.length - 1}`
     : (nextDate ? fmtDataCard(nextDate) : '');
 
-  const onImgError = (e: React.SyntheticEvent<HTMLDivElement>) => {
-    (e.currentTarget as HTMLDivElement).style.backgroundImage = 'none';
-    (e.currentTarget as HTMLDivElement).dataset.broken = '1';
-  };
-
   return (
     <div
       role="link"
@@ -66,14 +61,26 @@ export default function EventoCard({ ev, linkLabel = 'Comprar', priority = false
       <div className="relative w-full aspect-[3/4] bg-[#ececec]">
         {ev.imgUrl ? (
           <img
-            src={imgSrc(ev.imgUrl, 480)}
-            srcSet={imgSrcSet(ev.imgUrl, [240, 360, 480, 720])}
+            src={imgSrc(ev.imgUrl, 480, 72, 3 / 4)}
+            srcSet={imgSrcSet(ev.imgUrl, [240, 360, 480, 720], 72, 3 / 4)}
             sizes="(max-width: 768px) 50vw, (max-width: 1280px) 25vw, 320px"
             alt={ev.titulo || 'Evento'}
             loading={priority ? 'eager' : 'lazy'}
             fetchPriority={priority ? 'high' : 'auto'}
             decoding="async"
-            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; (e.currentTarget.nextElementSibling as HTMLElement)?.style.setProperty('display','flex'); }}
+            onError={(e) => {
+              const img = e.currentTarget;
+              // 1ª falha (provavelmente o proxy): tenta a URL original do Supabase.
+              if (img.dataset.retry !== '1' && ev.imgUrl) {
+                img.dataset.retry = '1';
+                img.removeAttribute('srcset');
+                img.src = ev.imgUrl;
+                return;
+              }
+              // 2ª falha: aí sim mostra o placeholder.
+              img.style.display = 'none';
+              (img.nextElementSibling as HTMLElement)?.style.setProperty('display', 'flex');
+            }}
             className="absolute inset-0 w-full h-full object-cover"
           />
         ) : null}
@@ -131,4 +138,3 @@ export default function EventoCard({ ev, linkLabel = 'Comprar', priority = false
     </div>
   );
 }
-
