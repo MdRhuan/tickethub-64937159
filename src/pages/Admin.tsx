@@ -790,28 +790,6 @@ function ListItem({ img, title, meta, sub, active, onEdit, onDelete }: { img?: s
   );
 }
 
-// Global style for form inputs — injected via a style tag
-// (Tailwind utility via a custom class in index.css would be ideal but this works for Lovable)
-const FormInputStyle = () => (
-  <style>{`
-    .form-i {
-      padding: 9px 13px;
-      border: 1.5px solid #e0e0e0;
-      border-radius: 8px;
-      font-size: 13px;
-      color: #333;
-      background: #fafafa;
-      outline: none;
-      transition: border-color 0.2s, background 0.2s;
-      font-family: Arial, sans-serif;
-      width: 100%;
-    }
-    .form-i:focus { border-color: #4a90e2; background: #fff; }
-  `}</style>
-);
-
-// Inject styles
-export { FormInputStyle };
 
 // ── TAB LEADS ──────────────────────────────────────────────────────────────
 interface Lead {
