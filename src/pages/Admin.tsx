@@ -313,6 +313,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
       tagCard: ev.tagCard || '', badge: ev.badge || '',
       preco: ev.preco || '', corCal: ev.corCal || 'azul',
       btnLabel: ev.btnLabel || '', btnUrl: ev.btnUrl || '',
+      homeDestaque: ev.homeDestaque ?? false, homeOrdem: ev.homeOrdem ?? 0,
     });
     setAtracoes(ev.atracoes || []);
     const ds = ev.datas && ev.datas.length > 0 ? ev.datas : (ev.data ? [ev.data] : ['']);
