@@ -805,6 +805,9 @@ function ListItem({ img, title, meta, sub, badge, active, onEdit, onDelete }: { 
         {meta && <span className="text-[11px] text-[#999] truncate">{meta}</span>}
         {sub && <span className="text-[11px] font-bold text-[#1a3a6b]">{sub}</span>}
       </div>
+      {badge && (
+        <span className="flex-shrink-0 text-[10px] font-bold uppercase tracking-wide px-2 py-[3px] rounded-full bg-[#eef5ff] text-[#1a3a6b] border border-[#cfe0ff]">{badge}</span>
+      )}
       {onEdit && (
         <button onClick={onEdit} title="Editar" className="w-8 h-8 flex-shrink-0 bg-[#eef5ff] border border-[#cfe0ff] rounded-lg cursor-pointer text-[#1a3a6b] flex items-center justify-center hover:bg-[#1a3a6b] hover:text-white hover:border-[#1a3a6b] transition-all">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
