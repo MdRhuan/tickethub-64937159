@@ -501,6 +501,30 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
             <FG label="Link do botão (abre em nova aba)"><FI value={form.btnUrl} onChange={f('btnUrl')} placeholder="https://... (deixe vazio para ocultar)" /></FG>
           </div>
 
+          <div className="grid grid-cols-2 gap-3 items-end">
+            <FG label="Mostrar na Home">
+              <label className="flex items-center gap-2 h-[40px] px-3 rounded-lg border border-[#e8edf5] bg-white cursor-pointer text-[13px] text-[#333]">
+                <input
+                  type="checkbox"
+                  checked={!!form.homeDestaque}
+                  onChange={e => setForm(p => ({ ...p, homeDestaque: e.target.checked }))}
+                  className="w-4 h-4 accent-[#1a3a6b] cursor-pointer"
+                />
+                Exibir este evento na Home
+              </label>
+            </FG>
+            <FG label="Ordem na Home (menor = primeiro)">
+              <input
+                type="number"
+                value={form.homeOrdem}
+                onChange={e => setForm(p => ({ ...p, homeOrdem: Number(e.target.value) || 0 }))}
+                disabled={!form.homeDestaque}
+                className="form-i disabled:opacity-50 disabled:cursor-not-allowed"
+                placeholder="0"
+              />
+            </FG>
+          </div>
+
           <div className="flex gap-2 mt-[6px] items-center flex-wrap">
             <button
               type="submit"
