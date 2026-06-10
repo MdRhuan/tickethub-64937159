@@ -230,6 +230,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
     classificacao:'Livre', categoria:'',
     tagCard:'', badge:'', preco:'', corCal:'azul',
     btnLabel:'', btnUrl:'',
+    homeDestaque: false, homeOrdem: 0,
   };
   const [form, setForm] = useState(emptyForm);
 
