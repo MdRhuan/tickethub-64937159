@@ -796,7 +796,7 @@ function ImgUpload({ img, label }: { img: ReturnType<typeof useImgUpload>; label
   );
 }
 
-function ListItem({ img, title, meta, sub, active, onEdit, onDelete }: { img?: string; title: string; meta?: string; sub?: string; active?: boolean; onEdit?: ()=>void; onDelete: ()=>void }) {
+function ListItem({ img, title, meta, sub, badge, active, onEdit, onDelete }: { img?: string; title: string; meta?: string; sub?: string; badge?: string; active?: boolean; onEdit?: ()=>void; onDelete: ()=>void }) {
   return (
     <div className={`flex items-center gap-3 border rounded-[10px] px-3 py-[10px] transition-all ${active ? 'bg-[#eef5ff] border-[#1a3a6b] shadow-sm' : 'bg-[#fafafa] border-[#f0f0f0] hover:shadow-sm'}`}>
       <div className="w-12 h-12 rounded-lg flex-shrink-0 bg-[#e0e0e0]" style={img ? { backgroundImage: `url(${img})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined} />
