@@ -33,6 +33,8 @@ export interface Evento {
   corCal: 'azul' | 'verde' | 'vermelho' | 'laranja' | 'roxo';
   btnLabel?: string;
   btnUrl?: string;
+  homeDestaque?: boolean;
+  homeOrdem?: number;
   _ts?: number;
 }
 

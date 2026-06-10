@@ -230,6 +230,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
     classificacao:'Livre', categoria:'',
     tagCard:'', badge:'', preco:'', corCal:'azul',
     btnLabel:'', btnUrl:'',
+    homeDestaque: false, homeOrdem: 0,
   };
   const [form, setForm] = useState(emptyForm);
 
@@ -312,6 +313,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
       tagCard: ev.tagCard || '', badge: ev.badge || '',
       preco: ev.preco || '', corCal: ev.corCal || 'azul',
       btnLabel: ev.btnLabel || '', btnUrl: ev.btnUrl || '',
+      homeDestaque: ev.homeDestaque ?? false, homeOrdem: ev.homeOrdem ?? 0,
     });
     setAtracoes(ev.atracoes || []);
     const ds = ev.datas && ev.datas.length > 0 ? ev.datas : (ev.data ? [ev.data] : ['']);
@@ -355,6 +357,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
       tagCard: form.tagCard.toUpperCase(), badge: form.badge,
       preco: form.preco, corCal: form.corCal as Evento['corCal'],
       btnLabel: form.btnLabel.trim(), btnUrl: form.btnUrl.trim(),
+      homeDestaque: form.homeDestaque, homeOrdem: Number(form.homeOrdem) || 0,
     };
     try {
       await addEvento(ev);
@@ -498,6 +501,30 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
             <FG label="Link do botão (abre em nova aba)"><FI value={form.btnUrl} onChange={f('btnUrl')} placeholder="https://... (deixe vazio para ocultar)" /></FG>
           </div>
 
+          <div className="grid grid-cols-2 gap-3 items-end">
+            <FG label="Mostrar na Home">
+              <label className="flex items-center gap-2 h-[40px] px-3 rounded-lg border border-[#e8edf5] bg-white cursor-pointer text-[13px] text-[#333]">
+                <input
+                  type="checkbox"
+                  checked={!!form.homeDestaque}
+                  onChange={e => setForm(p => ({ ...p, homeDestaque: e.target.checked }))}
+                  className="w-4 h-4 accent-[#1a3a6b] cursor-pointer"
+                />
+                Exibir este evento na Home
+              </label>
+            </FG>
+            <FG label="Ordem na Home (menor = primeiro)">
+              <input
+                type="number"
+                value={form.homeOrdem}
+                onChange={e => setForm(p => ({ ...p, homeOrdem: Number(e.target.value) || 0 }))}
+                disabled={!form.homeDestaque}
+                className="form-i disabled:opacity-50 disabled:cursor-not-allowed"
+                placeholder="0"
+              />
+            </FG>
+          </div>
+
           <div className="flex gap-2 mt-[6px] items-center flex-wrap">
             <button
               type="submit"
@@ -538,7 +565,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
           {eventos.length === 0 ? (
             <p className="text-[#bbb] text-[13px] text-center py-7">Nenhum evento cadastrado.</p>
           ) : [...eventos].reverse().map(ev => (
-            <ListItem key={ev.id} img={ev.imgUrl} title={ev.titulo} meta={[ev.data ? fmtDataBlog(ev.data) : '', ev.hora].filter(Boolean).join(' • ')} sub={ev.preco} active={editId === ev.id} onEdit={() => startEdit(ev)} onDelete={() => del(ev.id)} />
+            <ListItem key={ev.id} img={ev.imgUrl} title={ev.titulo} meta={[ev.data ? fmtDataBlog(ev.data) : '', ev.hora].filter(Boolean).join(' • ')} sub={ev.preco} badge={ev.homeDestaque ? `Home #${ev.homeOrdem ?? 0}` : undefined} active={editId === ev.id} onEdit={() => startEdit(ev)} onDelete={() => del(ev.id)} />
           ))}
         </div>
       </div>
@@ -769,7 +796,7 @@ function ImgUpload({ img, label }: { img: ReturnType<typeof useImgUpload>; label
   );
 }
 
-function ListItem({ img, title, meta, sub, active, onEdit, onDelete }: { img?: string; title: string; meta?: string; sub?: string; active?: boolean; onEdit?: ()=>void; onDelete: ()=>void }) {
+function ListItem({ img, title, meta, sub, badge, active, onEdit, onDelete }: { img?: string; title: string; meta?: string; sub?: string; badge?: string; active?: boolean; onEdit?: ()=>void; onDelete: ()=>void }) {
   return (
     <div className={`flex items-center gap-3 border rounded-[10px] px-3 py-[10px] transition-all ${active ? 'bg-[#eef5ff] border-[#1a3a6b] shadow-sm' : 'bg-[#fafafa] border-[#f0f0f0] hover:shadow-sm'}`}>
       <div className="w-12 h-12 rounded-lg flex-shrink-0 bg-[#e0e0e0]" style={img ? { backgroundImage: `url(${img})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined} />
@@ -778,6 +805,9 @@ function ListItem({ img, title, meta, sub, active, onEdit, onDelete }: { img?: s
         {meta && <span className="text-[11px] text-[#999] truncate">{meta}</span>}
         {sub && <span className="text-[11px] font-bold text-[#1a3a6b]">{sub}</span>}
       </div>
+      {badge && (
+        <span className="flex-shrink-0 text-[10px] font-bold uppercase tracking-wide px-2 py-[3px] rounded-full bg-[#eef5ff] text-[#1a3a6b] border border-[#cfe0ff]">{badge}</span>
+      )}
       {onEdit && (
         <button onClick={onEdit} title="Editar" className="w-8 h-8 flex-shrink-0 bg-[#eef5ff] border border-[#cfe0ff] rounded-lg cursor-pointer text-[#1a3a6b] flex items-center justify-center hover:bg-[#1a3a6b] hover:text-white hover:border-[#1a3a6b] transition-all">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
