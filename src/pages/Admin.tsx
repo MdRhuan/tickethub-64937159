@@ -565,7 +565,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
           {eventos.length === 0 ? (
             <p className="text-[#bbb] text-[13px] text-center py-7">Nenhum evento cadastrado.</p>
           ) : [...eventos].reverse().map(ev => (
-            <ListItem key={ev.id} img={ev.imgUrl} title={ev.titulo} meta={[ev.data ? fmtDataBlog(ev.data) : '', ev.hora].filter(Boolean).join(' • ')} sub={ev.preco} active={editId === ev.id} onEdit={() => startEdit(ev)} onDelete={() => del(ev.id)} />
+            <ListItem key={ev.id} img={ev.imgUrl} title={ev.titulo} meta={[ev.data ? fmtDataBlog(ev.data) : '', ev.hora].filter(Boolean).join(' • ')} sub={ev.preco} badge={ev.homeDestaque ? `Home #${ev.homeOrdem ?? 0}` : undefined} active={editId === ev.id} onEdit={() => startEdit(ev)} onDelete={() => del(ev.id)} />
           ))}
         </div>
       </div>
