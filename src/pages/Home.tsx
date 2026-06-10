@@ -24,9 +24,12 @@ export default function Home() {
     navigate(q ? `/ingressos?q=${encodeURIComponent(q)}` : '/ingressos');
   }
 
-  const ordered = [...eventos].reverse();
-  const featured = ordered.slice(0, 4);
-  const carouselEvs = ordered.slice(0, 5);
+  const curados = eventos
+    .filter(e => e.homeDestaque)
+    .sort((a, b) => (a.homeOrdem ?? 0) - (b.homeOrdem ?? 0) || (b._ts ?? 0) - (a._ts ?? 0));
+  const base = curados.length > 0 ? curados : [...eventos].reverse();
+  const featured = base.slice(0, 8);
+  const carouselEvs = base.slice(0, 5);
   const n = carouselEvs.length || 1;
 
   function goTo(idx: number) {
