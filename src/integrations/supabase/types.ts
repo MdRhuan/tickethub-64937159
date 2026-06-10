@@ -60,6 +60,8 @@ export type Database = {
           created_at: string
           data: string
           datas: Json
+          homeDestaque: boolean
+          homeOrdem: number
           hora: string
           id: string
           imgBanner: string
@@ -87,6 +89,8 @@ export type Database = {
           created_at?: string
           data?: string
           datas?: Json
+          homeDestaque?: boolean
+          homeOrdem?: number
           hora?: string
           id: string
           imgBanner?: string
@@ -114,6 +118,8 @@ export type Database = {
           created_at?: string
           data?: string
           datas?: Json
+          homeDestaque?: boolean
+          homeOrdem?: number
           hora?: string
           id?: string
           imgBanner?: string
