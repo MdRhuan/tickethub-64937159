@@ -177,7 +177,7 @@ export default function Home() {
         </div>
 
         {/* Dots */}
-        <div className="flex gap-2 mt-[18px]">
+        <div className="flex gap-3 md:gap-2 mt-5 md:mt-[18px]">
           {carouselEvs.map((_, i) => (
             <button
               key={i}
