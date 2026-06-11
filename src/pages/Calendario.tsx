@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDB } from '@/contexts/DBContext';
 import type { Evento } from '@/types';
@@ -42,7 +42,7 @@ export default function Calendario() {
   const [dpMes, setDpMes] = useState(curMes);
   const [dpAno, setDpAno] = useState(curAno);
 
-  const evMap = buildEventMap(eventos);
+  const evMap = useMemo(() => buildEventMap(eventos), [eventos]);
   const key = `${curAno}-${curMes + 1}`;
   const monthData = evMap[key] || {};
 

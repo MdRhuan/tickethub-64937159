@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Evento } from '@/types';
 import { fmtDataCard, daysUntil, dayBadge } from '@/lib/utils';
@@ -33,7 +34,7 @@ interface Props {
   priority?: boolean;
 }
 
-export default function EventoCard({ ev, linkLabel = 'Comprar', priority = false }: Props) {
+function EventoCard({ ev, linkLabel = 'Comprar', priority = false }: Props) {
   const navigate = useNavigate();
   const badgeClass =
     ev.badge === 'destaque'  ? 'bg-[#1a3a6b]' :  // Azul
@@ -140,3 +141,5 @@ export default function EventoCard({ ev, linkLabel = 'Comprar', priority = false
     </div>
   );
 }
+
+export default memo(EventoCard);

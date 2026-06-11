@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDB } from '@/contexts/DBContext';
 import { fmtDataFull } from '@/lib/utils';
@@ -8,13 +8,14 @@ export default function Fotos() {
   const [busca, setBusca] = useState('');
   const [dataFiltro, setDataFiltro] = useState('');
 
-  const sorted = [...albuns].sort((a, b) => (b.data || '').localeCompare(a.data || ''));
-
-  const filtered = sorted.filter(al => {
-    const okN = !busca || (al.nome || '').toLowerCase().includes(busca.toLowerCase());
-    const okD = !dataFiltro || al.data === dataFiltro;
-    return okN && okD;
-  });
+  const filtered = useMemo(() => {
+    const sorted = [...albuns].sort((a, b) => (b.data || '').localeCompare(a.data || ''));
+    return sorted.filter(al => {
+      const okN = !busca || (al.nome || '').toLowerCase().includes(busca.toLowerCase());
+      const okD = !dataFiltro || al.data === dataFiltro;
+      return okN && okD;
+    });
+  }, [albuns, busca, dataFiltro]);
 
   return (
     <main className="page-px py-12 pb-20" style={{ minHeight: '60vh' }}>
