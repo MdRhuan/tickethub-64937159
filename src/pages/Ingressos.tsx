@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useDB } from '@/contexts/DBContext';
 import EventoCard from '@/components/EventoCard';
@@ -15,12 +15,12 @@ export default function Ingressos() {
 
   useEffect(() => { setBusca(qParam); }, [qParam]);
 
-  const filtered = eventos.filter(ev => {
+  const filtered = useMemo(() => eventos.filter(ev => {
     const okG = !genero || ev.categoria === genero;
     const q = busca.toLowerCase();
     const okB = !q || ev.titulo?.toLowerCase().includes(q) || ev.local?.toLowerCase().includes(q);
     return okG && okB;
-  });
+  }), [eventos, busca, genero]);
 
   return (
     <>
