@@ -148,7 +148,19 @@ export default function Home() {
             return (
               <div
                 key={ev.id}
-                className="absolute left-1/2 top-1/2 w-[860px] h-[460px] -ml-[430px] -mt-[230px] rounded-[20px] overflow-hidden transition-all duration-[450ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] max-md:w-[88vw] max-md:-ml-[44vw] max-md:h-[220px] max-md:-mt-[110px] max-md:rounded-[14px]"
+                role="button"
+                tabIndex={0}
+                aria-label={`Abrir evento: ${ev.titulo}`}
+                onClick={() => {
+                  if (isSwipe.current) return;
+                  if (i === current) {
+                    navigate(`/ingresso/${ev.id}`);
+                  } else {
+                    goTo(i);
+                    resetTimer();
+                  }
+                }}
+                className="absolute left-1/2 top-1/2 w-[860px] h-[460px] -ml-[430px] -mt-[230px] rounded-[20px] overflow-hidden transition-all duration-[450ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] cursor-pointer max-md:w-[88vw] max-md:-ml-[44vw] max-md:h-[220px] max-md:-mt-[110px] max-md:rounded-[14px]"
                 style={{
                   transform: `translateX(${sign * cfg.x}px) scale(${cfg.scale}) rotateY(${sign * cfg.ry}deg)`,
                   opacity: cfg.op,
