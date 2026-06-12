@@ -18,6 +18,9 @@ export default function Home() {
   const [busca, setBusca] = useState('');
   const [current, setCurrent] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
+  const isSwipe = useRef(false);
 
   function submitBusca() {
     const q = busca.trim();
@@ -102,7 +105,33 @@ export default function Home() {
 
       {/* ── Carousel ── */}
       <div className="flex flex-col items-center pb-8">
-        <div className="relative w-full h-[500px] [perspective:1400px] overflow-hidden max-md:h-[240px]">
+        <div
+          className="relative w-full h-[500px] [perspective:1400px] overflow-hidden max-md:h-[240px]"
+          onTouchStart={(e) => {
+            const t = e.touches[0];
+            touchStartX.current = t.clientX;
+            touchStartY.current = t.clientY;
+            isSwipe.current = false;
+          }}
+          onTouchMove={(e) => {
+            const t = e.touches[0];
+            const dx = t.clientX - touchStartX.current;
+            const dy = t.clientY - touchStartY.current;
+            if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
+              isSwipe.current = true;
+            }
+          }}
+          onTouchEnd={(e) => {
+            const t = e.changedTouches[0];
+            const dx = t.clientX - touchStartX.current;
+            const dy = t.clientY - touchStartY.current;
+            if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 45) {
+              if (dx > 0) goTo(current - 1);
+              else goTo(current + 1);
+              resetTimer();
+            }
+          }}
+        >
           {/* Cards */}
           {carouselEvs.map((ev, i) => {
             let offset = i - current;
@@ -119,7 +148,19 @@ export default function Home() {
             return (
               <div
                 key={ev.id}
-                className="absolute left-1/2 top-1/2 w-[860px] h-[460px] -ml-[430px] -mt-[230px] rounded-[20px] overflow-hidden transition-all duration-[450ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] max-md:w-[88vw] max-md:-ml-[44vw] max-md:h-[220px] max-md:-mt-[110px] max-md:rounded-[14px]"
+                role="button"
+                tabIndex={0}
+                aria-label={`Abrir evento: ${ev.titulo}`}
+                onClick={() => {
+                  if (isSwipe.current) return;
+                  if (i === current) {
+                    navigate(`/ingresso/${ev.id}`);
+                  } else {
+                    goTo(i);
+                    resetTimer();
+                  }
+                }}
+                className="absolute left-1/2 top-1/2 w-[860px] h-[460px] -ml-[430px] -mt-[230px] rounded-[20px] overflow-hidden transition-all duration-[450ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] cursor-pointer max-md:w-[88vw] max-md:-ml-[44vw] max-md:h-[220px] max-md:-mt-[110px] max-md:rounded-[14px]"
                 style={{
                   transform: `translateX(${sign * cfg.x}px) scale(${cfg.scale}) rotateY(${sign * cfg.ry}deg)`,
                   opacity: cfg.op,
@@ -217,10 +258,10 @@ export default function Home() {
               )}
             </div>
             <Link
-              to="/ingressos"
+              to={`/ingresso/${curEv.id}`}
               className="mt-[6px] px-7 py-[11px] bg-[#4a90e2] text-white rounded-lg text-sm font-bold no-underline hover:bg-[#2d6abf] transition-colors btn-pulse"
             >
-              Ver Ingressos
+              Ver evento
             </Link>
           </div>
         )}
