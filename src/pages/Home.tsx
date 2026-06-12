@@ -258,10 +258,10 @@ export default function Home() {
               )}
             </div>
             <Link
-              to="/ingressos"
+              to={`/ingresso/${curEv.id}`}
               className="mt-[6px] px-7 py-[11px] bg-[#4a90e2] text-white rounded-lg text-sm font-bold no-underline hover:bg-[#2d6abf] transition-colors btn-pulse"
             >
-              Ver Ingressos
+              Ver evento
             </Link>
           </div>
         )}
