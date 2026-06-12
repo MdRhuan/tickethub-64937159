@@ -105,7 +105,33 @@ export default function Home() {
 
       {/* ── Carousel ── */}
       <div className="flex flex-col items-center pb-8">
-        <div className="relative w-full h-[500px] [perspective:1400px] overflow-hidden max-md:h-[240px]">
+        <div
+          className="relative w-full h-[500px] [perspective:1400px] overflow-hidden max-md:h-[240px]"
+          onTouchStart={(e) => {
+            const t = e.touches[0];
+            touchStartX.current = t.clientX;
+            touchStartY.current = t.clientY;
+            isSwipe.current = false;
+          }}
+          onTouchMove={(e) => {
+            const t = e.touches[0];
+            const dx = t.clientX - touchStartX.current;
+            const dy = t.clientY - touchStartY.current;
+            if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
+              isSwipe.current = true;
+            }
+          }}
+          onTouchEnd={(e) => {
+            const t = e.changedTouches[0];
+            const dx = t.clientX - touchStartX.current;
+            const dy = t.clientY - touchStartY.current;
+            if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 45) {
+              if (dx > 0) goTo(current - 1);
+              else goTo(current + 1);
+              resetTimer();
+            }
+          }}
+        >
           {/* Cards */}
           {carouselEvs.map((ev, i) => {
             let offset = i - current;
