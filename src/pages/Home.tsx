@@ -18,6 +18,9 @@ export default function Home() {
   const [busca, setBusca] = useState('');
   const [current, setCurrent] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
+  const isSwipe = useRef(false);
 
   function submitBusca() {
     const q = busca.trim();
