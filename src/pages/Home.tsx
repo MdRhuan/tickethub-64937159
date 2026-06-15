@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDB } from "@/contexts/DBContext";
 import EventoCard from "@/components/EventoCard";
 import { imgSrc } from "@/lib/responsiveImg";
-import { fmtDataFull } from "@/lib/utils";
+import { fmtDataFull, eventoSlug } from "@/lib/utils";
 
 const CFG: Record<number, { x: number; scale: number; ry: number; z: number; op: number }> = {
   0: { x: 0, scale: 1, ry: 0, z: 10, op: 1 },
@@ -154,7 +154,7 @@ export default function Home() {
                 onClick={() => {
                   if (isSwipe.current) return;
                   if (i === current) {
-                    navigate(`/ingresso/${ev.id}`);
+                    navigate(`/ingresso/${eventoSlug(ev)}`);
                   } else {
                     goTo(i);
                     resetTimer();
@@ -258,7 +258,7 @@ export default function Home() {
               )}
             </div>
             <Link
-              to={`/ingresso/${curEv.id}`}
+              to={`/ingresso/${eventoSlug(curEv)}`}
               className="mt-[6px] px-7 py-[11px] bg-[#4a90e2] text-white rounded-lg text-sm font-bold no-underline hover:bg-[#2d6abf] transition-colors btn-pulse"
             >
               Ver evento

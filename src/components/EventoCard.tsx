@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Evento } from '@/types';
-import { fmtDataCard, daysUntil, dayBadge } from '@/lib/utils';
+import { fmtDataCard, daysUntil, dayBadge, eventoSlug } from '@/lib/utils';
 import { imgSrc, imgSrcSet } from '@/lib/responsiveImg';
 
 const GRUPO_OFERTAS_URL = 'https://chat.whatsapp.com/EGrwvkC1N8WJyfp9Rsb8LM';
@@ -56,8 +56,8 @@ function EventoCard({ ev, linkLabel = 'Comprar', priority = false }: Props) {
     <div
       role="link"
       tabIndex={0}
-      onClick={() => navigate(`/ingresso/${ev.id}`)}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/ingresso/${ev.id}`); } }}
+      onClick={() => navigate(`/ingresso/${eventoSlug(ev)}`)}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/ingresso/${eventoSlug(ev)}`); } }}
       className="card-depth relative flex flex-col overflow-hidden cursor-pointer outline-none"
     >
       {/* Image */}
