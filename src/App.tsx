@@ -37,7 +37,7 @@ function AppRoutes() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/ingressos" element={<Ingressos />} />
-          <Route path="/ingresso/:id" element={<EventoDetalhe />} />
+          <Route path="/ingresso/:slug" element={<EventoDetalhe />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="/fotos" element={<Fotos />} />
