@@ -43,3 +43,17 @@ export function dayBadge(days: number): { text: string; kind: 'future' | 'soon' 
   if (days === 1) return { text: 'Amanhã!',           kind: 'soon' };
   return { text: `Faltam ${days} dias`,               kind: 'future' };
 }
+
+export function slugify(text: string): string {
+  return (text || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+export function eventoSlug(ev: { titulo: string; id: string }): string {
+  return slugify(ev.titulo) || ev.id;
+}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useDB } from "@/contexts/DBContext";
-import { fmtDataFull } from "@/lib/utils";
+import { fmtDataFull, eventoSlug } from "@/lib/utils";
 import { imgSrc } from "@/lib/responsiveImg";
 
 function buildEmbedUrl(mapaUrl: string, local: string): string | null {
@@ -20,7 +20,7 @@ export default function EventoDetalhe() {
   const [shareOpen, setShareOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const ev = eventos.find((e) => e.id === id);
+  const ev = eventos.find((e) => eventoSlug(e) === id) || eventos.find((e) => e.id === id);
 
   if (!ready) return <div className="p-20 text-center text-[#aaa]">Carregando...</div>;
   if (!ev) return <div className="p-20 text-center text-[#aaa]">Evento não encontrado.</div>;

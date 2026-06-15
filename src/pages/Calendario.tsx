@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDB } from '@/contexts/DBContext';
 import type { Evento } from '@/types';
+import { eventoSlug } from '@/lib/utils';
 
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DIAS_SEMANA = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
@@ -187,7 +188,7 @@ export default function Calendario() {
                     <span className="text-[15px] font-bold text-[#111]">{ev.titulo}</span>
                     {ev.hora && <span className="flex items-center gap-[6px] text-[13px] text-[#888]"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>{ev.hora}</span>}
                     {ev.local && <span className="text-[13px] text-[#aaa]">{ev.local}</span>}
-                    <Link to={`/ingresso/${ev.id}`} className="inline-block mt-2 px-[18px] py-[9px] bg-[#4a90e2] text-white rounded-lg text-[13px] font-bold no-underline hover:bg-[#2d6abf] transition-colors self-start btn-pulse">Ver ingresso</Link>
+                    <Link to={`/ingresso/${eventoSlug(ev)}`} className="inline-block mt-2 px-[18px] py-[9px] bg-[#4a90e2] text-white rounded-lg text-[13px] font-bold no-underline hover:bg-[#2d6abf] transition-colors self-start btn-pulse">Ver ingresso</Link>
                   </div>
                 ))}
               </>
