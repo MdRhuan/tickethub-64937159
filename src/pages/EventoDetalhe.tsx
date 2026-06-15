@@ -15,12 +15,12 @@ function buildEmbedUrl(mapaUrl: string, local: string): string | null {
 }
 
 export default function EventoDetalhe() {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const { eventos, ready } = useDB();
   const [shareOpen, setShareOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const ev = eventos.find((e) => eventoSlug(e) === id) || eventos.find((e) => e.id === id);
+  const ev = eventos.find((e) => eventoSlug(e) === slug) || eventos.find((e) => e.id === slug);
 
   if (!ready) return <div className="p-20 text-center text-[#aaa]">Carregando...</div>;
   if (!ev) return <div className="p-20 text-center text-[#aaa]">Evento não encontrado.</div>;
