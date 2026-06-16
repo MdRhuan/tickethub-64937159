@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import type { Evento, Post, Album, Atracao, Ingresso } from '@/types';
 import { fmtDataBlog } from '@/lib/utils';
 import { uploadImage } from '@/lib/imageUpload';
+import logoIcon from '@/assets/icons/logo.png';
 
 type Tab = 'eventos' | 'blog' | 'albuns' | 'leads';
 
@@ -120,7 +121,7 @@ export default function Admin() {
       {/* Sidebar */}
       <aside className="w-[220px] bg-[#1a3a6b] min-h-screen fixed top-0 left-0 flex flex-col z-50 max-md:w-full max-md:min-h-0 max-md:h-14 max-md:flex-row max-md:items-center max-md:justify-between max-md:px-3">
         <div className="flex items-center gap-[10px] px-5 py-[22px] font-black text-[13px] tracking-wide text-white border-b border-white/10 max-md:py-0 max-md:px-0 max-md:border-0">
-          <img src="/Icon/Logo.png" alt="TH" className="w-[34px] h-[34px] object-contain" />
+          <img src={logoIcon} alt="TH" className="w-[34px] h-[34px] object-contain" />
           TICKET HUB
         </div>
         <nav className="flex-1 flex flex-col p-3 gap-1 max-md:flex-row max-md:p-0 max-md:gap-1">
@@ -182,7 +183,7 @@ function LoginScreen({ email, setEmail, pass, setPass, passErr, onLogin }: {
     <div className="fixed inset-0 bg-gradient-to-br from-[#0d1a2e] to-[#1a3a6b] flex items-center justify-center z-[1000] p-4">
       <div className="bg-white rounded-[20px] px-10 py-12 w-full max-w-[400px] text-center shadow-[0_20px_60px_rgba(0,0,0,0.3)] flex flex-col items-center gap-4">
         <div className="flex items-center gap-[10px] font-black text-base tracking-wide">
-          <img src="/Icon/Logo.png" alt="TH" className="w-[42px] h-[42px] object-contain" />
+          <img src={logoIcon} alt="TH" className="w-[42px] h-[42px] object-contain" />
           TICKET HUB
         </div>
         <h1 className="text-[22px] font-black text-[#111]">Painel Administrativo</h1>

@@ -1,3 +1,8 @@
+import compraSeguraIcon from '@/assets/icons/compra-segura.png';
+import offConsuIcon from '@/assets/icons/off-consu.png';
+import ingressoIcon from '@/assets/icons/ingresso.png';
+import logoIcon from '@/assets/icons/logo.png';
+
 const InstagramIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +40,7 @@ export default function Footer() {
       <div className="flex flex-wrap items-center justify-around gap-4 page-px py-5 border-b border-gray-100 max-md:gap-3 max-md:py-4">
         <div className="flex items-center gap-3 max-md:flex-1 max-md:min-w-[45%]">
           <img
-            src="/Icon/Compra%20segura.png"
+            src={compraSeguraIcon}
             alt="Compra Segura"
             className="w-[70px] h-[70px] object-contain max-md:w-[48px] max-md:h-[48px]"
           />
@@ -43,7 +48,7 @@ export default function Footer() {
         </div>
         <div className="flex items-center gap-3 max-md:flex-1 max-md:min-w-[45%]">
           <img
-            src="/Icon/OffConsu.png"
+            src={offConsuIcon}
             alt="OffConsu"
             className="w-[70px] h-[70px] object-contain max-md:w-[48px] max-md:h-[48px]"
           />
@@ -51,7 +56,7 @@ export default function Footer() {
         </div>
         <div className="flex items-center gap-3 max-md:flex-1 max-md:min-w-[45%]">
           <img
-            src="/Icon/Ingresso.png"
+            src={ingressoIcon}
             alt="Ingresso"
             className="w-[70px] h-[70px] object-contain max-md:w-[48px] max-md:h-[48px]"
           />
@@ -64,7 +69,7 @@ export default function Footer() {
         {/* Brand */}
         <div className="flex flex-col gap-3 max-md:items-center">
           <div className="flex items-center gap-2">
-            <img src="/Icon/Logo.png" alt="TicketHub" className="w-12 h-12 object-contain" />
+            <img src={logoIcon} alt="TicketHub" className="w-12 h-12 object-contain" />
             <span className="font-black text-xl tracking-wide text-[#1a3a6b]">TICKET HUB</span>
           </div>
           <p className="text-sm text-[#666] leading-relaxed max-w-[280px] max-md:text-[13px]">

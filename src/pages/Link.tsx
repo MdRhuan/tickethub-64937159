@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import logoIcon from '@/assets/icons/logo.png';
 
 const SiteIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1B2B44" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
@@ -89,7 +90,7 @@ export default function Link() {
               flexShrink: 0,
             }}
           >
-            <img src="/Icon/Logo.png" alt="Logo TicketHubh" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img src={logoIcon} alt="Logo TicketHubh" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
           <h1 style={{ fontSize: 19, fontWeight: 600, color: '#fff', margin: '0 0 14px', textAlign: 'center', lineHeight: 1.2 }}>
             TicketHubh
