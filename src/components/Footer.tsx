@@ -69,7 +69,7 @@ export default function Footer() {
         {/* Brand */}
         <div className="flex flex-col gap-3 max-md:items-center">
           <div className="flex items-center gap-2">
-            <img src="/Icon/Logo.png" alt="TicketHub" className="w-12 h-12 object-contain" />
+            <img src={logoIcon} alt="TicketHub" className="w-12 h-12 object-contain" />
             <span className="font-black text-xl tracking-wide text-[#1a3a6b]">TICKET HUB</span>
           </div>
           <p className="text-sm text-[#666] leading-relaxed max-w-[280px] max-md:text-[13px]">
