@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import type { Evento, Post, Album, Atracao, Ingresso } from '@/types';
 import { fmtDataBlog } from '@/lib/utils';
 import { uploadImage } from '@/lib/imageUpload';
+import logoIcon from '@/assets/icons/logo.png';
 
 type Tab = 'eventos' | 'blog' | 'albuns' | 'leads';
 
