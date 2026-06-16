@@ -35,7 +35,7 @@ export default function Footer() {
       <div className="flex flex-wrap items-center justify-around gap-4 page-px py-5 border-b border-gray-100 max-md:gap-3 max-md:py-4">
         <div className="flex items-center gap-3 max-md:flex-1 max-md:min-w-[45%]">
           <img
-            src="/Icon/Compra%20segura.png"
+            src={compraSeguraIcon}
             alt="Compra Segura"
             className="w-[70px] h-[70px] object-contain max-md:w-[48px] max-md:h-[48px]"
           />
@@ -43,7 +43,7 @@ export default function Footer() {
         </div>
         <div className="flex items-center gap-3 max-md:flex-1 max-md:min-w-[45%]">
           <img
-            src="/Icon/OffConsu.png"
+            src={offConsuIcon}
             alt="OffConsu"
             className="w-[70px] h-[70px] object-contain max-md:w-[48px] max-md:h-[48px]"
           />
@@ -51,7 +51,7 @@ export default function Footer() {
         </div>
         <div className="flex items-center gap-3 max-md:flex-1 max-md:min-w-[45%]">
           <img
-            src="/Icon/Ingresso.png"
+            src={ingressoIcon}
             alt="Ingresso"
             className="w-[70px] h-[70px] object-contain max-md:w-[48px] max-md:h-[48px]"
           />
