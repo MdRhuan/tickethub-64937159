@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import logoIcon from '@/assets/icons/logo.png';
 
 const SiteIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1B2B44" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
