@@ -207,7 +207,11 @@ export default function Calendario() {
           {!ready ? (
             <p className="text-[#aaa]">Carregando...</p>
           ) : agendaEvs.length === 0 ? (
-            <p className="text-[#aaa] text-sm py-6">Nenhum evento na agenda.</p>
+            loadError && eventos.length === 0 ? (
+              <LoadErrorRetry message={loadError} onRetry={reload} />
+            ) : (
+              <p className="text-[#aaa] text-sm py-6">Nenhum evento na agenda.</p>
+            )
           ) : agendaEvs.map(({ ev, dt }, idx) => {
             const parts = dt ? dt.split('-') : [];
             const dia = parts[2] || '';
