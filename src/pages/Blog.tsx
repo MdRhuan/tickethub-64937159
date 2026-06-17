@@ -57,6 +57,10 @@ export default function Blog() {
               </Link>
             </div>
           </div>
+        ) : loadError && posts.length === 0 ? (
+          <div className="mb-16">
+            <LoadErrorRetry message={loadError} onRetry={reload} />
+          </div>
         ) : (
           <div className="min-h-[200px] flex items-center justify-center text-[#aaa] mb-16">
             Nenhum post em destaque no momento.
