@@ -283,7 +283,11 @@ export default function Home() {
         {!ready ? (
           <p className="text-[#aaa]">Carregando...</p>
         ) : featured.length === 0 ? (
-          <p className="text-[#aaa] py-6">Nenhum evento disponível no momento.</p>
+          loadError ? (
+            <LoadErrorRetry message={loadError} onRetry={reload} />
+          ) : (
+            <p className="text-[#aaa] py-6">Nenhum evento disponível no momento.</p>
+          )
         ) : (
           <div className="grid grid-cols-4 gap-5 max-md:grid-cols-2 max-md:gap-3">
             {featured.map((ev, i) => (
