@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDB } from "@/contexts/DBContext";
 import EventoCard from "@/components/EventoCard";
+import LoadErrorRetry from "@/components/LoadErrorRetry";
 import { imgSrc } from "@/lib/responsiveImg";
 import { fmtDataFull, eventoSlug } from "@/lib/utils";
 
@@ -13,7 +14,7 @@ const CFG: Record<number, { x: number; scale: number; ry: number; z: number; op:
 };
 
 export default function Home() {
-  const { eventos, ready } = useDB();
+  const { eventos, ready, loadError, reload } = useDB();
   const navigate = useNavigate();
   const [busca, setBusca] = useState('');
   const [current, setCurrent] = useState(0);
@@ -282,7 +283,11 @@ export default function Home() {
         {!ready ? (
           <p className="text-[#aaa]">Carregando...</p>
         ) : featured.length === 0 ? (
-          <p className="text-[#aaa] py-6">Nenhum evento disponível no momento.</p>
+          loadError ? (
+            <LoadErrorRetry message={loadError} onRetry={reload} />
+          ) : (
+            <p className="text-[#aaa] py-6">Nenhum evento disponível no momento.</p>
+          )
         ) : (
           <div className="grid grid-cols-4 gap-5 max-md:grid-cols-2 max-md:gap-3">
             {featured.map((ev, i) => (

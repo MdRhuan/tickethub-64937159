@@ -2,9 +2,10 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDB } from '@/contexts/DBContext';
 import { fmtDataFull } from '@/lib/utils';
+import LoadErrorRetry from '@/components/LoadErrorRetry';
 
 export default function Fotos() {
-  const { albuns, ready } = useDB();
+  const { albuns, ready, loadError, reload } = useDB();
   const [busca, setBusca] = useState('');
   const [dataFiltro, setDataFiltro] = useState('');
 
@@ -55,10 +56,14 @@ export default function Fotos() {
       {!ready ? (
         <p className="text-[#aaa]">Carregando...</p>
       ) : filtered.length === 0 ? (
-        <div className="flex flex-col items-center gap-3 py-20 text-[#bbb] text-sm">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          Nenhum álbum encontrado.
-        </div>
+        loadError && albuns.length === 0 ? (
+          <LoadErrorRetry message={loadError} onRetry={reload} />
+        ) : (
+          <div className="flex flex-col items-center gap-3 py-20 text-[#bbb] text-sm">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Nenhum álbum encontrado.
+          </div>
+        )
       ) : (
         <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))' }}>
           {filtered.map(al => (

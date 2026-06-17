@@ -2,11 +2,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useDB } from '@/contexts/DBContext';
 import EventoCard from '@/components/EventoCard';
+import LoadErrorRetry from '@/components/LoadErrorRetry';
 
 const GENEROS = ['FUNK','SERTANEJO','PAGODE','ROCK','POP','ELETRÔNICO','MPB','TRAP','JAZZ'];
 
 export default function Ingressos() {
-  const { eventos, ready } = useDB();
+  const { eventos, ready, loadError, reload } = useDB();
   const [searchParams] = useSearchParams();
   const qParam = searchParams.get('q') || '';
   const [busca, setBusca] = useState(qParam);
@@ -91,7 +92,11 @@ export default function Ingressos() {
           {!ready ? (
             <p className="text-[#aaa] text-center">Carregando...</p>
           ) : filtered.length === 0 ? (
-            <p className="text-[#aaa] py-6 text-center">Nenhum evento disponível no momento.</p>
+            loadError && eventos.length === 0 ? (
+              <LoadErrorRetry message={loadError} onRetry={reload} />
+            ) : (
+              <p className="text-[#aaa] py-6 text-center">Nenhum evento disponível no momento.</p>
+            )
           ) : (
             <div className="grid gap-5 justify-center" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(220px, 100%), 1fr))' }}>
               {filtered.map((ev, i) => <EventoCard key={ev.id} ev={ev} linkLabel="Ver ingresso" priority={i < 4} />)}

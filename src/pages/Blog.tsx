@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useDB } from '@/contexts/DBContext';
 import { fmtDataBlog } from '@/lib/utils';
+import LoadErrorRetry from '@/components/LoadErrorRetry';
 
 export default function Blog() {
-  const { posts, ready } = useDB();
+  const { posts, ready, loadError, reload } = useDB();
 
   const destaque = posts.find(p => p.destaque) ?? null;
   const outros = [...posts].reverse().filter(p => !p.destaque);
@@ -56,6 +57,10 @@ export default function Blog() {
               </Link>
             </div>
           </div>
+        ) : loadError && posts.length === 0 ? (
+          <div className="mb-16">
+            <LoadErrorRetry message={loadError} onRetry={reload} />
+          </div>
         ) : (
           <div className="min-h-[200px] flex items-center justify-center text-[#aaa] mb-16">
             Nenhum post em destaque no momento.
@@ -67,7 +72,11 @@ export default function Blog() {
         <h2 className="text-[28px] font-black text-[#111] mb-8">Últimas publicações</h2>
 
         {outros.length === 0 ? (
-          <p className="text-[#aaa]">Nenhuma publicação disponível no momento.</p>
+          loadError && posts.length === 0 ? (
+            <LoadErrorRetry message={loadError} onRetry={reload} />
+          ) : (
+            <p className="text-[#aaa]">Nenhuma publicação disponível no momento.</p>
+          )
         ) : (
           <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
             {outros.map(p => (

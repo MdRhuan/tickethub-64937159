@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDB } from '@/contexts/DBContext';
 import type { Evento } from '@/types';
 import { eventoSlug } from '@/lib/utils';
+import LoadErrorRetry from '@/components/LoadErrorRetry';
 
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DIAS_SEMANA = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
@@ -33,7 +34,7 @@ function buildEventMap(eventos: Evento[]): Record<string, Record<number, DayData
 }
 
 export default function Calendario() {
-  const { eventos, ready } = useDB();
+  const { eventos, ready, loadError, reload } = useDB();
   const now = new Date();
   const [curMes, setCurMes] = useState(now.getMonth());
   const [curAno, setCurAno] = useState(now.getFullYear());
@@ -206,7 +207,11 @@ export default function Calendario() {
           {!ready ? (
             <p className="text-[#aaa]">Carregando...</p>
           ) : agendaEvs.length === 0 ? (
-            <p className="text-[#aaa] text-sm py-6">Nenhum evento na agenda.</p>
+            loadError && eventos.length === 0 ? (
+              <LoadErrorRetry message={loadError} onRetry={reload} />
+            ) : (
+              <p className="text-[#aaa] text-sm py-6">Nenhum evento na agenda.</p>
+            )
           ) : agendaEvs.map(({ ev, dt }, idx) => {
             const parts = dt ? dt.split('-') : [];
             const dia = parts[2] || '';
