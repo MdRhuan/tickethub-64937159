@@ -14,7 +14,7 @@ const CFG: Record<number, { x: number; scale: number; ry: number; z: number; op:
 };
 
 export default function Home() {
-  const { eventos, ready } = useDB();
+  const { eventos, ready, loadError, reload } = useDB();
   const navigate = useNavigate();
   const [busca, setBusca] = useState('');
   const [current, setCurrent] = useState(0);
