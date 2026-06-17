@@ -34,7 +34,7 @@ function buildEventMap(eventos: Evento[]): Record<string, Record<number, DayData
 }
 
 export default function Calendario() {
-  const { eventos, ready } = useDB();
+  const { eventos, ready, loadError, reload } = useDB();
   const now = new Date();
   const [curMes, setCurMes] = useState(now.getMonth());
   const [curAno, setCurAno] = useState(now.getFullYear());
