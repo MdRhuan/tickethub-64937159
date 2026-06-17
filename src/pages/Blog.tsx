@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useDB } from '@/contexts/DBContext';
 import { fmtDataBlog } from '@/lib/utils';
+import LoadErrorRetry from '@/components/LoadErrorRetry';
 
 export default function Blog() {
-  const { posts, ready } = useDB();
+  const { posts, ready, loadError, reload } = useDB();
 
   const destaque = posts.find(p => p.destaque) ?? null;
   const outros = [...posts].reverse().filter(p => !p.destaque);
