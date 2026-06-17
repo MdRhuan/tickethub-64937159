@@ -2,9 +2,10 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDB } from '@/contexts/DBContext';
 import { fmtDataFull } from '@/lib/utils';
+import LoadErrorRetry from '@/components/LoadErrorRetry';
 
 export default function Fotos() {
-  const { albuns, ready } = useDB();
+  const { albuns, ready, loadError, reload } = useDB();
   const [busca, setBusca] = useState('');
   const [dataFiltro, setDataFiltro] = useState('');
 
