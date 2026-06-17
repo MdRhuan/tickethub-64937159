@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useDB } from '@/contexts/DBContext';
 import EventoCard from '@/components/EventoCard';
+import LoadErrorRetry from '@/components/LoadErrorRetry';
 
 const GENEROS = ['FUNK','SERTANEJO','PAGODE','ROCK','POP','ELETRÔNICO','MPB','TRAP','JAZZ'];
 
