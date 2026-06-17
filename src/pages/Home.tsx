@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDB } from "@/contexts/DBContext";
 import EventoCard from "@/components/EventoCard";
+import LoadErrorRetry from "@/components/LoadErrorRetry";
 import { imgSrc } from "@/lib/responsiveImg";
 import { fmtDataFull, eventoSlug } from "@/lib/utils";
 
