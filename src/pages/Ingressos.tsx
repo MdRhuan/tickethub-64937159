@@ -7,7 +7,7 @@ import LoadErrorRetry from '@/components/LoadErrorRetry';
 const GENEROS = ['FUNK','SERTANEJO','PAGODE','ROCK','POP','ELETRÔNICO','MPB','TRAP','JAZZ'];
 
 export default function Ingressos() {
-  const { eventos, ready } = useDB();
+  const { eventos, ready, loadError, reload } = useDB();
   const [searchParams] = useSearchParams();
   const qParam = searchParams.get('q') || '';
   const [busca, setBusca] = useState(qParam);
