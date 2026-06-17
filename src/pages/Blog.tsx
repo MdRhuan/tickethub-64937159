@@ -72,7 +72,11 @@ export default function Blog() {
         <h2 className="text-[28px] font-black text-[#111] mb-8">Últimas publicações</h2>
 
         {outros.length === 0 ? (
-          <p className="text-[#aaa]">Nenhuma publicação disponível no momento.</p>
+          loadError && posts.length === 0 ? (
+            <LoadErrorRetry message={loadError} onRetry={reload} />
+          ) : (
+            <p className="text-[#aaa]">Nenhuma publicação disponível no momento.</p>
+          )
         ) : (
           <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
             {outros.map(p => (
