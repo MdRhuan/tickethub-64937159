@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 const EMAIL_REGEX = /^[^@\s]+@[^@\s]+\.[^@\s]+$/i;
 
 export default function GrupoPopup() {
+  const [website, setWebsite] = useState(''); // honeypot
   const [visible, setVisible] = useState(false);
   const [nome, setNome] = useState('');
   const [tel, setTel] = useState('');
@@ -51,16 +52,36 @@ export default function GrupoPopup() {
     }
     setSaving(true);
     try {
-      const { error } = await supabase.from('leads').insert({
-        id: Date.now().toString(),
-        nome: nome.trim(),
-        whatsapp: tel.trim(),
-        email: email.trim(),
-        nascimento: nascimento.trim(),
+      const { data, error } = await supabase.functions.invoke('submit-lead', {
+        body: {
+          nome: nome.trim(),
+          whatsapp: tel.trim(),
+          email: email.trim(),
+          nascimento: nascimento.trim(),
+          website, // honeypot
+        },
       });
       if (error) {
         console.error('Erro ao salvar lead', error);
-        setErro('Não foi possível salvar seus dados. Verifique e tente novamente.');
+        // Tenta extrair mensagem PT do corpo da resposta da função
+        let msg = 'Não foi possível salvar seus dados. Tente novamente.';
+        const ctx: any = (error as any)?.context;
+        try {
+          if (ctx && typeof ctx.json === 'function') {
+            const j = await ctx.json();
+            if (j?.error) msg = j.error;
+          } else if (ctx?.body) {
+            const j = JSON.parse(ctx.body);
+            if (j?.error) msg = j.error;
+          }
+        } catch { /* ignore */ }
+        setErro(msg);
+        setSaving(false);
+        return;
+      }
+      if (!data || (data as any).ok !== true) {
+        const msg = (data as any)?.error || 'Não foi possível salvar seus dados. Tente novamente.';
+        setErro(msg);
         setSaving(false);
         return;
       }
@@ -88,6 +109,19 @@ export default function GrupoPopup() {
         <p className="text-sm font-extrabold text-[#111] text-center mb-4 leading-snug">
           Tenha Acesso ao nosso Grupo Exclusivo
         </p>
+        {/* Honeypot anti-bot: posicionado fora da tela, sem tabindex e oculto a leitores de tela */}
+        <div aria-hidden="true" style={{ position: 'absolute', left: '-10000px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}>
+          <label>
+            Website
+            <input
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+            />
+          </label>
+        </div>
         <div className="flex flex-col gap-[10px]">
           <input
             value={nome} onChange={e => { setNome(e.target.value); if (erro) setErro(''); }}
