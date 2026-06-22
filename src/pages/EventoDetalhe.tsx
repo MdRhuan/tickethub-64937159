@@ -72,33 +72,31 @@ export default function EventoDetalhe() {
     ev.ingressos && ev.ingressos.length > 0 ? ev.ingressos : [ev.ing1, ev.ing2, ev.ing3].filter(Boolean);
   const datasLabel = allDates.map((d) => fmtDataFull(d)).join(" • ");
 
-  function buildCalEvent(dateStr: string): CalendarEvent {
-    return {
-      titulo: ev.titulo,
-      descricao: `${ev.sobre || ""}\n\nIngressos: ${shareUrl}`.trim(),
-      local: ev.local || "",
-      data: dateStr,
-      hora: ev.hora || "",
-    };
-  }
+  const buildCalEvent = (dateStr: string): CalendarEvent => ({
+    titulo: ev.titulo,
+    descricao: `${ev.sobre || ""}\n\nIngressos: ${shareUrl}`.trim(),
+    local: ev.local || "",
+    data: dateStr,
+    hora: ev.hora || "",
+  });
 
-  function handleGoogle() {
+  const handleGoogle = () => {
     if (!calDate) return;
     window.open(googleCalendarUrl(buildCalEvent(calDate)), "_blank", "noopener");
     setCalOpen(false);
-  }
-  function handleOutlook() {
+  };
+  const handleOutlook = () => {
     if (!calDate) return;
     window.open(outlookUrl(buildCalEvent(calDate)), "_blank", "noopener");
     setCalOpen(false);
-  }
-  function handleIcs() {
+  };
+  const handleIcs = () => {
     if (!calDate) return;
     const calEv = buildCalEvent(calDate);
     const uid = `${ev.id}-${calDate}@tickethub`;
     downloadIcs(buildIcs(calEv, uid), `${eventoSlug(ev)}-${calDate}.ics`);
     setCalOpen(false);
-  }
+  };
 
   return (
     <>
