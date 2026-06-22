@@ -1,0 +1,2 @@
+GRANT SELECT ON public.lead_attempts TO authenticated;
+CREATE POLICY "Apenas admins podem ver lead_attempts" ON public.lead_attempts FOR SELECT TO authenticated USING (has_role(auth.uid(), 'admin'::app_role));
