@@ -316,7 +316,24 @@ export default function EventoDetalhe() {
               ))}
           </div>
 
+          {/* Adicionar ao Calendário */}
+          {allDates.length > 0 && (
+            <button
+              onClick={() => setCalOpen(true)}
+              className="w-full inline-flex items-center justify-center gap-2 px-5 py-[14px] rounded-2xl border border-[#eee] bg-white text-[#1a3a6b] text-[15px] font-bold cursor-pointer hover:border-[#4a90e2] hover:shadow-[0_8px_24px_rgba(74,144,226,0.15)] transition-all btn-pulse"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+              Adicionar ao Calendário
+            </button>
+          )}
+
           {/* Tickets */}
+
           {ingressos.length > 0 ? (
             ingressos.map((ing, i) => (
               <div
