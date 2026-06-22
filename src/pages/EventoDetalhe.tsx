@@ -444,6 +444,101 @@ export default function EventoDetalhe() {
           </div>
         </div>
       )}
+
+      {/* Calendar Modal */}
+      {calOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-[999] flex items-center justify-center"
+          onClick={() => setCalOpen(false)}
+        >
+          <div
+            className="bg-white rounded-2xl w-[420px] p-8 shadow-[0_12px_48px_rgba(0,0,0,0.2)] flex flex-col gap-5 max-md:w-[calc(100%-24px)] max-md:p-6"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Adicionar ao Calendário"
+          >
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-extrabold text-[#111]">Adicionar ao Calendário</h3>
+              <button
+                onClick={() => setCalOpen(false)}
+                aria-label="Fechar"
+                className="bg-transparent border-none cursor-pointer text-[#888] p-1 rounded-md hover:bg-[#f0f0f0] hover:text-[#333] transition-colors"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+
+            {allDates.length > 1 && (
+              <div className="flex flex-col gap-2">
+                <label htmlFor="cal-date" className="text-[13px] font-bold text-[#111]">
+                  Escolha a data
+                </label>
+                <select
+                  id="cal-date"
+                  value={calDate}
+                  onChange={(e) => setCalDate(e.target.value)}
+                  className="w-full min-h-[44px] px-[14px] py-[10px] border border-[#ddd] rounded-lg text-[14px] text-[#111] bg-white outline-none focus:border-[#4a90e2]"
+                >
+                  {allDates.map((d) => (
+                    <option key={d} value={d}>
+                      {fmtDataBR(d)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 gap-[10px]">
+              <button
+                onClick={handleGoogle}
+                className="min-h-[44px] flex items-center gap-3 px-4 py-3 rounded-[10px] bg-[#e8f0fb] text-[#1a3a6b] text-sm font-semibold border-none cursor-pointer hover:opacity-85 transition-opacity text-left"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" />
+                  <line x1="16" y1="2" x2="16" y2="6" />
+                  <line x1="8" y1="2" x2="8" y2="6" />
+                  <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+                Google Agenda
+              </button>
+              <button
+                onClick={handleIcs}
+                className="min-h-[44px] flex items-center gap-3 px-4 py-3 rounded-[10px] bg-[#f4f4f6] text-[#111] text-sm font-semibold border-none cursor-pointer hover:opacity-85 transition-opacity text-left"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
+                </svg>
+                Apple / iPhone (.ics)
+              </button>
+              <button
+                onClick={handleOutlook}
+                className="min-h-[44px] flex items-center gap-3 px-4 py-3 rounded-[10px] bg-[#e8f0fb] text-[#1a3a6b] text-sm font-semibold border-none cursor-pointer hover:opacity-85 transition-opacity text-left"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M7.5 6A4.5 4.5 0 0 0 3 10.5v3A4.5 4.5 0 0 0 7.5 18a4.5 4.5 0 0 0 4.5-4.5v-3A4.5 4.5 0 0 0 7.5 6zm0 2.4c1.16 0 2.1.94 2.1 2.1v3c0 1.16-.94 2.1-2.1 2.1s-2.1-.94-2.1-2.1v-3c0-1.16.94-2.1 2.1-2.1zM13 8v8l8 2V6l-8 2z" />
+                </svg>
+                Outlook
+              </button>
+              <button
+                onClick={handleIcs}
+                className="min-h-[44px] flex items-center gap-3 px-4 py-3 rounded-[10px] bg-[#f4f4f6] text-[#111] text-sm font-semibold border-none cursor-pointer hover:opacity-85 transition-opacity text-left"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Baixar .ics (universal)
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
+
