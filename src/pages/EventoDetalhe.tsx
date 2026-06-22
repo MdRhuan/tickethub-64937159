@@ -32,26 +32,7 @@ export default function EventoDetalhe() {
 
   const ev = eventos.find((e) => eventoSlug(e) === slug) || eventos.find((e) => e.id === slug);
 
-  if (!ready) return <div className="p-20 text-center text-[#aaa]">Carregando...</div>;
-  if (!ev) return <div className="p-20 text-center text-[#aaa]">Evento não encontrado.</div>;
-
-  const heroBgRaw = ev.imgBanner || ev.imgUrl;
-  // Banner full-width: ~1280px no desktop, ~720 no mobile. Servimos pelo proxy responsivo.
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  const heroBg = heroBgRaw ? imgSrc(heroBgRaw, isMobile ? 768 : 1440, 72) : undefined;
-  const embedSrc = buildEmbedUrl(ev.mapaUrl, ev.local);
-  const shareUrl = window.location.href;
-
-  function copyLink() {
-    navigator.clipboard.writeText(shareUrl);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  }
-
-  const ingressos =
-    ev.ingressos && ev.ingressos.length > 0 ? ev.ingressos : [ev.ing1, ev.ing2, ev.ing3].filter(Boolean);
-  const allDates = (ev.datas && ev.datas.length > 0 ? ev.datas : ev.data ? [ev.data] : []).slice().sort();
-  const datasLabel = allDates.map((d) => fmtDataFull(d)).join(" • ");
+  const allDates = (ev?.datas && ev.datas.length > 0 ? ev.datas : ev?.data ? [ev.data] : []).slice().sort();
 
   // Sincroniza a data inicial selecionada do modal de calendário.
   useEffect(() => {
@@ -70,6 +51,26 @@ export default function EventoDetalhe() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [calOpen, shareOpen]);
+
+  if (!ready) return <div className="p-20 text-center text-[#aaa]">Carregando...</div>;
+  if (!ev) return <div className="p-20 text-center text-[#aaa]">Evento não encontrado.</div>;
+
+  const heroBgRaw = ev.imgBanner || ev.imgUrl;
+  // Banner full-width: ~1280px no desktop, ~720 no mobile. Servimos pelo proxy responsivo.
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const heroBg = heroBgRaw ? imgSrc(heroBgRaw, isMobile ? 768 : 1440, 72) : undefined;
+  const embedSrc = buildEmbedUrl(ev.mapaUrl, ev.local);
+  const shareUrl = window.location.href;
+
+  function copyLink() {
+    navigator.clipboard.writeText(shareUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+  const ingressos =
+    ev.ingressos && ev.ingressos.length > 0 ? ev.ingressos : [ev.ing1, ev.ing2, ev.ing3].filter(Boolean);
+  const datasLabel = allDates.map((d) => fmtDataFull(d)).join(" • ");
 
   function buildCalEvent(dateStr: string): CalendarEvent {
     return {
