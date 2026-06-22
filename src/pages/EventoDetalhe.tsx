@@ -1,8 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useDB } from "@/contexts/DBContext";
 import { fmtDataFull, eventoSlug } from "@/lib/utils";
 import { imgSrc } from "@/lib/responsiveImg";
+import {
+  googleCalendarUrl,
+  outlookUrl,
+  buildIcs,
+  downloadIcs,
+  fmtDataBR,
+  type CalendarEvent,
+} from "@/lib/calendar";
 
 function buildEmbedUrl(mapaUrl: string, local: string): string | null {
   if (mapaUrl) {
