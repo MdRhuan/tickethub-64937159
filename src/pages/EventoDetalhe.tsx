@@ -53,6 +53,52 @@ export default function EventoDetalhe() {
   const allDates = (ev.datas && ev.datas.length > 0 ? ev.datas : ev.data ? [ev.data] : []).slice().sort();
   const datasLabel = allDates.map((d) => fmtDataFull(d)).join(" • ");
 
+  // Sincroniza a data inicial selecionada do modal de calendário.
+  useEffect(() => {
+    if (allDates.length > 0 && !calDate) setCalDate(allDates[0]);
+  }, [allDates, calDate]);
+
+  // Fecha modais com Esc.
+  useEffect(() => {
+    if (!calOpen && !shareOpen) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setCalOpen(false);
+        setShareOpen(false);
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [calOpen, shareOpen]);
+
+  function buildCalEvent(dateStr: string): CalendarEvent {
+    return {
+      titulo: ev.titulo,
+      descricao: `${ev.sobre || ""}\n\nIngressos: ${shareUrl}`.trim(),
+      local: ev.local || "",
+      data: dateStr,
+      hora: ev.hora || "",
+    };
+  }
+
+  function handleGoogle() {
+    if (!calDate) return;
+    window.open(googleCalendarUrl(buildCalEvent(calDate)), "_blank", "noopener");
+    setCalOpen(false);
+  }
+  function handleOutlook() {
+    if (!calDate) return;
+    window.open(outlookUrl(buildCalEvent(calDate)), "_blank", "noopener");
+    setCalOpen(false);
+  }
+  function handleIcs() {
+    if (!calDate) return;
+    const calEv = buildCalEvent(calDate);
+    const uid = `${ev.id}-${calDate}@tickethub`;
+    downloadIcs(buildIcs(calEv, uid), `${eventoSlug(ev)}-${calDate}.ics`);
+    setCalOpen(false);
+  }
+
   return (
     <>
       {/* Hero */}
