@@ -27,6 +27,8 @@ export default function EventoDetalhe() {
   const { eventos, ready } = useDB();
   const [shareOpen, setShareOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [calOpen, setCalOpen] = useState(false);
+  const [calDate, setCalDate] = useState<string>("");
 
   const ev = eventos.find((e) => eventoSlug(e) === slug) || eventos.find((e) => e.id === slug);
 
