@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tickethubbh.lovable.app/sitemap.xml

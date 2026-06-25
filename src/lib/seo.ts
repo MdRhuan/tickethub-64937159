@@ -9,6 +9,11 @@ interface SeoOptions {
   image?: string;
   type?: 'website' | 'article';
   url?: string;
+  /**
+   * JSON-LD structured data to inject as <script type="application/ld+json">.
+   * Pass an object (or array of objects) — replaced on every change.
+   */
+  jsonLd?: object | object[];
 }
 
 function clampDesc(s: string, max = 180): string {
@@ -46,7 +51,22 @@ function upsertCanonical(href: string) {
   el.setAttribute('href', href);
 }
 
-export function useSeo({ title, description, image, type = 'website', url }: SeoOptions) {
+function upsertJsonLd(data?: object | object[]) {
+  if (typeof document === 'undefined') return;
+  // Remove dynamic JSON-LD injected previously by useSeo (keep static ones in index.html).
+  document.head.querySelectorAll('script[type="application/ld+json"][data-seo="dynamic"]').forEach((el) => el.remove());
+  if (!data) return;
+  const items = Array.isArray(data) ? data : [data];
+  for (const item of items) {
+    const script = document.createElement('script');
+    script.setAttribute('type', 'application/ld+json');
+    script.setAttribute('data-seo', 'dynamic');
+    script.textContent = JSON.stringify(item);
+    document.head.appendChild(script);
+  }
+}
+
+export function useSeo({ title, description, image, type = 'website', url, jsonLd }: SeoOptions) {
   useEffect(() => {
     const fullTitle = title ? `${title} — ${SITE_NAME}` : SITE_NAME;
     document.title = fullTitle;
@@ -73,5 +93,7 @@ export function useSeo({ title, description, image, type = 'website', url }: Seo
     if (img) upsertMeta('name', 'twitter:image', img);
 
     if (pageUrl) upsertCanonical(pageUrl);
-  }, [title, description, image, type, url]);
+
+    upsertJsonLd(jsonLd);
+  }, [title, description, image, type, url, jsonLd]);
 }

@@ -50,7 +50,7 @@ const LinkCard = ({ href, icon, label }: { href: string; icon: React.ReactNode; 
 
 export default function Link() {
   useEffect(() => {
-    document.title = 'TicketHubh — Links';
+    document.title = 'TicketHub — Links';
   }, []);
 
   return (
