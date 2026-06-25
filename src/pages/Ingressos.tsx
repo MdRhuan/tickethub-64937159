@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useDB } from '@/contexts/DBContext';
 import EventoCard from '@/components/EventoCard';
 import LoadErrorRetry from '@/components/LoadErrorRetry';
+import { useSeo } from '@/lib/seo';
 
 const GENEROS = ['FUNK','SERTANEJO','PAGODE','ROCK','POP','ELETRÔNICO','MPB','TRAP','JAZZ'];
 
@@ -15,6 +16,12 @@ export default function Ingressos() {
   const [dropOpen, setDropOpen] = useState(false);
 
   useEffect(() => { setBusca(qParam); }, [qParam]);
+
+  useSeo({
+    title: 'Ingressos',
+    description: 'Catálogo completo de ingressos para shows, festas e eventos. Filtre por gênero musical e encontre o rolê perfeito em Belo Horizonte.',
+    url: 'https://tickethubbh.lovable.app/ingressos',
+  });
 
   const filtered = useMemo(() => eventos.filter(ev => {
     const okG = !genero || ev.categoria === genero;

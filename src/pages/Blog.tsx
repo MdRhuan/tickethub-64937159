@@ -2,9 +2,16 @@ import { Link } from 'react-router-dom';
 import { useDB } from '@/contexts/DBContext';
 import { fmtDataBlog } from '@/lib/utils';
 import LoadErrorRetry from '@/components/LoadErrorRetry';
+import { useSeo } from '@/lib/seo';
 
 export default function Blog() {
   const { posts, ready, loadError, reload } = useDB();
+
+  useSeo({
+    title: 'Blog',
+    description: 'Notícias, dicas e histórias sobre música, festas e o universo dos eventos em Belo Horizonte.',
+    url: 'https://tickethubbh.lovable.app/blog',
+  });
 
   const destaque = posts.find(p => p.destaque) ?? null;
   const outros = [...posts].reverse().filter(p => !p.destaque);

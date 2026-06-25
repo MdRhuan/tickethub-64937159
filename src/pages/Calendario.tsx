@@ -4,6 +4,7 @@ import { useDB } from '@/contexts/DBContext';
 import type { Evento } from '@/types';
 import { eventoSlug } from '@/lib/utils';
 import LoadErrorRetry from '@/components/LoadErrorRetry';
+import { useSeo } from '@/lib/seo';
 
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DIAS_SEMANA = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
