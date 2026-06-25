@@ -36,6 +36,12 @@ function buildEventMap(eventos: Evento[]): Record<string, Record<number, DayData
 
 export default function Calendario() {
   const { eventos, ready, loadError, reload } = useDB();
+
+  useSeo({
+    title: 'Calendário de eventos',
+    description: 'Veja todos os shows, festas e eventos por data. Calendário mensal dos rolês imperdíveis em Belo Horizonte.',
+    url: 'https://tickethubbh.lovable.app/calendario',
+  });
   const now = new Date();
   const [curMes, setCurMes] = useState(now.getMonth());
   const [curAno, setCurAno] = useState(now.getFullYear());
