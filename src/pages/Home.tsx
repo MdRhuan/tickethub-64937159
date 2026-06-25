@@ -250,6 +250,8 @@ export default function Home() {
                 goTo(i);
                 resetTimer();
               }}
+              aria-label={`Ir para o evento ${i + 1}`}
+              aria-current={i === current ? 'true' : undefined}
               className={`min-h-0 h-2 rounded-full cursor-pointer border-none transition-all ${i === current ? "bg-[#1a3a6b] w-2 md:w-6" : "bg-[#ddd] w-2 hover:bg-[#bbb]"}`}
             />
           ))}
