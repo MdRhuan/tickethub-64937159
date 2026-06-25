@@ -23,11 +23,23 @@ export default function BlogPost() {
   }, [id]);
 
   // SEO/Open Graph dinâmico. Preview social via prerender (scripts/prerender-og.mjs).
+  const postJsonLd = post ? {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.titulo,
+    description: post.subtitulo || undefined,
+    image: post.imgUrl || undefined,
+    datePublished: post.data || undefined,
+    author: { '@type': 'Person', name: post.autor || 'Ticket Hub' },
+    mainEntityOfPage: typeof window !== 'undefined' ? window.location.href : undefined,
+  } : undefined;
+
   useSeo({
     title: post?.titulo ?? '',
     description: post?.subtitulo || post?.conteudo,
     image: post?.imgUrl,
     type: 'article',
+    jsonLd: postJsonLd,
   });
 
   useEffect(() => {

@@ -37,11 +37,33 @@ export default function EventoDetalhe() {
 
   // SEO/Open Graph dinâmico (título da aba, Google e navegação interna).
   // O preview de WhatsApp/Instagram vem do prerender (scripts/prerender-og.mjs).
+  const eventJsonLd = ev ? {
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: ev.titulo,
+    description: ev.sobre || undefined,
+    startDate: allDates[0] ? `${allDates[0]}${ev.hora ? 'T' + ev.hora : ''}` : undefined,
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    location: ev.local ? { '@type': 'Place', name: ev.local } : undefined,
+    image: ev.imgBanner || ev.imgUrl || undefined,
+    url: typeof window !== 'undefined' ? window.location.href : undefined,
+    offers: (ev.ingressos && ev.ingressos.length > 0 ? ev.ingressos : [ev.ing1, ev.ing2, ev.ing3].filter(Boolean))
+      .map((ing) => ing && ({
+        '@type': 'Offer',
+        name: ing.nome,
+        url: ing.link,
+        availability: 'https://schema.org/InStock',
+      }))
+      .filter(Boolean),
+  } : undefined;
+
   useSeo({
     title: ev?.titulo ?? "",
     description: ev?.sobre || (ev ? `${ev.titulo}${ev.local ? " — " + ev.local : ""}` : ""),
     image: ev?.imgBanner || ev?.imgUrl,
     type: "article",
+    jsonLd: eventJsonLd,
   });
 
   // Sincroniza a data inicial selecionada do modal de calendário.
