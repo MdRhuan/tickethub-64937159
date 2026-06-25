@@ -11,6 +11,7 @@ import {
   fmtDataBR,
   type CalendarEvent,
 } from "@/lib/calendar";
+import { useSeo } from "@/lib/seo";
 
 function buildEmbedUrl(mapaUrl: string, local: string): string | null {
   if (mapaUrl) {
@@ -33,6 +34,15 @@ export default function EventoDetalhe() {
   const ev = eventos.find((e) => eventoSlug(e) === slug) || eventos.find((e) => e.id === slug);
 
   const allDates = (ev?.datas && ev.datas.length > 0 ? ev.datas : ev?.data ? [ev.data] : []).slice().sort();
+
+  // SEO/Open Graph dinâmico (título da aba, Google e navegação interna).
+  // O preview de WhatsApp/Instagram vem do prerender (scripts/prerender-og.mjs).
+  useSeo({
+    title: ev?.titulo ?? "",
+    description: ev?.sobre || (ev ? `${ev.titulo}${ev.local ? " — " + ev.local : ""}` : ""),
+    image: ev?.imgBanner || ev?.imgUrl,
+    type: "article",
+  });
 
   // Sincroniza a data inicial selecionada do modal de calendário.
   useEffect(() => {

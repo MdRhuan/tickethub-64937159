@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import type { Post } from '@/types';
 import { fmtDataBlog } from '@/lib/utils';
 import { imgSrc } from '@/lib/responsiveImg';
+import { useSeo } from '@/lib/seo';
 
 export default function BlogPost() {
   const { id } = useParams<{ id: string }>();
@@ -21,8 +22,15 @@ export default function BlogPost() {
     return () => { active = false; };
   }, [id]);
 
+  // SEO/Open Graph dinâmico. Preview social via prerender (scripts/prerender-og.mjs).
+  useSeo({
+    title: post?.titulo ?? '',
+    description: post?.subtitulo || post?.conteudo,
+    image: post?.imgUrl,
+    type: 'article',
+  });
+
   useEffect(() => {
-    if (post?.titulo) document.title = `${post.titulo} — TicketHub`;
     window.scrollTo(0, 0);
   }, [post]);
 
