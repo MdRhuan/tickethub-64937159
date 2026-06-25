@@ -3,11 +3,18 @@ import { Link } from 'react-router-dom';
 import { useDB } from '@/contexts/DBContext';
 import { fmtDataFull } from '@/lib/utils';
 import LoadErrorRetry from '@/components/LoadErrorRetry';
+import { useSeo } from '@/lib/seo';
 
 export default function Fotos() {
   const { albuns, ready, loadError, reload } = useDB();
   const [busca, setBusca] = useState('');
   const [dataFiltro, setDataFiltro] = useState('');
+
+  useSeo({
+    title: 'Fotos',
+    description: 'Álbuns de fotos das edições anteriores dos eventos. Reviva os melhores momentos das festas e shows em BH.',
+    url: 'https://tickethubbh.lovable.app/fotos',
+  });
 
   const filtered = useMemo(() => {
     const sorted = [...albuns].sort((a, b) => (b.data || '').localeCompare(a.data || ''));

@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDB } from "@/contexts/DBContext";
 import EventoCard from "@/components/EventoCard";
 import LoadErrorRetry from "@/components/LoadErrorRetry";
 import { imgSrc } from "@/lib/responsiveImg";
 import { fmtDataFull, eventoSlug } from "@/lib/utils";
+import { useSeo } from "@/lib/seo";
 
 const CFG: Record<number, { x: number; scale: number; ry: number; z: number; op: number }> = {
   0: { x: 0, scale: 1, ry: 0, z: 10, op: 1 },
@@ -68,8 +69,28 @@ export default function Home() {
 
   const curEv = carouselEvs[current];
 
+  const homeJsonLd = useMemo(() => ({
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Eventos em destaque',
+    itemListElement: featured.map((ev, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: `https://tickethubbh.lovable.app/ingresso/${eventoSlug(ev)}`,
+      name: ev.titulo,
+    })),
+  }), [featured]);
+
+  useSeo({
+    title: 'Ingressos para shows, festas e eventos em BH',
+    description: 'Descubra e garanta ingressos para os melhores shows, festas e eventos em Belo Horizonte. Curadoria, compra rápida e segura.',
+    url: 'https://tickethubbh.lovable.app/',
+    jsonLd: homeJsonLd,
+  });
+
   return (
     <>
+      <h1 className="sr-only">TicketHub — Encontre e garanta seu ingresso para os melhores eventos em BH</h1>
       {/* ── Search ── */}
       <div className="flex justify-center px-4 md:px-10 pt-7 pb-6 w-full">
         <div className="flex items-center w-full max-w-[680px] min-w-0 bg-[#f2f2f2] rounded-full pl-4 pr-[6px] sm:pl-5 gap-2 border-2 border-transparent focus-within:bg-white focus-within:border-[#ddd] transition-all">
@@ -181,6 +202,7 @@ export default function Home() {
               goTo(current - 1);
               resetTimer();
             }}
+            aria-label="Evento anterior"
             className="hidden md:flex absolute top-1/2 -translate-y-1/2 w-11 h-11 rounded-full border-2 border-[#ddd] bg-white items-center justify-center z-[20] text-[#333] cursor-pointer transition-all hover:bg-[#111] hover:border-[#111] hover:text-white shadow-md btn-pulse"
             style={{ left: "max(12px, calc(50% - 490px))" }}
           >
@@ -201,6 +223,7 @@ export default function Home() {
               goTo(current + 1);
               resetTimer();
             }}
+            aria-label="Próximo evento"
             className="hidden md:flex absolute top-1/2 -translate-y-1/2 w-11 h-11 rounded-full border-2 border-[#ddd] bg-white items-center justify-center z-[20] text-[#333] cursor-pointer transition-all hover:bg-[#111] hover:border-[#111] hover:text-white shadow-md btn-pulse"
             style={{ right: "max(12px, calc(50% - 490px))" }}
           >
@@ -227,6 +250,8 @@ export default function Home() {
                 goTo(i);
                 resetTimer();
               }}
+              aria-label={`Ir para o evento ${i + 1}`}
+              aria-current={i === current ? 'true' : undefined}
               className={`min-h-0 h-2 rounded-full cursor-pointer border-none transition-all ${i === current ? "bg-[#1a3a6b] w-2 md:w-6" : "bg-[#ddd] w-2 hover:bg-[#bbb]"}`}
             />
           ))}

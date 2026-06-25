@@ -4,6 +4,7 @@ import { useDB } from '@/contexts/DBContext';
 import type { Evento } from '@/types';
 import { eventoSlug } from '@/lib/utils';
 import LoadErrorRetry from '@/components/LoadErrorRetry';
+import { useSeo } from '@/lib/seo';
 
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DIAS_SEMANA = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
@@ -35,6 +36,12 @@ function buildEventMap(eventos: Evento[]): Record<string, Record<number, DayData
 
 export default function Calendario() {
   const { eventos, ready, loadError, reload } = useDB();
+
+  useSeo({
+    title: 'Calendário de eventos',
+    description: 'Veja todos os shows, festas e eventos por data. Calendário mensal dos rolês imperdíveis em Belo Horizonte.',
+    url: 'https://tickethubbh.lovable.app/calendario',
+  });
   const now = new Date();
   const [curMes, setCurMes] = useState(now.getMonth());
   const [curAno, setCurAno] = useState(now.getFullYear());
