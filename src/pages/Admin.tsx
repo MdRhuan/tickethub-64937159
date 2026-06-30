@@ -257,11 +257,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
       : form.local.trim().length < 3
         ? 'O local deve ter pelo menos 3 caracteres.'
         : '',
-    preco: !form.preco.trim()
-      ? 'Informe o preço.'
-      : !(parsePreco(form.preco) > 0)
-        ? 'Preço deve ser um número maior que zero.'
-        : '',
+    preco: '',
   };
   const hasErrors = Object.values(errors).some(Boolean);
 
