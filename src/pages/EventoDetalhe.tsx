@@ -84,8 +84,8 @@ export default function EventoDetalhe() {
     return () => window.removeEventListener("keydown", onKey);
   }, [calOpen, shareOpen]);
 
-  if (!ready) return <div className="p-20 text-center text-[#aaa]">Carregando...</div>;
-  if (!ev) return <div className="p-20 text-center text-[#aaa]">Evento não encontrado.</div>;
+  if (!ready) return <div className="p-20 text-center text-[#666]">Carregando...</div>;
+  if (!ev) return <div className="p-20 text-center text-[#666]">Evento não encontrado.</div>;
 
   const heroBgRaw = ev.imgBanner || ev.imgUrl;
   // Banner full-width: ~1280px no desktop, ~720 no mobile. Servimos pelo proxy responsivo.
@@ -383,7 +383,7 @@ export default function EventoDetalhe() {
                     {ing!.btnLabel?.trim() || "Garantir ingresso com desconto"}
                   </a>
                 ) : (
-                  <span className="block mt-2 py-[14px] px-5 bg-[#eee] text-[#999] rounded-lg text-[15px] text-center">
+                  <span className="block mt-2 py-[14px] px-5 bg-[#eee] text-[#666] rounded-lg text-[15px] text-center">
                     Em breve
                   </span>
                 )}
@@ -392,7 +392,7 @@ export default function EventoDetalhe() {
           ) : ev.preco ? (
             <p className="text-[20px] font-black text-[#111] py-4">A partir de {ev.preco}</p>
           ) : (
-            <p className="text-[#aaa] py-4">Nenhum ingresso disponível no momento.</p>
+            <p className="text-[#666] py-4">Nenhum ingresso disponível no momento.</p>
           )}
 
           {/* Grupo de Ofertas WhatsApp */}

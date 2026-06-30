@@ -26,7 +26,7 @@ export default function Galeria() {
     return () => window.removeEventListener('keydown', onKey);
   }, [lbIdx, al]);
 
-  if (!ready) return <div className="p-20 text-center text-[#aaa]">Carregando...</div>;
+  if (!ready) return <div className="p-20 text-center text-[#666]">Carregando...</div>;
   if (!al) return null;
 
   const fotos = al.fotos || [];
@@ -55,7 +55,7 @@ export default function Galeria() {
         <p className="text-[13px] text-[#888] font-semibold mb-6">{fotos.length} {fotos.length === 1 ? 'foto' : 'fotos'}</p>
 
         {fotos.length === 0 ? (
-          <div className="flex flex-col items-center gap-3 py-20 text-[#bbb] text-sm">
+          <div className="flex flex-col items-center gap-3 py-20 text-[#666] text-sm">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
             Este álbum não possui fotos.
           </div>

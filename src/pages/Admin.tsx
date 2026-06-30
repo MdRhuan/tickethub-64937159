@@ -152,7 +152,7 @@ export default function Admin() {
           <h1 className="text-[20px] font-black text-[#111]">
             {tab === 'eventos' ? 'Eventos' : tab === 'blog' ? 'Blog' : tab === 'albuns' ? 'Fotos' : 'Leads'}
           </h1>
-          <p className="text-[13px] text-[#999] mt-0.5">
+          <p className="text-[13px] text-[#666] mt-0.5">
             {tab === 'eventos' ? 'Gerencie os eventos do site' : tab === 'blog' ? 'Gerencie os posts do blog' : tab === 'albuns' ? 'Gerencie os álbuns de fotos' : 'Contatos capturados pelo popup do site'}
           </p>
         </div>
@@ -411,7 +411,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
                     {at.foto ? (
                       <img src={at.foto} alt="" className="w-full h-full object-cover" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-[10px] text-[#aaa] text-center px-1">Sem foto</div>
+                      <div className="w-full h-full flex items-center justify-center text-[10px] text-[#666] text-center px-1">Sem foto</div>
                     )}
                     <label className="absolute inset-0 cursor-pointer flex items-end justify-center bg-black/0 hover:bg-black/40 transition-colors group">
                       <span className="text-white text-[10px] font-bold opacity-0 group-hover:opacity-100 pb-1">Trocar</span>
@@ -560,7 +560,7 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
         </div>
         <div className="p-3 flex flex-col gap-2 max-h-[560px] overflow-y-auto">
           {eventos.length === 0 ? (
-            <p className="text-[#bbb] text-[13px] text-center py-7">Nenhum evento cadastrado.</p>
+            <p className="text-[#666] text-[13px] text-center py-7">Nenhum evento cadastrado.</p>
           ) : [...eventos].reverse().map(ev => (
             <ListItem key={ev.id} img={ev.imgUrl} title={ev.titulo} meta={[ev.data ? fmtDataBlog(ev.data) : '', ev.hora].filter(Boolean).join(' • ')} sub={ev.preco} badge={ev.homeDestaque ? `Home #${ev.homeOrdem ?? 0}` : undefined} active={editId === ev.id} onEdit={() => startEdit(ev)} onDelete={() => del(ev.id)} />
           ))}
@@ -634,7 +634,7 @@ function TabBlog({ toast }: { toast: (m:string)=>void }) {
         </div>
         <div className="p-3 flex flex-col gap-2 max-h-[560px] overflow-y-auto">
           {posts.length === 0 ? (
-            <p className="text-[#bbb] text-[13px] text-center py-7">Nenhum post cadastrado.</p>
+            <p className="text-[#666] text-[13px] text-center py-7">Nenhum post cadastrado.</p>
           ) : [...posts].reverse().map(p => (
             <ListItem key={p.id} img={p.imgUrl} title={p.titulo} meta={[fmtDataBlog(p.data), p.tag].filter(Boolean).join(' • ')} sub={p.destaque ? '⭐ DESTAQUE' : undefined} onDelete={() => del(p.id)} />
           ))}
@@ -738,7 +738,7 @@ function TabAlbuns({ toast }: { toast: (m:string)=>void }) {
         </div>
         <div className="p-3 flex flex-col gap-2 max-h-[560px] overflow-y-auto">
           {albuns.length === 0 ? (
-            <p className="text-[#bbb] text-[13px] text-center py-7">Nenhum álbum cadastrado.</p>
+            <p className="text-[#666] text-[13px] text-center py-7">Nenhum álbum cadastrado.</p>
           ) : [...albuns].reverse().map(al => (
             <ListItem key={al.id} img={al.capa} title={al.nome} meta={fmtDataBlog(al.data) + ' • ' + (al.fotos?.length || 0) + ' foto(s)'} onDelete={() => del(al.id)} />
           ))}
@@ -799,7 +799,7 @@ function ListItem({ img, title, meta, sub, badge, active, onEdit, onDelete }: { 
       <div className="w-12 h-12 rounded-lg flex-shrink-0 bg-[#e0e0e0]" style={img ? { backgroundImage: `url(${img})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined} />
       <div className="flex-1 min-w-0 flex flex-col gap-[3px]">
         <span className="text-[13px] font-bold text-[#111] truncate">{title}</span>
-        {meta && <span className="text-[11px] text-[#999] truncate">{meta}</span>}
+        {meta && <span className="text-[11px] text-[#666] truncate">{meta}</span>}
         {sub && <span className="text-[11px] font-bold text-[#1a3a6b]">{sub}</span>}
       </div>
       {badge && (
@@ -852,13 +852,13 @@ function TabLeads({ toast }: { toast: (m:string)=>void }) {
     toast('Contato removido.');
   }
 
-  if (loading) return <p className="text-[#999]">Carregando...</p>;
+  if (loading) return <p className="text-[#666]">Carregando...</p>;
 
   if (leads.length === 0) {
     return (
       <div className="bg-white rounded-2xl p-10 text-center shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
         <p className="text-[15px] font-bold text-[#333] mb-1">Nenhum contato ainda</p>
-        <p className="text-[13px] text-[#999]">Quando alguém preencher o popup do site, vai aparecer aqui.</p>
+        <p className="text-[13px] text-[#666]">Quando alguém preencher o popup do site, vai aparecer aqui.</p>
       </div>
     );
   }
@@ -874,7 +874,7 @@ function TabLeads({ toast }: { toast: (m:string)=>void }) {
               </div>
               <div className="min-w-0">
                 <p className="text-[14px] font-black text-[#111] truncate">{l.nome || '—'}</p>
-                <p className="text-[11px] text-[#999]">
+                <p className="text-[11px] text-[#666]">
                   {l.created_at ? new Date(l.created_at).toLocaleDateString('pt-BR') : ''}
                 </p>
               </div>

@@ -110,7 +110,7 @@ export default function Calendario() {
             </button>
             {dpOpen && (
               <div className="absolute top-[calc(100%+8px)] right-0 bg-white border border-[#e0e0e0] rounded-[14px] p-5 shadow-[0_8px_32px_rgba(0,0,0,0.12)] z-[200] min-w-[260px] flex flex-col gap-[14px] max-md:right-auto max-md:left-0" onClick={e => e.stopPropagation()}>
-                <span className="text-[11px] font-bold text-[#aaa] uppercase tracking-[1.5px]">Ir para</span>
+                <span className="text-[11px] font-bold text-[#666] uppercase tracking-[1.5px]">Ir para</span>
                 <div className="flex gap-2">
                   <select value={dpMes} onChange={e => setDpMes(parseInt(e.target.value))} className="flex-1 px-3 py-[9px] border border-[#e0e0e0] rounded-lg text-sm text-[#333] bg-[#fafafa] outline-none cursor-pointer focus:border-[#4a90e2]">
                     {MESES.map((m, i) => <option key={i} value={i}>{m}</option>)}
@@ -160,7 +160,7 @@ export default function Calendario() {
             {/* Grid */}
             <div className="grid grid-cols-7 gap-[6px]">
               {DIAS_SEMANA.map(d => (
-                <div key={d} className="text-center text-[12px] font-bold text-[#aaa] pb-3 max-[480px]:text-[10px]">{d}</div>
+                <div key={d} className="text-center text-[12px] font-bold text-[#666] pb-3 max-[480px]:text-[10px]">{d}</div>
               ))}
               {Array.from({ length: primDia }, (_, i) => (
                 <div key={`e${i}`} />
@@ -190,18 +190,18 @@ export default function Calendario() {
               <>
                 <p className="text-[22px] font-black text-[#111] capitalize">{dataDiaAtivo}</p>
                 {diaAtivoEvs.length === 0 ? (
-                  <p className="text-[#aaa] text-sm">Nenhum evento neste dia.</p>
+                  <p className="text-[#666] text-sm">Nenhum evento neste dia.</p>
                 ) : diaAtivoEvs.map(ev => (
                   <div key={ev.id} className="bg-white rounded-[14px] p-4 border border-[#eee] flex flex-col gap-[6px] shadow-[0_2px_10px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_28px_rgba(0,0,0,0.10)] hover:-translate-y-0.5 transition-all duration-300">
                     <span className="text-[15px] font-bold text-[#111]">{ev.titulo}</span>
                     {ev.hora && <span className="flex items-center gap-[6px] text-[13px] text-[#888]"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>{ev.hora}</span>}
-                    {ev.local && <span className="text-[13px] text-[#aaa]">{ev.local}</span>}
+                    {ev.local && <span className="text-[13px] text-[#666]">{ev.local}</span>}
                     <Link to={`/ingresso/${eventoSlug(ev)}`} className="inline-block mt-2 px-[18px] py-[9px] bg-[#4a90e2] text-white rounded-lg text-[13px] font-bold no-underline hover:bg-[#2d6abf] transition-colors self-start btn-pulse">Ver ingresso</Link>
                   </div>
                 ))}
               </>
             ) : (
-              <p className="text-[#aaa] text-sm">Clique em um dia para ver os eventos.</p>
+              <p className="text-[#666] text-sm">Clique em um dia para ver os eventos.</p>
             )}
           </div>
         </div>
@@ -212,12 +212,12 @@ export default function Calendario() {
         <div className="relative pl-[110px] flex flex-col gap-6 max-md:pl-20 max-[480px]:pl-0 max-[480px]:gap-3">
           <div className="absolute left-20 top-0 bottom-0 w-[2px] bg-[#eee] max-md:left-[54px] max-[480px]:hidden" />
           {!ready ? (
-            <p className="text-[#aaa]">Carregando...</p>
+            <p className="text-[#666]">Carregando...</p>
           ) : agendaEvs.length === 0 ? (
             loadError && eventos.length === 0 ? (
               <LoadErrorRetry message={loadError} onRetry={reload} />
             ) : (
-              <p className="text-[#aaa] text-sm py-6">Nenhum evento na agenda.</p>
+              <p className="text-[#666] text-sm py-6">Nenhum evento na agenda.</p>
             )
           ) : agendaEvs.map(({ ev, dt }, idx) => {
             const parts = dt ? dt.split('-') : [];

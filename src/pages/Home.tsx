@@ -327,12 +327,12 @@ export default function Home() {
           </div>
 
           {!ready ? (
-            <p className="text-[#aaa]">Carregando...</p>
+            <p className="text-[#666]">Carregando...</p>
           ) : featured.length === 0 ? (
             loadError ? (
               <LoadErrorRetry message={loadError} onRetry={reload} />
             ) : (
-              <p className="text-[#aaa] py-6">Nenhum evento disponível no momento.</p>
+              <p className="text-[#666] py-6">Nenhum evento disponível no momento.</p>
             )
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
