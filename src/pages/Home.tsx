@@ -7,11 +7,12 @@ import { imgSrc } from "@/lib/responsiveImg";
 import { fmtDataFull, eventoSlug } from "@/lib/utils";
 import { useSeo } from "@/lib/seo";
 
+// x é expresso como fração da largura do card (--cw) para escalar com o viewport.
 const CFG: Record<number, { x: number; scale: number; ry: number; z: number; op: number }> = {
   0: { x: 0, scale: 1, ry: 0, z: 10, op: 1 },
-  1: { x: 420, scale: 0.7, ry: -10, z: 8, op: 0.85 },
-  2: { x: 620, scale: 0.5, ry: -16, z: 5, op: 0.6 },
-  3: { x: 800, scale: 0.36, ry: -22, z: 2, op: 0 },
+  1: { x: 0.49, scale: 0.7, ry: -10, z: 8, op: 0.85 },
+  2: { x: 0.72, scale: 0.5, ry: -16, z: 5, op: 0.6 },
+  3: { x: 0.93, scale: 0.36, ry: -22, z: 2, op: 0 },
 };
 
 export default function Home() {
