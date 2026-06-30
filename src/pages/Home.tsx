@@ -129,7 +129,14 @@ export default function Home() {
       {/* ── Carousel ── */}
       <div className="flex flex-col items-center pb-8">
         <div
-          className="relative w-full h-[500px] [perspective:1400px] overflow-hidden max-md:h-[240px]"
+          className="relative w-full mx-auto [perspective:1400px] overflow-hidden"
+          style={{
+            // Largura do card escala com o viewport mas é limitada para não crescer em zoom/telas enormes.
+            ['--cw' as any]: 'clamp(300px, 58vw, 880px)',
+            // Altura mantém proporção ~16:8.5 do card central com folga p/ os laterais.
+            height: 'clamp(260px, 36vw, 520px)',
+            maxWidth: '1400px',
+          }}
           onTouchStart={(e) => {
             const t = e.touches[0];
             touchStartX.current = t.clientX;
@@ -163,8 +170,6 @@ export default function Home() {
             const abs = Math.abs(offset);
             const sign = offset >= 0 ? 1 : -1;
             const cfg = CFG[Math.min(abs, 3)];
-            // Largura aproximada por slide: 860px no desktop, ~88vw no mobile.
-            // Servimos versões progressivamente menores para slides afastados.
             const baseW = abs === 0 ? 1280 : abs === 1 ? 900 : 640;
             const raw = ev.imgBanner || ev.imgUrl || '';
             const bg = raw ? imgSrc(raw, baseW, 70) : undefined;
@@ -183,9 +188,13 @@ export default function Home() {
                     resetTimer();
                   }
                 }}
-                className="absolute left-1/2 top-1/2 w-[860px] h-[460px] -ml-[430px] -mt-[230px] rounded-[20px] overflow-hidden transition-all duration-[450ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] cursor-pointer max-md:w-[88vw] max-md:-ml-[44vw] max-md:h-[220px] max-md:-mt-[110px] max-md:rounded-[14px]"
+                className="absolute left-1/2 top-1/2 rounded-[20px] overflow-hidden transition-all duration-[450ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] cursor-pointer max-md:rounded-[14px]"
                 style={{
-                  transform: `translateX(${sign * cfg.x}px) scale(${cfg.scale}) rotateY(${sign * cfg.ry}deg)`,
+                  width: 'var(--cw)',
+                  aspectRatio: '16 / 8.5',
+                  marginLeft: 'calc(var(--cw) / -2)',
+                  marginTop: 'calc((var(--cw) * (8.5 / 16)) / -2)',
+                  transform: `translateX(calc(${sign * cfg.x} * var(--cw))) scale(${cfg.scale}) rotateY(${sign * cfg.ry}deg)`,
                   opacity: cfg.op,
                   zIndex: cfg.z,
                   backgroundImage: bg ? `url(${bg})` : undefined,
@@ -205,7 +214,7 @@ export default function Home() {
             }}
             aria-label="Evento anterior"
             className="hidden md:flex absolute top-1/2 -translate-y-1/2 w-11 h-11 rounded-full border-2 border-[#ddd] bg-white items-center justify-center z-[20] text-[#333] cursor-pointer transition-all hover:bg-[#111] hover:border-[#111] hover:text-white shadow-md btn-pulse"
-            style={{ left: "max(12px, calc(50% - 490px))" }}
+            style={{ left: 'max(12px, calc(50% - (var(--cw) / 2) - 56px))' }}
           >
             <svg
               width="16"
@@ -226,7 +235,7 @@ export default function Home() {
             }}
             aria-label="Próximo evento"
             className="hidden md:flex absolute top-1/2 -translate-y-1/2 w-11 h-11 rounded-full border-2 border-[#ddd] bg-white items-center justify-center z-[20] text-[#333] cursor-pointer transition-all hover:bg-[#111] hover:border-[#111] hover:text-white shadow-md btn-pulse"
-            style={{ right: "max(12px, calc(50% - 490px))" }}
+            style={{ right: 'max(12px, calc(50% - (var(--cw) / 2) - 56px))' }}
           >
             <svg
               width="16"
@@ -241,6 +250,7 @@ export default function Home() {
             </svg>
           </button>
         </div>
+
 
         {/* Dots */}
         <div className="flex gap-3 md:gap-2 mt-5 md:mt-[18px]">
