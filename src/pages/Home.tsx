@@ -306,32 +306,35 @@ export default function Home() {
 
       {/* ── Eventos ── */}
       <section className="page-px py-[48px] pb-16">
-        <div className="flex justify-between items-end gap-3 mb-7">
-          <h2 className="text-xl md:text-[28px] font-black text-[#111]">Principais Eventos</h2>
-          <Link
-            to="/ingressos"
-            className="text-[#4a90e2] font-bold text-sm md:text-base no-underline border-b border-transparent hover:border-[#4a90e2] transition-all whitespace-nowrap"
-          >
-            Ver todos →
-          </Link>
-        </div>
-
-        {!ready ? (
-          <p className="text-[#aaa]">Carregando...</p>
-        ) : featured.length === 0 ? (
-          loadError ? (
-            <LoadErrorRetry message={loadError} onRetry={reload} />
-          ) : (
-            <p className="text-[#aaa] py-6">Nenhum evento disponível no momento.</p>
-          )
-        ) : (
-          <div className="grid grid-cols-4 gap-5 max-md:grid-cols-2 max-md:gap-3">
-            {featured.map((ev, i) => (
-              <EventoCard key={ev.id} ev={ev} priority={i < 4} />
-            ))}
+        <div className="max-w-[1400px] mx-auto">
+          <div className="flex justify-between items-end gap-3 mb-7">
+            <h2 className="text-xl md:text-[28px] font-black text-[#111]">Principais Eventos</h2>
+            <Link
+              to="/ingressos"
+              className="text-[#4a90e2] font-bold text-sm md:text-base no-underline border-b border-transparent hover:border-[#4a90e2] transition-all whitespace-nowrap"
+            >
+              Ver todos →
+            </Link>
           </div>
-        )}
+
+          {!ready ? (
+            <p className="text-[#aaa]">Carregando...</p>
+          ) : featured.length === 0 ? (
+            loadError ? (
+              <LoadErrorRetry message={loadError} onRetry={reload} />
+            ) : (
+              <p className="text-[#aaa] py-6">Nenhum evento disponível no momento.</p>
+            )
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
+              {featured.map((ev, i) => (
+                <EventoCard key={ev.id} ev={ev} priority={i < 4} />
+              ))}
+            </div>
+          )}
+        </div>
       </section>
+
 
       {/* ── Banner Promo ── */}
       <section className="flex items-center bg-[#111] rounded-[24px] overflow-hidden mx-4 md:mx-[120px] mb-12 md:mb-20 min-h-[260px]">
