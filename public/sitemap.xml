@@ -5,4 +5,10 @@
   <url><loc>https://tickethubbh.lovable.app/calendario</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://tickethubbh.lovable.app/blog</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://tickethubbh.lovable.app/fotos</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://tickethubbh.lovable.app/link</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://tickethubbh.lovable.app/ingresso/santo-baile-com-vine7</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tickethubbh.lovable.app/ingresso/carnacopa</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tickethubbh.lovable.app/ingresso/roof-music</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tickethubbh.lovable.app/ingresso/mixed-by-mixed</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tickethubbh.lovable.app/ingresso/ginga-bh-full-open-bar</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
 </urlset>
