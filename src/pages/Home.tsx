@@ -188,7 +188,7 @@ export default function Home() {
                     resetTimer();
                   }
                 }}
-                className="absolute left-1/2 top-1/2 rounded-[20px] overflow-hidden transition-all duration-[450ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] cursor-pointer max-md:rounded-[14px]"
+                className="absolute left-1/2 top-1/2 rounded-[20px] overflow-hidden transition-all duration-[450ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] cursor-pointer max-md:rounded-[14px] bg-[#d8d8d8]"
                 style={{
                   width: 'var(--cw)',
                   aspectRatio: '16 / 8.5',
@@ -197,12 +197,21 @@ export default function Home() {
                   transform: `translateX(calc(${sign * cfg.x} * var(--cw))) scale(${cfg.scale}) rotateY(${sign * cfg.ry}deg)`,
                   opacity: cfg.op,
                   zIndex: cfg.z,
-                  backgroundImage: bg ? `url(${bg})` : undefined,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  backgroundColor: "#d8d8d8",
                 }}
-              />
+              >
+                {bg ? (
+                  <img
+                    src={bg}
+                    alt={ev.titulo || 'Evento'}
+                    width={baseW}
+                    height={Math.round(baseW * 8.5 / 16)}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    fetchPriority={i === 0 ? 'high' : 'auto'}
+                    decoding="async"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                ) : null}
+              </div>
             );
           })}
 
