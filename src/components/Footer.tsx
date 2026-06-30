@@ -105,11 +105,11 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-3 mt-2">
             {[
-              { icon: <InstagramIcon />, title: "Instagram" },
-              { icon: <WhatsAppIcon />, title: "WhatsApp" },
-              { icon: <TikTokIcon />, title: "TikTok" },
+              { icon: <InstagramIcon />, title: "Instagram", href: "#" },
+              { icon: <WhatsAppIcon />, title: "WhatsApp", href: "https://chat.whatsapp.com/EGrwvkC1N8WJyfp9Rsb8LM" },
+              { icon: <TikTokIcon />, title: "TikTok", href: "#" },
             ].map((s) => (
-              <a key={s.title} href="#" title={s.title} className="text-[#555] no-underline">
+              <a key={s.title} href={s.href} title={s.title} className="text-[#555] no-underline" target="_blank" rel="noopener noreferrer">
                 <div className="w-9 h-9 bg-[#eee] rounded-full flex items-center justify-center text-[#555] cursor-pointer transition-all hover:bg-[#4a90e2] hover:text-white">
                   {s.icon}
                 </div>
