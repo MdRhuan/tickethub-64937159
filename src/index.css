@@ -275,6 +275,19 @@
     color: hsl(var(--foreground));
   }
 
+  /* Pulsing WhatsApp floating button */
+  @keyframes whatsapp-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55); transform: scale(1); }
+    50% { transform: scale(1.06); }
+    70% { box-shadow: 0 0 0 18px rgba(37, 211, 102, 0); }
+  }
+  .whatsapp-pulse {
+    animation: whatsapp-pulse 2.2s ease-in-out infinite;
+  }
+  .whatsapp-pulse:hover {
+    animation-play-state: paused;
+  }
+
   /* Mobile horizontal-scroll guard */
   img, video, svg { max-width: 100%; }
   @media (max-width: 640px) {
