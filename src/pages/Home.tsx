@@ -110,7 +110,7 @@ export default function Home() {
             <line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg>
           <input
-            className="flex-1 min-w-0 w-full py-[13px] bg-transparent border-none text-[15px] outline-none text-[#333] placeholder-[#aaa]"
+            className="flex-1 min-w-0 w-full py-[13px] bg-transparent border-none text-[15px] outline-none text-[#333] placeholder-[#666]"
             type="text"
             placeholder="Buscar Eventos"
             value={busca}
