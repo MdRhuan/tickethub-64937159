@@ -24,7 +24,7 @@ export default function Blog() {
         <h1 className="text-[48px] font-black text-white leading-[1.1] mb-4" style={{ fontSize: 'clamp(28px, 4vw, 48px)' }}>
           Novidades, dicas e tudo<br />sobre o mundo dos eventos
         </h1>
-        <p className="text-base text-[#aaa] max-w-[520px] leading-[1.65]">
+        <p className="text-base text-[#666] max-w-[520px] leading-[1.65]">
           Fique por dentro das últimas notícias, guias e histórias do universo da música e entretenimento.
         </p>
       </section>
@@ -35,7 +35,7 @@ export default function Blog() {
         <h2 className="text-[28px] font-black text-[#111] mb-8">Post em destaque</h2>
 
         {!ready ? (
-          <div className="min-h-[200px] flex items-center justify-center text-[#aaa]">Carregando...</div>
+          <div className="min-h-[200px] flex items-center justify-center text-[#666]">Carregando...</div>
         ) : destaque ? (
           <div className="flex rounded-2xl overflow-hidden border border-[#eee] shadow-[0_4px_20px_rgba(0,0,0,0.08),0_1px_4px_rgba(0,0,0,0.04)] mb-16 min-h-[300px] transition-all duration-300 hover:shadow-[0_16px_52px_rgba(0,0,0,0.14),0_4px_12px_rgba(0,0,0,0.06)]" style={{ flexWrap: 'wrap' }}>
             <div
@@ -57,7 +57,7 @@ export default function Blog() {
                   <div className="w-8 h-8 rounded-full bg-[#1a3a6b]" />
                   <span className="text-sm font-semibold text-[#333]">{destaque.autor}</span>
                 </div>
-                <span className="text-sm text-[#aaa]">{fmtDataBlog(destaque.data)}</span>
+                <span className="text-sm text-[#666]">{fmtDataBlog(destaque.data)}</span>
               </div>
               <Link to={`/blog/${destaque.id}`} className="inline-block mt-2 px-5 py-[9px] bg-[#1a3a6b] text-white rounded-lg text-sm font-bold no-underline hover:bg-[#102a4e] transition-colors self-start btn-pulse">
                 Ler post
@@ -69,7 +69,7 @@ export default function Blog() {
             <LoadErrorRetry message={loadError} onRetry={reload} />
           </div>
         ) : (
-          <div className="min-h-[200px] flex items-center justify-center text-[#aaa] mb-16">
+          <div className="min-h-[200px] flex items-center justify-center text-[#666] mb-16">
             Nenhum post em destaque no momento.
           </div>
         )}
@@ -82,7 +82,7 @@ export default function Blog() {
           loadError && posts.length === 0 ? (
             <LoadErrorRetry message={loadError} onRetry={reload} />
           ) : (
-            <p className="text-[#aaa]">Nenhuma publicação disponível no momento.</p>
+            <p className="text-[#666]">Nenhuma publicação disponível no momento.</p>
           )
         ) : (
           <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
@@ -106,7 +106,7 @@ export default function Blog() {
                     </p>
                   )}
                   <div className="flex items-center justify-between mt-auto pt-2">
-                    <span className="text-[12px] text-[#aaa]">{fmtDataBlog(p.data)}</span>
+                    <span className="text-[12px] text-[#666]">{fmtDataBlog(p.data)}</span>
                     <Link to={`/blog/${p.id}`} className="text-[13px] text-[#4a90e2] font-semibold no-underline hover:underline">Ler mais →</Link>
                   </div>
                 </div>

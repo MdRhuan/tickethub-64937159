@@ -19,7 +19,7 @@ const LocIcon = () => (
 );
 
 const FallbackImg = () => (
-  <div className="w-full h-full flex items-center justify-center bg-[#ececec] text-[#bbb]">
+  <div className="w-full h-full flex items-center justify-center bg-[#ececec] text-[#666]">
     <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
       <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
       <circle cx="8.5" cy="8.5" r="1.5"/>
@@ -112,7 +112,7 @@ function EventoCard({ ev, linkLabel = 'Comprar', priority = false }: Props) {
       <div className="relative px-4 pt-[14px] pb-4 flex flex-col gap-1 flex-1">
         <span className="font-bold text-[15px] text-[#111] leading-snug break-words">{ev.titulo}</span>
         {dateLabel && (
-          <span className="text-[12px] text-[#aaa]">
+          <span className="text-[12px] text-[#666]">
             {dateLabel}{ev.hora ? ` • ${ev.hora}` : ''}
           </span>
         )}

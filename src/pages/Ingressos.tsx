@@ -36,7 +36,7 @@ export default function Ingressos() {
       <section className="bg-gradient-to-br from-[#0d0d0d] to-[#1a1f36] page-px py-[72px]">
         <span className="text-[11px] font-bold text-[#4a90e2] tracking-[3px] uppercase">TODOS OS EVENTOS</span>
         <h1 className="text-[52px] font-black text-white my-[10px] leading-[1.1]" style={{ fontSize: 'clamp(28px, 4vw, 52px)' }}>Ingressos</h1>
-        <p className="text-base text-[#aaa] max-w-[520px] leading-[1.65]">Encontre e garanta seu ingresso para os melhores eventos.</p>
+        <p className="text-base text-[#666] max-w-[520px] leading-[1.65]">Encontre e garanta seu ingresso para os melhores eventos.</p>
       </section>
 
       {/* Body */}
@@ -50,7 +50,7 @@ export default function Ingressos() {
             <input
               value={busca}
               onChange={e => setBusca(e.target.value)}
-              className="flex-1 py-[11px] bg-transparent border-none text-sm outline-none text-[#333] placeholder-[#aaa] min-w-0 w-full"
+              className="flex-1 py-[11px] bg-transparent border-none text-sm outline-none text-[#333] placeholder-[#666] min-w-0 w-full"
               placeholder="Buscar eventos..."
             />
           </div>
@@ -91,18 +91,18 @@ export default function Ingressos() {
         {/* Grid */}
         <div>
           <div className="flex items-end justify-center mb-7">
-            <span className="text-sm text-[#aaa]">
+            <span className="text-sm text-[#666]">
               {filtered.length} evento{filtered.length !== 1 ? 's' : ''} encontrado{filtered.length !== 1 ? 's' : ''}
             </span>
           </div>
 
           {!ready ? (
-            <p className="text-[#aaa] text-center">Carregando...</p>
+            <p className="text-[#666] text-center">Carregando...</p>
           ) : filtered.length === 0 ? (
             loadError && eventos.length === 0 ? (
               <LoadErrorRetry message={loadError} onRetry={reload} />
             ) : (
-              <p className="text-[#aaa] py-6 text-center">Nenhum evento disponível no momento.</p>
+              <p className="text-[#666] py-6 text-center">Nenhum evento disponível no momento.</p>
             )
           ) : (
             <div className="grid gap-5 justify-center" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(220px, 100%), 1fr))' }}>

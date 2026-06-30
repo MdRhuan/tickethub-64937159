@@ -110,7 +110,7 @@ export default function Home() {
             <line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg>
           <input
-            className="flex-1 min-w-0 w-full py-[13px] bg-transparent border-none text-[15px] outline-none text-[#333] placeholder-[#aaa]"
+            className="flex-1 min-w-0 w-full py-[13px] bg-transparent border-none text-[15px] outline-none text-[#333] placeholder-[#666]"
             type="text"
             placeholder="Buscar Eventos"
             value={busca}
@@ -188,7 +188,7 @@ export default function Home() {
                     resetTimer();
                   }
                 }}
-                className="absolute left-1/2 top-1/2 rounded-[20px] overflow-hidden transition-all duration-[450ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] cursor-pointer max-md:rounded-[14px]"
+                className="absolute left-1/2 top-1/2 rounded-[20px] overflow-hidden transition-all duration-[450ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] cursor-pointer max-md:rounded-[14px] bg-[#d8d8d8]"
                 style={{
                   width: 'var(--cw)',
                   aspectRatio: '16 / 8.5',
@@ -197,12 +197,21 @@ export default function Home() {
                   transform: `translateX(calc(${sign * cfg.x} * var(--cw))) scale(${cfg.scale}) rotateY(${sign * cfg.ry}deg)`,
                   opacity: cfg.op,
                   zIndex: cfg.z,
-                  backgroundImage: bg ? `url(${bg})` : undefined,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  backgroundColor: "#d8d8d8",
                 }}
-              />
+              >
+                {bg ? (
+                  <img
+                    src={bg}
+                    alt={ev.titulo || 'Evento'}
+                    width={baseW}
+                    height={Math.round(baseW * 8.5 / 16)}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    fetchPriority={i === 0 ? 'high' : 'auto'}
+                    decoding="async"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                ) : null}
+              </div>
             );
           })}
 
@@ -318,12 +327,12 @@ export default function Home() {
           </div>
 
           {!ready ? (
-            <p className="text-[#aaa]">Carregando...</p>
+            <p className="text-[#666]">Carregando...</p>
           ) : featured.length === 0 ? (
             loadError ? (
               <LoadErrorRetry message={loadError} onRetry={reload} />
             ) : (
-              <p className="text-[#aaa] py-6">Nenhum evento disponível no momento.</p>
+              <p className="text-[#666] py-6">Nenhum evento disponível no momento.</p>
             )
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">

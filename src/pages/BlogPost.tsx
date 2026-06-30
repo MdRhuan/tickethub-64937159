@@ -48,7 +48,7 @@ export default function BlogPost() {
 
   if (loading) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center text-[#aaa]">Carregando...</div>
+      <div className="min-h-[60vh] flex items-center justify-center text-[#666]">Carregando...</div>
     );
   }
 
@@ -97,7 +97,7 @@ export default function BlogPost() {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-[#111]">{post.autor || 'Ticket Hub'}</span>
-            <span className="text-xs text-[#aaa]">{fmtDataBlog(post.data)}</span>
+            <span className="text-xs text-[#666]">{fmtDataBlog(post.data)}</span>
           </div>
         </div>
 
@@ -106,7 +106,7 @@ export default function BlogPost() {
             <p key={i} className="text-[17px] leading-[1.8] text-[#333] mb-5">{p}</p>
           ))
         ) : (
-          <p className="text-[#aaa] italic">Este post ainda não tem conteúdo.</p>
+          <p className="text-[#666] italic">Este post ainda não tem conteúdo.</p>
         )}
       </article>
     </>

@@ -102,7 +102,7 @@ export default function GrupoPopup() {
     <div className="fixed bottom-4 right-4 left-4 sm:left-auto sm:bottom-7 sm:right-7 sm:w-[300px] max-w-[calc(100vw-32px)] bg-white rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.18)] z-[9999] overflow-hidden">
       <button
         onClick={hide}
-        className="absolute top-3 right-3 bg-transparent border-none text-[#aaa] text-xl cursor-pointer leading-none hover:text-[#333] transition-colors"
+        className="absolute top-3 right-3 bg-transparent border-none text-[#666] text-xl cursor-pointer leading-none hover:text-[#333] transition-colors"
         aria-label="Fechar"
       >×</button>
       <div className="p-5">
@@ -164,7 +164,7 @@ export default function GrupoPopup() {
             {saving ? 'Enviando...' : 'Entrar no Grupo'}
           </button>
         </div>
-        <p className="text-[11px] text-[#bbb] text-center mt-[10px]">Receba ofertas e novidades exclusivas</p>
+        <p className="text-[11px] text-[#666] text-center mt-[10px]">Receba ofertas e novidades exclusivas</p>
       </div>
     </div>
   );

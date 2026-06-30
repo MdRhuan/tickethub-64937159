@@ -39,7 +39,7 @@ export default function Fotos() {
             <input
               value={busca} onChange={e => setBusca(e.target.value)}
               placeholder="Buscar por nome..."
-              className="border-none bg-transparent outline-none text-[13px] text-[#111] placeholder-[#aaa] w-full md:w-[180px] min-w-0"
+              className="border-none bg-transparent outline-none text-[13px] text-[#111] placeholder-[#666] w-full md:w-[180px] min-w-0"
             />
           </div>
           <input
@@ -61,12 +61,12 @@ export default function Fotos() {
       </div>
 
       {!ready ? (
-        <p className="text-[#aaa]">Carregando...</p>
+        <p className="text-[#666]">Carregando...</p>
       ) : filtered.length === 0 ? (
         loadError && albuns.length === 0 ? (
           <LoadErrorRetry message={loadError} onRetry={reload} />
         ) : (
-          <div className="flex flex-col items-center gap-3 py-20 text-[#bbb] text-sm">
+          <div className="flex flex-col items-center gap-3 py-20 text-[#666] text-sm">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
             Nenhum álbum encontrado.
           </div>
