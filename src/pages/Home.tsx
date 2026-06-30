@@ -7,11 +7,12 @@ import { imgSrc } from "@/lib/responsiveImg";
 import { fmtDataFull, eventoSlug } from "@/lib/utils";
 import { useSeo } from "@/lib/seo";
 
+// x é expresso como fração da largura do card (--cw) para escalar com o viewport.
 const CFG: Record<number, { x: number; scale: number; ry: number; z: number; op: number }> = {
   0: { x: 0, scale: 1, ry: 0, z: 10, op: 1 },
-  1: { x: 420, scale: 0.7, ry: -10, z: 8, op: 0.85 },
-  2: { x: 620, scale: 0.5, ry: -16, z: 5, op: 0.6 },
-  3: { x: 800, scale: 0.36, ry: -22, z: 2, op: 0 },
+  1: { x: 0.49, scale: 0.7, ry: -10, z: 8, op: 0.85 },
+  2: { x: 0.72, scale: 0.5, ry: -16, z: 5, op: 0.6 },
+  3: { x: 0.93, scale: 0.36, ry: -22, z: 2, op: 0 },
 };
 
 export default function Home() {
@@ -128,7 +129,14 @@ export default function Home() {
       {/* ── Carousel ── */}
       <div className="flex flex-col items-center pb-8">
         <div
-          className="relative w-full h-[500px] [perspective:1400px] overflow-hidden max-md:h-[240px]"
+          className="relative w-full mx-auto [perspective:1400px] overflow-hidden"
+          style={{
+            // Largura do card escala com o viewport mas é limitada para não crescer em zoom/telas enormes.
+            ['--cw' as any]: 'clamp(300px, 58vw, 880px)',
+            // Altura mantém proporção ~16:8.5 do card central com folga p/ os laterais.
+            height: 'clamp(260px, 36vw, 520px)',
+            maxWidth: '1400px',
+          }}
           onTouchStart={(e) => {
             const t = e.touches[0];
             touchStartX.current = t.clientX;
@@ -162,8 +170,6 @@ export default function Home() {
             const abs = Math.abs(offset);
             const sign = offset >= 0 ? 1 : -1;
             const cfg = CFG[Math.min(abs, 3)];
-            // Largura aproximada por slide: 860px no desktop, ~88vw no mobile.
-            // Servimos versões progressivamente menores para slides afastados.
             const baseW = abs === 0 ? 1280 : abs === 1 ? 900 : 640;
             const raw = ev.imgBanner || ev.imgUrl || '';
             const bg = raw ? imgSrc(raw, baseW, 70) : undefined;
@@ -182,9 +188,13 @@ export default function Home() {
                     resetTimer();
                   }
                 }}
-                className="absolute left-1/2 top-1/2 w-[860px] h-[460px] -ml-[430px] -mt-[230px] rounded-[20px] overflow-hidden transition-all duration-[450ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] cursor-pointer max-md:w-[88vw] max-md:-ml-[44vw] max-md:h-[220px] max-md:-mt-[110px] max-md:rounded-[14px]"
+                className="absolute left-1/2 top-1/2 rounded-[20px] overflow-hidden transition-all duration-[450ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] cursor-pointer max-md:rounded-[14px]"
                 style={{
-                  transform: `translateX(${sign * cfg.x}px) scale(${cfg.scale}) rotateY(${sign * cfg.ry}deg)`,
+                  width: 'var(--cw)',
+                  aspectRatio: '16 / 8.5',
+                  marginLeft: 'calc(var(--cw) / -2)',
+                  marginTop: 'calc((var(--cw) * (8.5 / 16)) / -2)',
+                  transform: `translateX(calc(${sign * cfg.x} * var(--cw))) scale(${cfg.scale}) rotateY(${sign * cfg.ry}deg)`,
                   opacity: cfg.op,
                   zIndex: cfg.z,
                   backgroundImage: bg ? `url(${bg})` : undefined,
@@ -204,7 +214,7 @@ export default function Home() {
             }}
             aria-label="Evento anterior"
             className="hidden md:flex absolute top-1/2 -translate-y-1/2 w-11 h-11 rounded-full border-2 border-[#ddd] bg-white items-center justify-center z-[20] text-[#333] cursor-pointer transition-all hover:bg-[#111] hover:border-[#111] hover:text-white shadow-md btn-pulse"
-            style={{ left: "max(12px, calc(50% - 490px))" }}
+            style={{ left: 'max(12px, calc(50% - (var(--cw) / 2) - 56px))' }}
           >
             <svg
               width="16"
@@ -225,7 +235,7 @@ export default function Home() {
             }}
             aria-label="Próximo evento"
             className="hidden md:flex absolute top-1/2 -translate-y-1/2 w-11 h-11 rounded-full border-2 border-[#ddd] bg-white items-center justify-center z-[20] text-[#333] cursor-pointer transition-all hover:bg-[#111] hover:border-[#111] hover:text-white shadow-md btn-pulse"
-            style={{ right: "max(12px, calc(50% - 490px))" }}
+            style={{ right: 'max(12px, calc(50% - (var(--cw) / 2) - 56px))' }}
           >
             <svg
               width="16"
@@ -240,6 +250,7 @@ export default function Home() {
             </svg>
           </button>
         </div>
+
 
         {/* Dots */}
         <div className="flex gap-3 md:gap-2 mt-5 md:mt-[18px]">
@@ -295,32 +306,35 @@ export default function Home() {
 
       {/* ── Eventos ── */}
       <section className="page-px py-[48px] pb-16">
-        <div className="flex justify-between items-end gap-3 mb-7">
-          <h2 className="text-xl md:text-[28px] font-black text-[#111]">Principais Eventos</h2>
-          <Link
-            to="/ingressos"
-            className="text-[#4a90e2] font-bold text-sm md:text-base no-underline border-b border-transparent hover:border-[#4a90e2] transition-all whitespace-nowrap"
-          >
-            Ver todos →
-          </Link>
-        </div>
-
-        {!ready ? (
-          <p className="text-[#aaa]">Carregando...</p>
-        ) : featured.length === 0 ? (
-          loadError ? (
-            <LoadErrorRetry message={loadError} onRetry={reload} />
-          ) : (
-            <p className="text-[#aaa] py-6">Nenhum evento disponível no momento.</p>
-          )
-        ) : (
-          <div className="grid grid-cols-4 gap-5 max-md:grid-cols-2 max-md:gap-3">
-            {featured.map((ev, i) => (
-              <EventoCard key={ev.id} ev={ev} priority={i < 4} />
-            ))}
+        <div className="max-w-[1400px] mx-auto">
+          <div className="flex justify-between items-end gap-3 mb-7">
+            <h2 className="text-xl md:text-[28px] font-black text-[#111]">Principais Eventos</h2>
+            <Link
+              to="/ingressos"
+              className="text-[#4a90e2] font-bold text-sm md:text-base no-underline border-b border-transparent hover:border-[#4a90e2] transition-all whitespace-nowrap"
+            >
+              Ver todos →
+            </Link>
           </div>
-        )}
+
+          {!ready ? (
+            <p className="text-[#aaa]">Carregando...</p>
+          ) : featured.length === 0 ? (
+            loadError ? (
+              <LoadErrorRetry message={loadError} onRetry={reload} />
+            ) : (
+              <p className="text-[#aaa] py-6">Nenhum evento disponível no momento.</p>
+            )
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
+              {featured.map((ev, i) => (
+                <EventoCard key={ev.id} ev={ev} priority={i < 4} />
+              ))}
+            </div>
+          )}
+        </div>
       </section>
+
 
       {/* ── Banner Promo ── */}
       <section className="flex items-center bg-[#111] rounded-[24px] overflow-hidden mx-4 md:mx-[120px] mb-12 md:mb-20 min-h-[260px]">
