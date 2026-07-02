@@ -1,6 +1,3 @@
-import compraSeguraIcon from '@/assets/icons/compra-segura.png';
-import offConsuIcon from '@/assets/icons/off-consu.png';
-import ingressoIcon from '@/assets/icons/ingresso.png';
 import logoIcon from '@/assets/icons/logo.png';
 
 const InstagramIcon = () => (
