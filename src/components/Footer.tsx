@@ -36,35 +36,6 @@ const TikTokIcon = () => (
 export default function Footer() {
   return (
     <footer className="border-t border-gray-100 bg-white">
-      {/* Top trust badges */}
-      <div className="flex flex-wrap items-center justify-around gap-4 page-px py-5 border-b border-gray-100 max-md:gap-3 max-md:py-4">
-        <div className="flex items-center gap-3 max-md:flex-1 max-md:min-w-[45%]">
-          <img
-            src={compraSeguraIcon}
-            alt="Compra Segura"
-            className="w-[70px] h-[70px] object-contain max-md:w-[48px] max-md:h-[48px]"
-          />
-          <span className="font-bold text-sm text-[#333] max-md:text-xs">Compra 100% Segura</span>
-        </div>
-        <div className="flex items-center gap-3 max-md:flex-1 max-md:min-w-[45%]">
-          <img
-            src={offConsuIcon}
-            alt="OffConsu"
-            className="w-[70px] h-[70px] object-contain max-md:w-[48px] max-md:h-[48px]"
-          />
-          <span className="font-bold text-sm text-[#333] max-md:text-xs">Ingressos e consumação de graça</span>
-        </div>
-        <div className="flex items-center gap-3 max-md:flex-1 max-md:min-w-[45%]">
-          <img
-            src={ingressoIcon}
-            alt="Ingresso"
-            className="w-[70px] h-[70px] object-contain max-md:w-[48px] max-md:h-[48px]"
-          />
-          <span className="font-bold text-sm text-[#333] max-md:text-xs">Ingresso mais barato</span>
-        </div>
-      </div>
-
-      {/* Main columns */}
       <div className="grid grid-cols-4 gap-10 page-px py-12 max-md:grid-cols-1 max-md:gap-7 max-md:py-8 max-md:text-center">
         {/* Brand */}
         <div className="flex flex-col gap-3 max-md:items-center">
