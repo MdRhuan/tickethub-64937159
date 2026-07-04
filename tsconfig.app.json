@@ -6,6 +6,7 @@
       "ES2023",
       "DOM"
     ],
+    "types": ["node"],
     "module": "esnext",
     "skipLibCheck": true,
     "moduleResolution": "bundler",
