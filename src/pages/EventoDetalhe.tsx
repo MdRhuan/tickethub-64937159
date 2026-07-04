@@ -274,7 +274,7 @@ export default function EventoDetalhe() {
               )}
               {(ev.mapaUrl || ev.local) && (
                 <a
-                  href={ev.mapaUrl || `https://maps.google.com/maps?q=${encodeURIComponent(ev.local)}`}
+                  href={safeMapUrl(ev.mapaUrl) || `https://maps.google.com/maps?q=${encodeURIComponent(ev.local)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-[6px] text-[13px] font-semibold text-[#1a3a6b] no-underline hover:underline"
