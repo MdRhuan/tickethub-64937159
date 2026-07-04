@@ -1,10 +1,11 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { mcpPlugin } from '@lovable.dev/mcp-js/stacks/supabase/vite'
 import path from 'path'
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), mcpPlugin()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
