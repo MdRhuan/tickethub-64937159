@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useDB } from "@/contexts/DBContext";
-import { fmtDataFull, eventoSlug } from "@/lib/utils";
+import { fmtDataFull, eventoSlug, safeExternalUrl, safeMapUrl } from "@/lib/utils";
 import { imgSrc } from "@/lib/responsiveImg";
 import {
   googleCalendarUrl,
@@ -14,9 +14,10 @@ import {
 import { useSeo } from "@/lib/seo";
 
 function buildEmbedUrl(mapaUrl: string, local: string): string | null {
-  if (mapaUrl) {
-    if (mapaUrl.includes("/embed")) return mapaUrl;
-    const m = mapaUrl.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+  const safeMap = safeMapUrl(mapaUrl);
+  if (safeMap) {
+    if (safeMap.includes("/embed")) return safeMap;
+    const m = safeMap.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
     if (m) return `https://maps.google.com/maps?q=${m[1]},${m[2]}&output=embed&hl=pt-BR`;
   }
   if (local) return `https://maps.google.com/maps?q=${encodeURIComponent(local)}&output=embed&hl=pt-BR`;
@@ -273,7 +274,7 @@ export default function EventoDetalhe() {
               )}
               {(ev.mapaUrl || ev.local) && (
                 <a
-                  href={ev.mapaUrl || `https://maps.google.com/maps?q=${encodeURIComponent(ev.local)}`}
+                  href={safeMapUrl(ev.mapaUrl) || `https://maps.google.com/maps?q=${encodeURIComponent(ev.local)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-[6px] text-[13px] font-semibold text-[#1a3a6b] no-underline hover:underline"
@@ -373,20 +374,23 @@ export default function EventoDetalhe() {
                 className="border border-[#eee] rounded-2xl p-5 bg-white flex flex-col gap-3 shadow-[0_2px_10px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1 hover:border-[#4a90e2] hover:shadow-[0_10px_32px_rgba(74,144,226,0.15)] cursor-pointer"
               >
                 <span className="text-[17px] font-black text-[#111]">{ing!.nome}</span>
-                {ing!.link ? (
-                  <a
-                    href={ing!.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block mt-2 py-[14px] px-5 bg-[#1a3a6b] text-white rounded-lg text-[15px] font-bold text-center no-underline hover:bg-[#102a4e] transition-colors btn-pulse"
-                  >
-                    {ing!.btnLabel?.trim() || "Garantir ingresso com desconto"}
-                  </a>
-                ) : (
-                  <span className="block mt-2 py-[14px] px-5 bg-[#eee] text-[#666] rounded-lg text-[15px] text-center">
-                    Em breve
-                  </span>
-                )}
+                {(() => {
+                  const safeLink = safeExternalUrl(ing!.link);
+                  return safeLink ? (
+                    <a
+                      href={safeLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block mt-2 py-[14px] px-5 bg-[#1a3a6b] text-white rounded-lg text-[15px] font-bold text-center no-underline hover:bg-[#102a4e] transition-colors btn-pulse"
+                    >
+                      {ing!.btnLabel?.trim() || "Garantir ingresso com desconto"}
+                    </a>
+                  ) : (
+                    <span className="block mt-2 py-[14px] px-5 bg-[#eee] text-[#666] rounded-lg text-[15px] text-center">
+                      Em breve
+                    </span>
+                  );
+                })()}
               </div>
             ))
           ) : ev.preco ? (

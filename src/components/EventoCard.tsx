@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Evento } from '@/types';
-import { fmtDataCard, daysUntil, dayBadge, eventoSlug } from '@/lib/utils';
+import { fmtDataCard, daysUntil, dayBadge, eventoSlug, safeExternalUrl } from '@/lib/utils';
 import { imgSrc, imgSrcSet } from '@/lib/responsiveImg';
 
 const GRUPO_OFERTAS_URL = 'https://chat.whatsapp.com/EGrwvkC1N8WJyfp9Rsb8LM';
@@ -123,17 +123,20 @@ function EventoCard({ ev, linkLabel = 'Comprar', priority = false }: Props) {
         )}
         <div className="flex items-center justify-between mt-3 gap-2">
           <span className="text-[13px] font-bold text-[#111]">{ev.preco || 'Consultar'}</span>
-          {ev.btnUrl && ev.btnUrl.trim() && (
-            <a
-              href={ev.btnUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="px-4 py-[7px] bg-[#4a90e2] text-white rounded-md text-[12px] font-bold no-underline transition-colors hover:bg-[#2d6abf] btn-pulse min-h-[36px] inline-flex items-center"
-            >
-              {ev.btnLabel?.trim() || 'Saiba mais'}
-            </a>
-          )}
+          {(() => {
+            const safeBtnUrl = safeExternalUrl(ev.btnUrl);
+            return safeBtnUrl ? (
+              <a
+                href={safeBtnUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="px-4 py-[7px] bg-[#4a90e2] text-white rounded-md text-[12px] font-bold no-underline transition-colors hover:bg-[#2d6abf] btn-pulse min-h-[36px] inline-flex items-center"
+              >
+                {ev.btnLabel?.trim() || 'Saiba mais'}
+              </a>
+            ) : null;
+          })()}
         </div>
 
 

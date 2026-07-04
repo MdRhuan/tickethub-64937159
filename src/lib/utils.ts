@@ -51,3 +51,37 @@ export function slugify(text: string): string {
 export function eventoSlug(ev: { titulo: string; id: string }): string {
   return slugify(ev.titulo) || ev.id;
 }
+
+/**
+ * Returns the URL only if it uses a safe http(s)/mailto/tel scheme or is a
+ * same-origin path. Prevents stored XSS via `javascript:`, `data:`, `vbscript:`.
+ */
+export function safeExternalUrl(url: string | null | undefined): string | null {
+  if (!url) return null;
+  const trimmed = String(url).trim();
+  if (!trimmed) return null;
+  if (/^(https?:\/\/|mailto:|tel:|\/|#)/i.test(trimmed)) return trimmed;
+  return null;
+}
+
+/**
+ * Returns the URL only if it points to a trusted Google Maps host over http(s).
+ * Used to constrain iframe/map link sources.
+ */
+export function safeMapUrl(url: string | null | undefined): string | null {
+  if (!url) return null;
+  try {
+    const u = new URL(String(url).trim());
+    if (u.protocol !== 'https:' && u.protocol !== 'http:') return null;
+    const host = u.hostname.toLowerCase();
+    const ok =
+      host === 'google.com' || host.endsWith('.google.com') ||
+      host === 'google.com.br' || host.endsWith('.google.com.br') ||
+      host === 'goo.gl' || host.endsWith('.goo.gl') ||
+      host === 'maps.app.goo.gl';
+    return ok ? u.toString() : null;
+  } catch {
+    return null;
+  }
+}
+
