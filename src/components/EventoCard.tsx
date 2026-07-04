@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Evento } from '@/types';
-import { fmtDataCard, daysUntil, dayBadge, eventoSlug } from '@/lib/utils';
+import { fmtDataCard, daysUntil, dayBadge, eventoSlug, safeExternalUrl } from '@/lib/utils';
 import { imgSrc, imgSrcSet } from '@/lib/responsiveImg';
 
 const GRUPO_OFERTAS_URL = 'https://chat.whatsapp.com/EGrwvkC1N8WJyfp9Rsb8LM';
