@@ -14,9 +14,10 @@ import {
 import { useSeo } from "@/lib/seo";
 
 function buildEmbedUrl(mapaUrl: string, local: string): string | null {
-  if (mapaUrl) {
-    if (mapaUrl.includes("/embed")) return mapaUrl;
-    const m = mapaUrl.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+  const safeMap = safeMapUrl(mapaUrl);
+  if (safeMap) {
+    if (safeMap.includes("/embed")) return safeMap;
+    const m = safeMap.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
     if (m) return `https://maps.google.com/maps?q=${m[1]},${m[2]}&output=embed&hl=pt-BR`;
   }
   if (local) return `https://maps.google.com/maps?q=${encodeURIComponent(local)}&output=embed&hl=pt-BR`;
