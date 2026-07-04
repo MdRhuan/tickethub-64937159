@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useDB } from "@/contexts/DBContext";
-import { fmtDataFull, eventoSlug } from "@/lib/utils";
+import { fmtDataFull, eventoSlug, safeExternalUrl, safeMapUrl } from "@/lib/utils";
 import { imgSrc } from "@/lib/responsiveImg";
 import {
   googleCalendarUrl,
