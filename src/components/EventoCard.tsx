@@ -64,8 +64,8 @@ function EventoCard({ ev, linkLabel = 'Comprar', priority = false }: Props) {
       <div className="relative w-full aspect-[3/4] bg-[#ececec]">
         {ev.imgUrl ? (
           <img
-            src={imgSrc(ev.imgUrl, 480, 72, 3 / 4)}
-            srcSet={imgSrcSet(ev.imgUrl, [240, 360, 480, 720], 72, 3 / 4)}
+            src={imgSrc(ev.imgUrl, 480, 72)}
+            srcSet={imgSrcSet(ev.imgUrl, [240, 360, 480, 720], 72)}
             sizes="(max-width: 768px) 50vw, (max-width: 1280px) 25vw, 320px"
             alt={ev.titulo || 'Evento'}
             loading={priority ? 'eager' : 'lazy'}
@@ -84,7 +84,7 @@ function EventoCard({ ev, linkLabel = 'Comprar', priority = false }: Props) {
               img.style.display = 'none';
               (img.nextElementSibling as HTMLElement)?.style.setProperty('display', 'flex');
             }}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-contain bg-[#ececec]"
           />
         ) : null}
         <div style={{ display: ev.imgUrl ? 'none' : 'flex' }} className="absolute inset-0">
