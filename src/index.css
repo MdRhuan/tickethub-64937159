@@ -135,14 +135,30 @@
     box-shadow: 0 0 0 3px hsl(var(--accent) / 0.12);
   }
 
-  /* Botão lift sutil */
+  /* Botão lift sutil com pulsação */
   .btn-pulse {
+    position: relative;
     transition: transform 0.2s var(--ease-depth), box-shadow 0.2s var(--ease-depth), background-color 0.2s var(--ease-depth);
     box-shadow: var(--shadow-sm);
+    animation: pulse-ring 2.2s ease-in-out infinite;
+  }
+  .btn-pulse::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: 0 0 0 0 rgba(74, 144, 226, 0.45);
+    animation: pulse-ring 2.2s ease-in-out infinite;
+    z-index: -1;
+    pointer-events: none;
   }
   .btn-pulse:hover {
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
+    animation-play-state: paused;
+  }
+  .btn-pulse:hover::before {
+    animation-play-state: paused;
   }
   .btn-pulse:active {
     transform: translateY(0);
@@ -157,7 +173,22 @@
     opacity: 0.5;
     pointer-events: none;
     box-shadow: none;
+    animation: none;
   }
+
+  @keyframes pulse-ring {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(74, 144, 226, 0.45);
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.03);
+    }
+    70% {
+      box-shadow: 0 0 0 18px rgba(74, 144, 226, 0);
+    }
+  }
+
 
   /* Card depth — global card system */
   .card-depth {
