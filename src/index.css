@@ -178,16 +178,17 @@
 
   @keyframes pulse-ring {
     0%, 100% {
-      box-shadow: 0 0 0 0 rgba(74, 144, 226, 0.45);
+      box-shadow: 0 0 0 0 rgba(74, 144, 226, 0.28);
       transform: scale(1);
     }
     50% {
-      transform: scale(1.03);
+      transform: scale(1.015);
     }
     70% {
-      box-shadow: 0 0 0 18px rgba(74, 144, 226, 0);
+      box-shadow: 0 0 0 8px rgba(74, 144, 226, 0);
     }
   }
+
 
 
   /* Card depth — global card system */
