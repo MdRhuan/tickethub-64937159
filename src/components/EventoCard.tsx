@@ -84,7 +84,7 @@ function EventoCard({ ev, linkLabel = 'Comprar', priority = false }: Props) {
               img.style.display = 'none';
               (img.nextElementSibling as HTMLElement)?.style.setProperty('display', 'flex');
             }}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-contain bg-[#ececec]"
           />
         ) : null}
         <div style={{ display: ev.imgUrl ? 'none' : 'flex' }} className="absolute inset-0">
