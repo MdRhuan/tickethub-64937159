@@ -1,5 +1,28 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
+
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
+const GA_MEASUREMENT_ID = 'G-2WX9YNNY76';
+
+function usePageViews() {
+  const location = useLocation();
+  useEffect(() => {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'page_view', {
+        page_path: location.pathname + location.search,
+        page_location: window.location.href,
+        page_title: document.title,
+        send_to: GA_MEASUREMENT_ID,
+      });
+    }
+  }, [location.pathname, location.search]);
+}
+
 import { DBProvider } from '@/contexts/DBContext';
 import Layout from '@/components/Layout';
 
@@ -22,6 +45,8 @@ const Loading = () => (
 
 function AppRoutes() {
   const location = useLocation();
+  usePageViews();
+
 
   if (location.pathname === '/link') {
     return (
