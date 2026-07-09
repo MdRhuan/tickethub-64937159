@@ -51,6 +51,14 @@ const LinkCard = ({ href, icon, label }: { href: string; icon: React.ReactNode; 
 export default function Link() {
   useEffect(() => {
     document.title = 'TicketHub — Links';
+    const id = 'dm-sans-font';
+    if (!document.getElementById(id)) {
+      const link = document.createElement('link');
+      link.id = id;
+      link.rel = 'stylesheet';
+      link.href = 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap';
+      document.head.appendChild(link);
+    }
   }, []);
 
   return (
