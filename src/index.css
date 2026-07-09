@@ -44,7 +44,7 @@
   }
 
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-family: 'Inter', 'Inter Fallback', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     background: hsl(var(--background));
     color: hsl(var(--foreground));
     letter-spacing: -0.01em;
