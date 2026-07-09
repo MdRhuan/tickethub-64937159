@@ -1,4 +1,4 @@
-import logoIcon from '@/assets/icons/logo.png';
+import logoIcon from '@/assets/icons/logo.webp';
 
 const InstagramIcon = () => (
   <svg
