@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import logoIcon from '@/assets/icons/logo.png';
+import logoIcon from '@/assets/icons/logo.webp';
 
 const SiteIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1B2B44" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
@@ -51,6 +51,14 @@ const LinkCard = ({ href, icon, label }: { href: string; icon: React.ReactNode; 
 export default function Link() {
   useEffect(() => {
     document.title = 'TicketHub — Links';
+    const id = 'dm-sans-font';
+    if (!document.getElementById(id)) {
+      const link = document.createElement('link');
+      link.id = id;
+      link.rel = 'stylesheet';
+      link.href = 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap';
+      document.head.appendChild(link);
+    }
   }, []);
 
   return (

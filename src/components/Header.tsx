@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import logoIcon from '@/assets/icons/logo.png';
+import logoIcon from '@/assets/icons/logo.webp';
 
 const NAV_LINKS = [
   { to: '/',          label: 'Home' },
@@ -18,7 +18,7 @@ export default function Header() {
     <header className="flex items-center justify-between px-4 md:px-10 py-3 md:py-4 sticky top-0 bg-white z-[100] border-b border-gray-100 shadow-[0_1px_8px_rgba(0,0,0,0.06)]">
       {/* Logo */}
       <Link to="/" className="flex items-center gap-2 font-black text-[18px] tracking-wide no-underline text-inherit">
-        <img src={logoIcon} alt="Ticket Hub logo" className="w-12 h-12 md:w-16 md:h-16 object-contain" />
+        <img src={logoIcon} alt="Ticket Hub logo" width={96} height={96} decoding="async" className="w-12 h-12 md:w-16 md:h-16 object-contain" />
         TICKET HUB
       </Link>
 

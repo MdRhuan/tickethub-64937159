@@ -326,21 +326,35 @@ export default function Home() {
             </Link>
           </div>
 
-          {!ready ? (
-            <p className="text-[#666]">Carregando...</p>
-          ) : featured.length === 0 ? (
-            loadError ? (
-              <LoadErrorRetry message={loadError} onRetry={reload} />
+          {/* Reserva de espaço para evitar CLS enquanto os cards carregam */}
+          <div style={{ minHeight: 'clamp(560px, 60vw, 900px)' }}>
+            {!ready ? (
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5" aria-hidden="true">
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <div key={i} className="card-depth overflow-hidden">
+                    <div className="w-full aspect-[3/4] bg-[#ececec]" />
+                    <div className="px-4 pt-[14px] pb-4 flex flex-col gap-2">
+                      <div className="h-4 bg-[#ececec] rounded w-3/4" />
+                      <div className="h-3 bg-[#f2f2f2] rounded w-1/2" />
+                      <div className="h-8 bg-[#f2f2f2] rounded mt-3" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : featured.length === 0 ? (
+              loadError ? (
+                <LoadErrorRetry message={loadError} onRetry={reload} />
+              ) : (
+                <p className="text-[#666] py-6">Nenhum evento disponível no momento.</p>
+              )
             ) : (
-              <p className="text-[#666] py-6">Nenhum evento disponível no momento.</p>
-            )
-          ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
-              {featured.map((ev, i) => (
-                <EventoCard key={ev.id} ev={ev} priority={i < 4} />
-              ))}
-            </div>
-          )}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
+                {featured.map((ev, i) => (
+                  <EventoCard key={ev.id} ev={ev} priority={i < 4} />
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
