@@ -23,6 +23,10 @@ function build(url: string, width: number, opts: { quality?: number; height?: nu
     w: String(width),
     output: 'webp',
     q: String(q),
+    // `we` = "without enlargement": nunca upscale além do original (economia de bytes).
+    we: '1',
+    // `il` = progressive/interlaced: primeira renderização mais cedo, sem mudança visual.
+    il: '1',
   });
   // Só recorta no servidor quando uma altura é pedida (ex.: cards 3:4).
   if (opts.height) {
