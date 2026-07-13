@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin
 
-Sitemap: https://tickethubbh.lovable.app/sitemap.xml
+Sitemap: https://www.tickethubh.com.br/sitemap.xml

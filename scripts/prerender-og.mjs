@@ -11,14 +11,14 @@
 //   VITE_SUPABASE_URL
 //   VITE_SUPABASE_PUBLISHABLE_KEY
 // Opcional:
-//   SITE_URL  (padrão: https://tickethubbh.lovable.app)
+//   SITE_URL  (padrão: https://www.tickethubh.com.br)
 
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 
 const DIST = path.resolve('dist');
-const SITE = (process.env.SITE_URL || 'https://tickethubbh.lovable.app').replace(/\/$/, '');
+const SITE = (process.env.SITE_URL || 'https://www.tickethubh.com.br').replace(/\/$/, '');
 
 // ── Helpers puros (testáveis) ───────────────────────────────────────────────
 
@@ -85,14 +85,14 @@ export function setCanonical(html, href) {
 }
 
 /** Aplica todas as tags de SEO a uma cópia do index.html. */
-export function buildPageHtml(template, { title, description, image, url, type = 'website' }) {
-  const fullTitle = title ? `${title} — TicketHub` : 'TicketHub';
-  const desc = clampDesc(description);
+export function buildPageHtml(template, { title, fullTitle, description, image, url, type = 'website', jsonLd }) {
+  const composed = fullTitle || (title ? `${title} | TicketHub` : 'TicketHub');
+  const desc = clampDesc(description, 155);
   const img = ogImage(image);
   let html = template;
-  html = setTitle(html, fullTitle);
+  html = setTitle(html, composed);
   if (desc) html = setMeta(html, 'name', 'description', desc);
-  html = setMeta(html, 'property', 'og:title', fullTitle);
+  html = setMeta(html, 'property', 'og:title', composed);
   if (desc) html = setMeta(html, 'property', 'og:description', desc);
   html = setMeta(html, 'property', 'og:image', img);
   html = setMeta(html, 'property', 'og:image:width', '1200');
@@ -100,10 +100,17 @@ export function buildPageHtml(template, { title, description, image, url, type =
   html = setMeta(html, 'property', 'og:type', type);
   html = setMeta(html, 'property', 'og:url', url);
   html = setMeta(html, 'name', 'twitter:card', 'summary_large_image');
-  html = setMeta(html, 'name', 'twitter:title', fullTitle);
+  html = setMeta(html, 'name', 'twitter:title', composed);
   if (desc) html = setMeta(html, 'name', 'twitter:description', desc);
   html = setMeta(html, 'name', 'twitter:image', img);
   html = setCanonical(html, url);
+  if (jsonLd) {
+    const items = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
+    const scripts = items
+      .map((o) => `    <script type="application/ld+json">${JSON.stringify(o)}</script>`)
+      .join('\n');
+    html = html.replace('</head>', `${scripts}\n  </head>`);
+  }
   return html;
 }
 
@@ -222,12 +229,36 @@ async function main() {
     const pageUrl = `${SITE}/ingresso/${slug}`;
     const dataLabel = Array.isArray(ev.datas) && ev.datas.length ? ev.datas[0] : ev.data || '';
     const description = ev.sobre || `${ev.titulo}${ev.local ? ' — ' + ev.local : ''}${dataLabel ? ' em ' + dataLabel : ''}`;
+    const eventJsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'Event',
+      name: ev.titulo,
+      description,
+      startDate: dataLabel || undefined,
+      eventStatus: 'https://schema.org/EventScheduled',
+      eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+      location: ev.local ? {
+        '@type': 'Place',
+        name: ev.local,
+        address: { '@type': 'PostalAddress', addressLocality: 'Belo Horizonte', addressRegion: 'MG', addressCountry: 'BR' },
+      } : undefined,
+      image: ev.imgBanner || ev.imgUrl || undefined,
+      url: pageUrl,
+      organizer: { '@type': 'Organization', name: 'TicketHub', url: SITE },
+      offers: {
+        '@type': 'Offer',
+        url: pageUrl,
+        priceCurrency: 'BRL',
+        availability: 'https://schema.org/InStock',
+      },
+    };
     const html = buildPageHtml(template, {
-      title: ev.titulo,
+      fullTitle: `${ev.titulo} em BH — ingressos | TicketHub`,
       description,
       image: ev.imgBanner || ev.imgUrl,
       url: pageUrl,
       type: 'article',
+      jsonLd: eventJsonLd,
     });
     const dir = path.join(DIST, 'ingresso', slug);
     await mkdir(dir, { recursive: true });

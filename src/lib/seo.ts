@@ -1,22 +1,33 @@
 import { useEffect } from 'react';
 
-// Nome do site usado no sufixo do <title> e em og:site_name.
+// Domínio canônico oficial — usado para canonical e og:url em todas as páginas.
+export const SITE_URL = 'https://www.tickethubh.com.br';
 const SITE_NAME = 'TicketHub';
 
 interface SeoOptions {
+  /** Título da aba/SERP. Sufixado com " | TicketHub". */
   title?: string;
+  /** Título completo já formatado — desativa o sufixo automático. */
+  fullTitle?: string;
   description?: string;
   image?: string;
   type?: 'website' | 'article';
-  url?: string;
+  /** Caminho da rota (ex.: "/calendario"). Se ausente, usa window.location.pathname. */
+  path?: string;
   /**
-   * JSON-LD structured data to inject as <script type="application/ld+json">.
-   * Pass an object (or array of objects) — replaced on every change.
+   * JSON-LD structured data — injetado como <script type="application/ld+json">.
+   * Substituído a cada mudança.
    */
   jsonLd?: object | object[];
 }
 
-function clampDesc(s: string, max = 180): string {
+function clampDesc(s: string, max = 155): string {
+  const clean = String(s ?? '').replace(/\s+/g, ' ').trim();
+  if (clean.length <= max) return clean;
+  return clean.slice(0, max - 1).replace(/\s+\S*$/, '') + '…';
+}
+
+function clampTitle(s: string, max = 60): string {
   const clean = String(s ?? '').replace(/\s+/g, ' ').trim();
   if (clean.length <= max) return clean;
   return clean.slice(0, max - 1).replace(/\s+\S*$/, '') + '…';
@@ -53,7 +64,6 @@ function upsertCanonical(href: string) {
 
 function upsertJsonLd(data?: object | object[]) {
   if (typeof document === 'undefined') return;
-  // Remove dynamic JSON-LD injected previously by useSeo (keep static ones in index.html).
   document.head.querySelectorAll('script[type="application/ld+json"][data-seo="dynamic"]').forEach((el) => el.remove());
   if (!data) return;
   const items = Array.isArray(data) ? data : [data];
@@ -66,21 +76,32 @@ function upsertJsonLd(data?: object | object[]) {
   }
 }
 
-export function useSeo({ title, description, image, type = 'website', url, jsonLd }: SeoOptions) {
+export function pageUrl(path?: string): string {
+  const p = path ?? (typeof window !== 'undefined' ? window.location.pathname : '/');
+  const clean = p.startsWith('/') ? p : `/${p}`;
+  return `${SITE_URL}${clean}`;
+}
+
+export function useSeo({ title, fullTitle, description, image, type = 'website', path, jsonLd }: SeoOptions) {
   useEffect(() => {
-    const fullTitle = title ? `${title} — ${SITE_NAME}` : SITE_NAME;
-    document.title = fullTitle;
+    const composedTitle = fullTitle
+      ? clampTitle(fullTitle, 70)
+      : title
+        ? clampTitle(`${title} | ${SITE_NAME}`, 70)
+        : SITE_NAME;
+    document.title = composedTitle;
 
     const desc = description ? clampDesc(description) : '';
-    const pageUrl = url || (typeof window !== 'undefined' ? window.location.href : '');
+    const url = pageUrl(path);
     const img = ogImageUrl(image);
 
     if (desc) upsertMeta('name', 'description', desc);
 
-    upsertMeta('property', 'og:title', fullTitle);
+    upsertMeta('property', 'og:title', composedTitle);
     if (desc) upsertMeta('property', 'og:description', desc);
     upsertMeta('property', 'og:type', type);
-    if (pageUrl) upsertMeta('property', 'og:url', pageUrl);
+    upsertMeta('property', 'og:url', url);
+    upsertMeta('property', 'og:site_name', SITE_NAME);
     if (img) {
       upsertMeta('property', 'og:image', img);
       upsertMeta('property', 'og:image:width', '1200');
@@ -88,12 +109,12 @@ export function useSeo({ title, description, image, type = 'website', url, jsonL
     }
 
     upsertMeta('name', 'twitter:card', 'summary_large_image');
-    upsertMeta('name', 'twitter:title', fullTitle);
+    upsertMeta('name', 'twitter:title', composedTitle);
     if (desc) upsertMeta('name', 'twitter:description', desc);
     if (img) upsertMeta('name', 'twitter:image', img);
 
-    if (pageUrl) upsertCanonical(pageUrl);
+    upsertCanonical(url);
 
     upsertJsonLd(jsonLd);
-  }, [title, description, image, type, url, jsonLd]);
+  }, [title, fullTitle, description, image, type, path, jsonLd]);
 }

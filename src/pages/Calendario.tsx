@@ -37,10 +37,28 @@ function buildEventMap(eventos: Evento[]): Record<string, Record<number, DayData
 export default function Calendario() {
   const { eventos, ready, loadError, reload } = useDB();
 
+  const calendarioJsonLd = useMemo(() => {
+    const upcoming = eventos
+      .filter((ev) => (ev.datas?.[0] || ev.data))
+      .slice(0, 30);
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: 'Agenda de eventos em Belo Horizonte',
+      itemListElement: upcoming.map((ev, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: `https://www.tickethubh.com.br/ingresso/${eventoSlug(ev)}`,
+        name: ev.titulo,
+      })),
+    };
+  }, [eventos]);
+
   useSeo({
-    title: 'Calendário de eventos',
-    description: 'Veja todos os shows, festas e eventos por data. Calendário mensal dos rolês imperdíveis em Belo Horizonte.',
-    url: 'https://tickethubbh.lovable.app/calendario',
+    title: 'Agenda de eventos em Belo Horizonte',
+    description: 'Calendário mensal de shows, festas e eventos em Belo Horizonte. Consulte datas, horários e locais dos melhores rolês em BH.',
+    path: '/calendario',
+    jsonLd: calendarioJsonLd,
   });
   const now = new Date();
   const [curMes, setCurMes] = useState(now.getMonth());
