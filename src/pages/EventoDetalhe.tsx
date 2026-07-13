@@ -66,7 +66,7 @@ export default function EventoDetalhe() {
       '@type': 'Offer',
       name: ing.nome,
       url: ing.link,
-      price: (ing.preco || '').toString().replace(/[^\d.,]/g, '').replace(',', '.') || undefined,
+      price: (ev.preco || '').toString().replace(/[^\d.,]/g, '').replace(',', '.') || undefined,
       priceCurrency: 'BRL',
       availability: 'https://schema.org/InStock',
       validFrom: new Date().toISOString().slice(0, 10),
