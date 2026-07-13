@@ -8,9 +8,9 @@ export default function Blog() {
   const { posts, ready, loadError, reload } = useDB();
 
   useSeo({
-    title: 'Blog',
+    title: 'Blog — Música, festas e eventos em BH',
     description: 'Notícias, dicas e histórias sobre música, festas e o universo dos eventos em Belo Horizonte.',
-    url: 'https://tickethubbh.lovable.app/blog',
+    path: '/blog',
   });
 
   const destaque = posts.find(p => p.destaque) ?? null;

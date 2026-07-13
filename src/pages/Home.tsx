@@ -77,15 +77,15 @@ export default function Home() {
     itemListElement: featured.map((ev, i) => ({
       '@type': 'ListItem',
       position: i + 1,
-      url: `https://tickethubbh.lovable.app/ingresso/${eventoSlug(ev)}`,
+      url: `https://www.tickethubh.com.br/ingresso/${eventoSlug(ev)}`,
       name: ev.titulo,
     })),
   }), [featured]);
 
   useSeo({
-    title: 'Ingressos para shows, festas e eventos em BH',
+    fullTitle: 'TicketHub | Ingressos e agenda de eventos em Belo Horizonte',
     description: 'Descubra e garanta ingressos para os melhores shows, festas e eventos em Belo Horizonte. Curadoria, compra rápida e segura.',
-    url: 'https://tickethubbh.lovable.app/',
+    path: '/',
     jsonLd: homeJsonLd,
   });
 

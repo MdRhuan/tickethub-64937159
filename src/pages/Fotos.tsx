@@ -11,9 +11,9 @@ export default function Fotos() {
   const [dataFiltro, setDataFiltro] = useState('');
 
   useSeo({
-    title: 'Fotos',
-    description: 'Álbuns de fotos das edições anteriores dos eventos. Reviva os melhores momentos das festas e shows em BH.',
-    url: 'https://tickethubbh.lovable.app/fotos',
+    title: 'Fotos dos eventos em Belo Horizonte',
+    description: 'Álbuns de fotos das edições anteriores. Reviva os melhores momentos das festas e shows em Belo Horizonte.',
+    path: '/fotos',
   });
 
   const filtered = useMemo(() => {

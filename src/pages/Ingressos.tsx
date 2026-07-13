@@ -18,9 +18,9 @@ export default function Ingressos() {
   useEffect(() => { setBusca(qParam); }, [qParam]);
 
   useSeo({
-    title: 'Ingressos',
-    description: 'Catálogo completo de ingressos para shows, festas e eventos. Filtre por gênero musical e encontre o rolê perfeito em Belo Horizonte.',
-    url: 'https://tickethubbh.lovable.app/ingressos',
+    title: 'Ingressos para shows e festas em BH',
+    description: 'Catálogo completo de ingressos para shows, festas e eventos em Belo Horizonte. Filtre por gênero musical e encontre o rolê perfeito.',
+    path: '/ingressos',
   });
 
   const filtered = useMemo(() => eventos.filter(ev => {
