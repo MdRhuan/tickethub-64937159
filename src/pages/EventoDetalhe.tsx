@@ -38,32 +38,57 @@ export default function EventoDetalhe() {
 
   // SEO/Open Graph dinâmico (título da aba, Google e navegação interna).
   // O preview de WhatsApp/Instagram vem do prerender (scripts/prerender-og.mjs).
+  const ingressosList = ev
+    ? (ev.ingressos && ev.ingressos.length > 0
+        ? ev.ingressos
+        : [ev.ing1, ev.ing2, ev.ing3].filter(Boolean))
+    : [];
+
   const eventJsonLd = ev ? {
     '@context': 'https://schema.org',
     '@type': 'Event',
     name: ev.titulo,
-    description: ev.sobre || undefined,
+    description: ev.sobre || `${ev.titulo}${ev.local ? ' em ' + ev.local : ''} — ingressos em Belo Horizonte.`,
     startDate: allDates[0] ? `${allDates[0]}${ev.hora ? 'T' + ev.hora : ''}` : undefined,
+    endDate: allDates.length > 1 ? `${allDates[allDates.length - 1]}${ev.hora ? 'T' + ev.hora : ''}` : undefined,
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-    location: ev.local ? { '@type': 'Place', name: ev.local } : undefined,
+    location: ev.local ? {
+      '@type': 'Place',
+      name: ev.local,
+      address: { '@type': 'PostalAddress', addressLocality: 'Belo Horizonte', addressRegion: 'MG', addressCountry: 'BR' },
+    } : undefined,
     image: ev.imgBanner || ev.imgUrl || undefined,
-    url: typeof window !== 'undefined' ? window.location.href : undefined,
-    offers: (ev.ingressos && ev.ingressos.length > 0 ? ev.ingressos : [ev.ing1, ev.ing2, ev.ing3].filter(Boolean))
-      .map((ing) => ing && ({
-        '@type': 'Offer',
-        name: ing.nome,
-        url: ing.link,
-        availability: 'https://schema.org/InStock',
-      }))
-      .filter(Boolean),
+    url: `https://www.tickethubh.com.br/ingresso/${eventoSlug(ev)}`,
+    performer: ev.atracoes?.length ? ev.atracoes.map((a) => ({ '@type': 'PerformingGroup', name: a.nome })) : undefined,
+    organizer: { '@type': 'Organization', name: 'TicketHub', url: 'https://www.tickethubh.com.br' },
+    offers: ingressosList.map((ing) => ing && ({
+      '@type': 'Offer',
+      name: ing.nome,
+      url: ing.link,
+      price: (ing.preco || '').toString().replace(/[^\d.,]/g, '').replace(',', '.') || undefined,
+      priceCurrency: 'BRL',
+      availability: 'https://schema.org/InStock',
+      validFrom: new Date().toISOString().slice(0, 10),
+    })).filter(Boolean),
   } : undefined;
 
+  const localBH = ev?.local ? `${ev.local}, BH` : 'BH';
+  const seoTitle = ev ? `${ev.titulo} em ${localBH.includes('BH') ? 'BH' : 'BH'} — ingressos` : '';
+  const seoDesc = ev
+    ? [
+        ev.sobre,
+        allDates[0] ? `Data: ${fmtDataFull(allDates[0])}.` : '',
+        ev.local ? `Local: ${ev.local}, Belo Horizonte.` : '',
+      ].filter(Boolean).join(' ').trim() || `${ev.titulo} em Belo Horizonte. Garanta seu ingresso pela TicketHub.`
+    : '';
+
   useSeo({
-    title: ev?.titulo ?? "",
-    description: ev?.sobre || (ev ? `${ev.titulo}${ev.local ? " — " + ev.local : ""}` : ""),
+    title: seoTitle,
+    description: seoDesc,
     image: ev?.imgBanner || ev?.imgUrl,
-    type: "article",
+    type: 'article',
+    path: ev ? `/ingresso/${eventoSlug(ev)}` : undefined,
     jsonLd: eventJsonLd,
   });
 

@@ -31,7 +31,7 @@ export default function BlogPost() {
     image: post.imgUrl || undefined,
     datePublished: post.data || undefined,
     author: { '@type': 'Person', name: post.autor || 'Ticket Hub' },
-    mainEntityOfPage: typeof window !== 'undefined' ? window.location.href : undefined,
+    mainEntityOfPage: `https://www.tickethubh.com.br/blog/${post.id}`,
   } : undefined;
 
   useSeo({
@@ -39,6 +39,7 @@ export default function BlogPost() {
     description: post?.subtitulo || post?.conteudo,
     image: post?.imgUrl,
     type: 'article',
+    path: post ? `/blog/${post.id}` : undefined,
     jsonLd: postJsonLd,
   });
 
