@@ -11,14 +11,14 @@
 //   VITE_SUPABASE_URL
 //   VITE_SUPABASE_PUBLISHABLE_KEY
 // Opcional:
-//   SITE_URL  (padrão: https://tickethubbh.lovable.app)
+//   SITE_URL  (padrão: https://www.tickethubh.com.br)
 
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 
 const DIST = path.resolve('dist');
-const SITE = (process.env.SITE_URL || 'https://tickethubbh.lovable.app').replace(/\/$/, '');
+const SITE = (process.env.SITE_URL || 'https://www.tickethubh.com.br').replace(/\/$/, '');
 
 // ── Helpers puros (testáveis) ───────────────────────────────────────────────
 
