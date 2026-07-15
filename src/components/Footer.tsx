@@ -73,7 +73,7 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-3 mt-2">
             {[
-              { icon: <InstagramIcon />, title: "Instagram", href: "#" },
+              { icon: <InstagramIcon />, title: "Instagram", href: "https://www.instagram.com/tickethubh/" },
               { icon: <WhatsAppIcon />, title: "WhatsApp", href: "https://chat.whatsapp.com/EGrwvkC1N8WJyfp9Rsb8LM" },
               { icon: <TikTokIcon />, title: "TikTok", href: "#" },
             ].map((s) => (
