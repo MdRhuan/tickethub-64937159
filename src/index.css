@@ -284,6 +284,17 @@
       width: fit-content;
     }
   }
+
+  /* Scoped description spacing — EventoDetalhe "Sobre o Evento" */
+  .evento-descricao {
+    line-height: 1.55;
+  }
+  .evento-descricao p {
+    margin: 0 0 0.55em;
+  }
+  .evento-descricao p:last-child {
+    margin-bottom: 0;
+  }
 }
 
 @layer utilities {
