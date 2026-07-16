@@ -234,15 +234,15 @@ export default function EventoDetalhe() {
             <h2 className="text-[20px] font-black text-[#111] mb-[14px] pb-[10px] border-b-2 border-[#f0f0f0]">
               Sobre o Evento
             </h2>
-            {(ev.sobre || "Informações detalhadas sobre o evento em breve.")
-              .split(/\n\s*\n|\n/)
-              .map((s) => s.trim())
-              .filter(Boolean)
-              .map((para, i) => (
-                <p key={i} className="text-[15px] text-[#555] leading-[1.8] mb-4 last:mb-0">
-                  {para}
-                </p>
-              ))}
+            <div className="evento-descricao text-[15px] text-[#555]">
+              {(ev.sobre || "Informações detalhadas sobre o evento em breve.")
+                .split(/\n\s*\n|\n/)
+                .map((s) => s.trim())
+                .filter(Boolean)
+                .map((para, i) => (
+                  <p key={i}>{para}</p>
+                ))}
+            </div>
           </div>
 
           {/* Atrações */}
