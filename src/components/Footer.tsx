@@ -53,7 +53,7 @@ export default function Footer() {
           <Link to="/ingressos" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">Todos os Eventos</Link>
           <Link to="/calendario" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">Calendário</Link>
           <a href="#" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">FAQ</a>
-          <a href="#" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">Contato</a>
+        </div>
         </div>
 
         {/* Legal */}
