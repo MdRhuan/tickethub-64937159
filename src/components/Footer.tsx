@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import logoIcon from '@/assets/icons/logo.webp';
 
 const InstagramIcon = () => (
