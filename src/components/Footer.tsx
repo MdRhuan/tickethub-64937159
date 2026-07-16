@@ -46,24 +46,21 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* Links Úteis */}
+        {/* Navegação */}
         <div className="flex flex-col gap-3 max-md:items-center">
-          <h4 className="font-black text-sm tracking-wider text-[#111] mb-1">LINKS ÚTEIS</h4>
-          {["Sobre nós", "Dúvidas Frequentes", "Status dos Serviços", "Contato"].map((l) => (
-            <a key={l} href="#" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">
-              {l}
-            </a>
-          ))}
+          <h4 className="font-black text-sm tracking-wider text-[#111] mb-1">NAVEGAÇÃO</h4>
+          <Link to="/" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">Início</Link>
+          <Link to="/ingressos" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">Todos os Eventos</Link>
+          <Link to="/calendario" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">Calendário</Link>
+          <a href="#" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">FAQ</a>
+          <a href="#" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">Contato</a>
         </div>
 
-        {/* Informações Legais */}
+        {/* Legal */}
         <div className="flex flex-col gap-3 max-md:items-center">
-          <h4 className="font-black text-sm tracking-wider text-[#111] mb-1">INFORMAÇÕES LEGAIS</h4>
-          {["Termos de uso", "Política de privacidade", "Política de cookies", "Política de reembolso"].map((l) => (
-            <a key={l} href="#" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">
-              {l}
-            </a>
-          ))}
+          <h4 className="font-black text-sm tracking-wider text-[#111] mb-1">LEGAL</h4>
+          <a href="#" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">Termos de Uso</a>
+          <a href="#" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">Política de Privacidade</a>
         </div>
 
         {/* Atendimento */}
