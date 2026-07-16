@@ -54,7 +54,6 @@ export default function Footer() {
           <Link to="/calendario" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">Calendário</Link>
           <a href="#" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">FAQ</a>
         </div>
-        </div>
 
         {/* Legal */}
         <div className="flex flex-col gap-3 max-md:items-center">
