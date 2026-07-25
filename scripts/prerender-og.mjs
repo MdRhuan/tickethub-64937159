@@ -126,15 +126,6 @@ async function fetchEventos(supabaseUrl, key) {
   return res.json();
 }
 
-async function fetchPosts(supabaseUrl, key) {
-  const cols = 'id,titulo,subtitulo,conteudo,imgUrl,data,autor';
-  const url = `${supabaseUrl.replace(/\/$/, '')}/rest/v1/posts?select=${cols}&order=_ts.desc`;
-  const res = await fetch(url, {
-    headers: { apikey: key, Authorization: `Bearer ${key}` },
-  });
-  if (!res.ok) throw new Error(`Supabase respondeu ${res.status}: ${await res.text()}`);
-  return res.json();
-}
 
 async function fetchAlbuns(supabaseUrl, key) {
   const cols = 'id,nome,capa,data';
@@ -203,11 +194,9 @@ async function main() {
   }
 
   let eventos = [];
-  let posts = [];
   let albuns = [];
   try {
     eventos = await fetchEventos(SUPABASE_URL, KEY);
-    posts = await fetchPosts(SUPABASE_URL, KEY);
     albuns = await fetchAlbuns(SUPABASE_URL, KEY);
   } catch (e) {
     console.error('[prerender] Falha ao buscar dados:', e.message);
@@ -218,7 +207,6 @@ async function main() {
     { loc: `${SITE}/`, changefreq: 'daily', priority: '1.0' },
     { loc: `${SITE}/ingressos`, changefreq: 'daily', priority: '0.9' },
     { loc: `${SITE}/calendario`, changefreq: 'daily', priority: '0.8' },
-    { loc: `${SITE}/blog`, changefreq: 'weekly', priority: '0.7' },
     { loc: `${SITE}/fotos`, changefreq: 'weekly', priority: '0.6' },
     { loc: `${SITE}/link`, changefreq: 'monthly', priority: '0.5' },
   ];
@@ -266,23 +254,6 @@ async function main() {
     entries.push({ loc: pageUrl, changefreq: 'daily', priority: '0.8' });
   }
 
-  // Blog posts
-  for (const post of posts) {
-    const pageUrl = `${SITE}/blog/${post.id}`;
-    const description = post.subtitulo || clampDesc(post.conteudo) || post.titulo;
-    const html = buildPageHtml(template, {
-      title: post.titulo,
-      description,
-      image: post.imgUrl,
-      url: pageUrl,
-      type: 'article',
-    });
-    const dir = path.join(DIST, 'blog', String(post.id));
-    await mkdir(dir, { recursive: true });
-    await writeFile(path.join(dir, 'index.html'), html, 'utf8');
-    entries.push({ loc: pageUrl, changefreq: 'weekly', priority: '0.7' });
-  }
-
   // Galerias de fotos
   for (const al of albuns) {
     const pageUrl = `${SITE}/galeria/${al.id}`;
@@ -302,7 +273,7 @@ async function main() {
 
   await writeFile(path.join(DIST, 'sitemap.xml'), generateSitemap(entries), 'utf8');
 
-  console.log(`[prerender] ${eventos.length} evento(s), ${posts.length} post(s), ${albuns.length} álbum(ns) gerados + sitemap.xml (${entries.length} URLs).`);
+  console.log(`[prerender] ${eventos.length} evento(s), ${albuns.length} álbum(ns) gerados + sitemap.xml (${entries.length} URLs).`);
 }
 
 // Só roda main() quando executado direto (não quando importado por testes).

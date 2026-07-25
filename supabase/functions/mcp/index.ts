@@ -68,78 +68,20 @@ var get_event_default = defineTool2({
   }
 });
 
-// src/lib/mcp/tools/list-posts.ts
+// src/lib/mcp/tools/list-albums.ts
 import { defineTool as defineTool3 } from "npm:@lovable.dev/mcp-js@0.20.0";
 import { createClient as createClient3 } from "npm:@supabase/supabase-js@^2.105.1";
 import { z as z3 } from "npm:zod@^4.4.3";
-var list_posts_default = defineTool3({
-  name: "list_blog_posts",
-  title: "List blog posts",
-  description: "List blog posts published on TicketHub BH. Returns metadata only; use get_blog_post for the full body.",
-  inputSchema: {
-    tag: z3.string().optional().describe("Filter posts by tag."),
-    limit: z3.number().int().positive().max(100).optional()
-  },
-  annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
-  handler: async ({ tag, limit }) => {
-    const supabase = createClient3(
-      process.env.SUPABASE_URL,
-      process.env.SUPABASE_PUBLISHABLE_KEY ?? process.env.SUPABASE_ANON_KEY,
-      { auth: { persistSession: false, autoRefreshToken: false } }
-    );
-    let q = supabase.from("posts").select("id,titulo,subtitulo,tag,autor,data,imgUrl,destaque").order("_ts", { ascending: false });
-    if (tag) q = q.eq("tag", tag);
-    const { data, error } = await q.limit(limit ?? 50);
-    if (error) return { content: [{ type: "text", text: error.message }], isError: true };
-    return {
-      content: [{ type: "text", text: JSON.stringify(data ?? []) }],
-      structuredContent: { posts: data ?? [] }
-    };
-  }
-});
-
-// src/lib/mcp/tools/get-post.ts
-import { defineTool as defineTool4 } from "npm:@lovable.dev/mcp-js@0.20.0";
-import { createClient as createClient4 } from "npm:@supabase/supabase-js@^2.105.1";
-import { z as z4 } from "npm:zod@^4.4.3";
-var get_post_default = defineTool4({
-  name: "get_blog_post",
-  title: "Get blog post",
-  description: "Fetch the full content of a single blog post by ID.",
-  inputSchema: {
-    id: z4.string().min(1).describe("Post ID.")
-  },
-  annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
-  handler: async ({ id }) => {
-    const supabase = createClient4(
-      process.env.SUPABASE_URL,
-      process.env.SUPABASE_PUBLISHABLE_KEY ?? process.env.SUPABASE_ANON_KEY,
-      { auth: { persistSession: false, autoRefreshToken: false } }
-    );
-    const { data, error } = await supabase.from("posts").select("*").eq("id", id).maybeSingle();
-    if (error) return { content: [{ type: "text", text: error.message }], isError: true };
-    if (!data) return { content: [{ type: "text", text: `No post with id ${id}` }], isError: true };
-    return {
-      content: [{ type: "text", text: JSON.stringify(data) }],
-      structuredContent: { post: data }
-    };
-  }
-});
-
-// src/lib/mcp/tools/list-albums.ts
-import { defineTool as defineTool5 } from "npm:@lovable.dev/mcp-js@0.20.0";
-import { createClient as createClient5 } from "npm:@supabase/supabase-js@^2.105.1";
-import { z as z5 } from "npm:zod@^4.4.3";
-var list_albums_default = defineTool5({
+var list_albums_default = defineTool3({
   name: "list_photo_albums",
   title: "List photo albums",
   description: "List photo albums (galerias) from past events on TicketHub BH.",
   inputSchema: {
-    limit: z5.number().int().positive().max(100).optional()
+    limit: z3.number().int().positive().max(100).optional()
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async ({ limit }) => {
-    const supabase = createClient5(
+    const supabase = createClient3(
       process.env.SUPABASE_URL,
       process.env.SUPABASE_PUBLISHABLE_KEY ?? process.env.SUPABASE_ANON_KEY,
       { auth: { persistSession: false, autoRefreshToken: false } }
@@ -158,8 +100,8 @@ var mcp_default = defineMcp({
   name: "tickethub-bh-mcp",
   title: "TicketHub BH",
   version: "0.1.0",
-  instructions: "Public data from TicketHub BH \u2014 events/tickets, blog posts, and photo albums. Use list_events / get_event to discover upcoming shows in Belo Horizonte, list_blog_posts / get_blog_post for editorial content, and list_photo_albums for past-event galleries.",
-  tools: [list_events_default, get_event_default, list_posts_default, get_post_default, list_albums_default]
+  instructions: "Public data from TicketHub BH \u2014 events/tickets and photo albums. Use list_events / get_event to discover upcoming shows in Belo Horizonte, and list_photo_albums for past-event galleries.",
+  tools: [list_events_default, get_event_default, list_albums_default]
 });
 
 // lovable-mcp-supabase-entry.ts

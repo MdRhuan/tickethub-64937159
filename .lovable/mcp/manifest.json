@@ -69,57 +69,6 @@
         "outputSchema": null
       },
       {
-        "name": "list_blog_posts",
-        "title": "List blog posts",
-        "description": "List blog posts published on TicketHub BH. Returns metadata only; use get_blog_post for the full body.",
-        "annotations": {
-          "readOnlyHint": true,
-          "idempotentHint": true,
-          "openWorldHint": false
-        },
-        "inputSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
-          "type": "object",
-          "properties": {
-            "tag": {
-              "description": "Filter posts by tag.",
-              "type": "string"
-            },
-            "limit": {
-              "type": "integer",
-              "exclusiveMinimum": 0,
-              "maximum": 100
-            }
-          }
-        },
-        "outputSchema": null
-      },
-      {
-        "name": "get_blog_post",
-        "title": "Get blog post",
-        "description": "Fetch the full content of a single blog post by ID.",
-        "annotations": {
-          "readOnlyHint": true,
-          "idempotentHint": true,
-          "openWorldHint": false
-        },
-        "inputSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string",
-              "minLength": 1,
-              "description": "Post ID."
-            }
-          },
-          "required": [
-            "id"
-          ]
-        },
-        "outputSchema": null
-      },
-      {
         "name": "list_photo_albums",
         "title": "List photo albums",
         "description": "List photo albums (galerias) from past events on TicketHub BH.",
