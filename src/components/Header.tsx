@@ -6,7 +6,7 @@ const NAV_LINKS = [
   { to: '/',          label: 'Home' },
   { to: '/ingressos', label: 'Ingressos' },
   { to: '/calendario',label: 'Calendário' },
-  { to: '/blog',      label: 'Blog' },
+  
   { to: '/fotos',     label: 'Fotos' },
 ];
 

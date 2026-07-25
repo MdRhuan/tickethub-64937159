@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { useDB } from '@/contexts/DBContext';
 import { supabase } from '@/integrations/supabase/client';
-import type { Evento, Post, Album, Atracao, Ingresso } from '@/types';
+import type { Evento, Album, Atracao, Ingresso } from '@/types';
 import { fmtDataBlog } from '@/lib/utils';
 import { uploadImage } from '@/lib/imageUpload';
 import logoIcon from '@/assets/icons/logo.webp';
 
-type Tab = 'eventos' | 'blog' | 'albuns';
+type Tab = 'eventos' | 'albuns';
 
 // ── Toast ──────────────────────────────────────────────────────────────────
 function useToast() {
@@ -125,7 +125,7 @@ export default function Admin() {
           TICKET HUB
         </div>
         <nav className="flex-1 flex flex-col p-3 gap-1 max-md:flex-row max-md:p-0 max-md:gap-1">
-          {([['eventos','Eventos'],['blog','Blog'],['albuns','Fotos']] as [Tab, string][]).map(([t, label]) => (
+          {([['eventos','Eventos'],['albuns','Fotos']] as [Tab, string][]).map(([t, label]) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -150,16 +150,15 @@ export default function Admin() {
       <div className="ml-[220px] flex-1 flex flex-col min-h-screen max-md:ml-0 max-md:pt-14">
         <div className="bg-white px-9 py-[22px] border-b border-[#e8e8e8] shadow-sm max-md:px-5 max-md:py-4">
           <h1 className="text-[20px] font-black text-[#111]">
-            {tab === 'eventos' ? 'Eventos' : tab === 'blog' ? 'Blog' : 'Fotos'}
+            {tab === 'eventos' ? 'Eventos' : 'Fotos'}
           </h1>
           <p className="text-[13px] text-[#666] mt-0.5">
-            {tab === 'eventos' ? 'Gerencie os eventos do site' : tab === 'blog' ? 'Gerencie os posts do blog' : 'Gerencie os álbuns de fotos'}
+            {tab === 'eventos' ? 'Gerencie os eventos do site' : 'Gerencie os álbuns de fotos'}
           </p>
         </div>
 
         <div className="p-9 pb-16 max-md:p-5">
           {tab === 'eventos' && <TabEventos toast={toast} />}
-          {tab === 'blog'    && <TabBlog    toast={toast} />}
           {tab === 'albuns'  && <TabAlbuns  toast={toast} />}
         </div>
       </div>
@@ -562,80 +561,6 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
             <p className="text-[#666] text-[13px] text-center py-7">Nenhum evento cadastrado.</p>
           ) : [...eventos].reverse().map(ev => (
             <ListItem key={ev.id} img={ev.imgUrl} title={ev.titulo} meta={[ev.data ? fmtDataBlog(ev.data) : '', ev.hora].filter(Boolean).join(' • ')} sub={ev.preco} badge={ev.homeDestaque ? `Home #${ev.homeOrdem ?? 0}` : undefined} active={editId === ev.id} onEdit={() => startEdit(ev)} onDelete={() => del(ev.id)} />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ── TAB BLOG ───────────────────────────────────────────────────────────────
-function TabBlog({ toast }: { toast: (m:string)=>void }) {
-  const { posts, addPost, deletePost } = useDB();
-  const [saving, setSaving] = useState(false);
-  const img = useImgUpload();
-  const [form, setForm] = useState({ titulo:'', subtitulo:'', tag:'', autor:'', data:'', conteudo:'', destaque: false });
-  function f(k: string) { return (e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>) => setForm(p => ({...p, [k]: e.target.value})); }
-
-  async function submit(e: React.FormEvent) {
-    e.preventDefault(); setSaving(true);
-    const p: Post = {
-      id: Date.now().toString(),
-      titulo: form.titulo, subtitulo: form.subtitulo,
-      tag: form.tag.toUpperCase(), autor: form.autor || 'Ticket Hub',
-      data: form.data, imgUrl: img.data,
-      conteudo: form.conteudo, destaque: form.destaque,
-    };
-    try {
-      await addPost(p);
-      setForm({ titulo:'', subtitulo:'', tag:'', autor:'', data:'', conteudo:'', destaque: false });
-      img.reset();
-      toast('Post adicionado com sucesso!');
-    } catch { toast('Erro ao salvar post.'); }
-    setSaving(false);
-  }
-
-  async function del(id: string) {
-    if (!confirm('Remover este post?')) return;
-    try { await deletePost(id); toast('Post removido.'); }
-    catch { toast('Erro ao remover post.'); }
-  }
-
-  return (
-    <div className="grid grid-cols-2 gap-6 items-start max-md:grid-cols-1">
-      <div className="bg-white rounded-2xl overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
-        <div className="flex items-center justify-between px-[22px] py-[18px] border-b border-[#f2f2f2]">
-          <h2 className="text-[15px] font-black text-[#111]">Novo Post</h2>
-        </div>
-        <form onSubmit={submit} className="px-[22px] py-5 flex flex-col gap-[14px]">
-          <FG label="Título *"><FI required value={form.titulo} onChange={f('titulo')} placeholder="Ex: 5 dicas para aproveitar shows" /></FG>
-          <FG label="Resumo / Subtítulo"><textarea className="form-i resize-y min-h-[70px]" value={form.subtitulo} onChange={f('subtitulo')} placeholder="Breve descrição..." /></FG>
-          <div className="grid grid-cols-2 gap-3">
-            <FG label="Tag"><FSel value={form.tag} onChange={f('tag')} options={['','DICAS','MÚSICA','GUIA','NOTÍCIAS','EVENTOS','CULTURA','ENTRETENIMENTO']} /></FG>
-            <FG label="Autor"><FI value={form.autor} onChange={f('autor')} placeholder="Ticket Hub" /></FG>
-          </div>
-          <FG label="Data de publicação *"><input type="date" required value={form.data} onChange={f('data')} className="form-i" /></FG>
-          <FG label="Imagem (800×500 px)"><ImgUpload img={img} label="Subir imagem" /></FG>
-          <FG label="Conteúdo"><textarea className="form-i resize-y min-h-[150px]" value={form.conteudo} onChange={f('conteudo')} placeholder="Escreva aqui o texto completo do post..." /></FG>
-          <label className="flex items-center gap-[9px] cursor-pointer py-1">
-            <input type="checkbox" checked={form.destaque} onChange={e => setForm(p => ({...p, destaque: e.target.checked}))} className="w-4 h-4 cursor-pointer accent-[#1a3a6b]" />
-            <span className="text-[13px] text-[#555]">Marcar como post em destaque</span>
-          </label>
-          <button type="submit" disabled={saving || img.uploading} className="px-[22px] py-[11px] bg-[#1a3a6b] text-white border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#102a4e] transition-colors self-start mt-[6px] disabled:opacity-60 btn-pulse">
-            {saving ? 'Salvando...' : img.uploading ? 'Enviando imagem...' : 'Adicionar Post'}
-          </button>
-        </form>
-      </div>
-      <div className="bg-white rounded-2xl overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
-        <div className="flex items-center justify-between px-[22px] py-[18px] border-b border-[#f2f2f2]">
-          <h2 className="text-[15px] font-black text-[#111]">Posts Cadastrados</h2>
-          <span className="inline-flex items-center justify-center bg-[#eef5ff] text-[#1a3a6b] text-[12px] font-bold px-[10px] py-[3px] rounded-full">{posts.length}</span>
-        </div>
-        <div className="p-3 flex flex-col gap-2 max-h-[560px] overflow-y-auto">
-          {posts.length === 0 ? (
-            <p className="text-[#666] text-[13px] text-center py-7">Nenhum post cadastrado.</p>
-          ) : [...posts].reverse().map(p => (
-            <ListItem key={p.id} img={p.imgUrl} title={p.titulo} meta={[fmtDataBlog(p.data), p.tag].filter(Boolean).join(' • ')} sub={p.destaque ? '⭐ DESTAQUE' : undefined} onDelete={() => del(p.id)} />
           ))}
         </div>
       </div>

@@ -38,18 +38,6 @@ export interface Evento {
   _ts?: number;
 }
 
-export interface Post {
-  id: string;
-  titulo: string;
-  subtitulo: string;
-  tag: string;
-  autor: string;
-  data: string;
-  imgUrl: string;
-  conteudo: string;
-  destaque: boolean;
-  _ts?: number;
-}
 
 export interface Album {
   id: string;

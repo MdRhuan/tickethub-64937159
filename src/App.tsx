@@ -29,8 +29,6 @@ import Layout from '@/components/Layout';
 const Home = lazy(() => import('@/pages/Home'));
 const Ingressos = lazy(() => import('@/pages/Ingressos'));
 const EventoDetalhe = lazy(() => import('@/pages/EventoDetalhe'));
-const Blog = lazy(() => import('@/pages/Blog'));
-const BlogPost = lazy(() => import('@/pages/BlogPost'));
 const Fotos = lazy(() => import('@/pages/Fotos'));
 const Galeria = lazy(() => import('@/pages/Galeria'));
 const Calendario = lazy(() => import('@/pages/Calendario'));
@@ -63,8 +61,6 @@ function AppRoutes() {
           <Route path="/" element={<Home />} />
           <Route path="/ingressos" element={<Ingressos />} />
           <Route path="/ingresso/:slug" element={<EventoDetalhe />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="/fotos" element={<Fotos />} />
           <Route path="/galeria/:id" element={<Galeria />} />
           <Route path="/calendario" element={<Calendario />} />
