@@ -59,8 +59,6 @@ function AppRoutes() {
           <Route path="/" element={<Home />} />
           <Route path="/ingressos" element={<Ingressos />} />
           <Route path="/ingresso/:slug" element={<EventoDetalhe />} />
-          <Route path="/fotos" element={<Fotos />} />
-          <Route path="/galeria/:id" element={<Galeria />} />
           <Route path="/calendario" element={<Calendario />} />
         </Route>
         <Route path="/admin" element={<Admin />} />
