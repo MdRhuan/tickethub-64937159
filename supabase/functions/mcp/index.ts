@@ -68,40 +68,13 @@ var get_event_default = defineTool2({
   }
 });
 
-// src/lib/mcp/tools/list-albums.ts
-import { defineTool as defineTool3 } from "npm:@lovable.dev/mcp-js@0.20.0";
-import { createClient as createClient3 } from "npm:@supabase/supabase-js@^2.105.1";
-import { z as z3 } from "npm:zod@^4.4.3";
-var list_albums_default = defineTool3({
-  name: "list_photo_albums",
-  title: "List photo albums",
-  description: "List photo albums (galerias) from past events on TicketHub BH.",
-  inputSchema: {
-    limit: z3.number().int().positive().max(100).optional()
-  },
-  annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
-  handler: async ({ limit }) => {
-    const supabase = createClient3(
-      process.env.SUPABASE_URL,
-      process.env.SUPABASE_PUBLISHABLE_KEY ?? process.env.SUPABASE_ANON_KEY,
-      { auth: { persistSession: false, autoRefreshToken: false } }
-    );
-    const { data, error } = await supabase.from("albuns").select("id,nome,data,capa,link").order("_ts", { ascending: false }).limit(limit ?? 50);
-    if (error) return { content: [{ type: "text", text: error.message }], isError: true };
-    return {
-      content: [{ type: "text", text: JSON.stringify(data ?? []) }],
-      structuredContent: { albums: data ?? [] }
-    };
-  }
-});
-
 // src/lib/mcp/index.ts
 var mcp_default = defineMcp({
   name: "tickethub-bh-mcp",
   title: "TicketHub BH",
   version: "0.1.0",
-  instructions: "Public data from TicketHub BH \u2014 events/tickets and photo albums. Use list_events / get_event to discover upcoming shows in Belo Horizonte, and list_photo_albums for past-event galleries.",
-  tools: [list_events_default, get_event_default, list_albums_default]
+  instructions: "Public data from TicketHub BH \u2014 events/tickets. Use list_events / get_event to discover upcoming shows in Belo Horizonte.",
+  tools: [list_events_default, get_event_default]
 });
 
 // lovable-mcp-supabase-entry.ts

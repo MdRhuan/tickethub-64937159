@@ -67,28 +67,6 @@
           ]
         },
         "outputSchema": null
-      },
-      {
-        "name": "list_photo_albums",
-        "title": "List photo albums",
-        "description": "List photo albums (galerias) from past events on TicketHub BH.",
-        "annotations": {
-          "readOnlyHint": true,
-          "idempotentHint": true,
-          "openWorldHint": false
-        },
-        "inputSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
-          "type": "object",
-          "properties": {
-            "limit": {
-              "type": "integer",
-              "exclusiveMinimum": 0,
-              "maximum": 100
-            }
-          }
-        },
-        "outputSchema": null
       }
     ]
   }

@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { useDB } from '@/contexts/DBContext';
 import { supabase } from '@/integrations/supabase/client';
-import type { Evento, Album, Atracao, Ingresso } from '@/types';
+import type { Evento, Atracao, Ingresso } from '@/types';
 import { fmtDataBlog } from '@/lib/utils';
 import { uploadImage } from '@/lib/imageUpload';
 import logoIcon from '@/assets/icons/logo.webp';
 
-type Tab = 'eventos' | 'albuns';
+type Tab = 'eventos';
 
 // ── Toast ──────────────────────────────────────────────────────────────────
 function useToast() {
@@ -125,15 +125,12 @@ export default function Admin() {
           TICKET HUB
         </div>
         <nav className="flex-1 flex flex-col p-3 gap-1 max-md:flex-row max-md:p-0 max-md:gap-1">
-          {([['eventos','Eventos'],['albuns','Fotos']] as [Tab, string][]).map(([t, label]) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={`flex items-center gap-3 px-[14px] py-[11px] border-none rounded-[10px] text-sm font-bold cursor-pointer text-left transition-all max-md:px-3 max-md:py-2 max-md:text-[12px] max-md:rounded-lg ${tab === t ? 'bg-white/15 text-white' : 'bg-transparent text-white/60 hover:bg-white/10 hover:text-white'}`}
-            >
-              {label}
-            </button>
-          ))}
+          <button
+            onClick={() => setTab('eventos')}
+            className="flex items-center gap-3 px-[14px] py-[11px] border-none rounded-[10px] text-sm font-bold cursor-pointer text-left transition-all max-md:px-3 max-md:py-2 max-md:text-[12px] max-md:rounded-lg bg-white/15 text-white"
+          >
+            Eventos
+          </button>
         </nav>
         <div className="p-3 border-t border-white/10 flex flex-col gap-[6px] max-md:flex-row max-md:border-0 max-md:p-0 max-md:gap-1">
           <a href="/" className="flex items-center gap-2 text-white/50 no-underline text-[12px] px-[14px] py-2 rounded-lg hover:text-white hover:bg-white/10 transition-all max-md:text-[11px] max-md:px-[10px]">
@@ -149,17 +146,12 @@ export default function Admin() {
       {/* Main */}
       <div className="ml-[220px] flex-1 flex flex-col min-h-screen max-md:ml-0 max-md:pt-14">
         <div className="bg-white px-9 py-[22px] border-b border-[#e8e8e8] shadow-sm max-md:px-5 max-md:py-4">
-          <h1 className="text-[20px] font-black text-[#111]">
-            {tab === 'eventos' ? 'Eventos' : 'Fotos'}
-          </h1>
-          <p className="text-[13px] text-[#666] mt-0.5">
-            {tab === 'eventos' ? 'Gerencie os eventos do site' : 'Gerencie os álbuns de fotos'}
-          </p>
+          <h1 className="text-[20px] font-black text-[#111]">Eventos</h1>
+          <p className="text-[13px] text-[#666] mt-0.5">Gerencie os eventos do site</p>
         </div>
 
         <div className="p-9 pb-16 max-md:p-5">
-          {tab === 'eventos' && <TabEventos toast={toast} />}
-          {tab === 'albuns'  && <TabAlbuns  toast={toast} />}
+          <TabEventos toast={toast} />
         </div>
       </div>
 
@@ -568,109 +560,6 @@ function TabEventos({ toast }: { toast: (m:string)=>void }) {
   );
 }
 
-// ── TAB ÁLBUNS ─────────────────────────────────────────────────────────────
-function TabAlbuns({ toast }: { toast: (m:string)=>void }) {
-  const { albuns, addAlbum, deleteAlbum } = useDB();
-  const [saving, setSaving] = useState(false);
-  const capa = useImgUpload();
-  const [form, setForm] = useState({ nome: '', data: '', link: '' });
-  const [fotos, setFotos] = useState<string[]>([]);
-
-  function f(k: string) { return (e: React.ChangeEvent<HTMLInputElement>) => setForm(p => ({...p, [k]: e.target.value})); }
-
-  const [uploadingFotos, setUploadingFotos] = useState(0);
-  async function addFotos(e: React.ChangeEvent<HTMLInputElement>) {
-    const files = Array.from(e.target.files || []);
-    e.target.value = '';
-    if (files.length === 0) return;
-    setUploadingFotos(n => n + files.length);
-    await Promise.all(files.map(async (file) => {
-      try {
-        const url = await uploadImage(file, 'albuns');
-        setFotos(p => [...p, url]);
-      } catch (err) {
-        console.error('[Admin] Falha no upload da foto do álbum:', err);
-      } finally {
-        setUploadingFotos(n => n - 1);
-      }
-    }));
-  }
-
-  async function submit(e: React.FormEvent) {
-    e.preventDefault(); setSaving(true);
-    const al: Album = {
-      id: Date.now().toString(),
-      nome: form.nome, data: form.data,
-      capa: capa.data, link: form.link.trim(),
-      fotos: [...fotos],
-    };
-    try {
-      await addAlbum(al);
-      setForm({ nome:'', data:'', link:'' }); capa.reset(); setFotos([]);
-      toast('Álbum criado com sucesso!');
-    } catch { toast('Erro ao salvar álbum.'); }
-    setSaving(false);
-  }
-
-  async function del(id: string) {
-    if (!confirm('Excluir este álbum?')) return;
-    try { await deleteAlbum(id); toast('Álbum excluído.'); }
-    catch { toast('Erro ao excluir álbum.'); }
-  }
-
-  return (
-    <div className="grid grid-cols-2 gap-6 items-start max-md:grid-cols-1">
-      <div className="bg-white rounded-2xl overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
-        <div className="flex items-center justify-between px-[22px] py-[18px] border-b border-[#f2f2f2]">
-          <h2 className="text-[15px] font-black text-[#111]">Novo Álbum</h2>
-        </div>
-        <form onSubmit={submit} className="px-[22px] py-5 flex flex-col gap-[14px]">
-          <FG label="Nome do Evento *"><FI required value={form.nome} onChange={f('nome')} placeholder="Ex: Baile da Saudade" /></FG>
-          <FG label="Data do Evento *"><input type="date" required value={form.data} onChange={f('data')} className="form-i" /></FG>
-          <FG label="Link do Álbum (externo)"><FI type="url" value={form.link} onChange={f('link')} placeholder="https://..." /></FG>
-          <FG label="Capa do Álbum"><ImgUpload img={capa} label="Subir imagem" /></FG>
-          <div className="block text-[11px] font-bold uppercase tracking-[1px] text-[#1a3a6b] border-b-2 border-[#e8edf5] pb-[6px] my-2">Fotos do Álbum</div>
-          <FG label="Adicionar fotos">
-            <label className="inline-flex items-center gap-2 px-4 py-[9px] bg-[#f0f0f0] border border-dashed border-[#ccc] rounded-lg text-[13px] font-semibold text-[#555] cursor-pointer hover:bg-[#e8edf5] hover:border-[#4a90e2] hover:text-[#1a3a6b] transition-all w-fit">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-              Subir fotos (múltiplas)
-              <input type="file" accept="image/*" multiple className="hidden" onChange={addFotos} />
-            </label>
-            {fotos.length > 0 && (
-              <>
-                <div className="grid gap-2 mt-[10px]" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(72px, 1fr))' }}>
-                  {fotos.map((src, i) => (
-                    <img key={i} src={src} alt="" className="w-full aspect-square object-cover rounded-md border border-[#eee]" />
-                  ))}
-                </div>
-                <p className="text-[12px] text-[#4a90e2] font-semibold mt-[6px]">{fotos.length} foto(s) adicionada(s)</p>
-              </>
-            )}
-            {uploadingFotos > 0 && (
-              <p className="text-[12px] text-[#888] mt-[6px]">Enviando {uploadingFotos} foto(s)...</p>
-            )}
-          </FG>
-          <button type="submit" disabled={saving || capa.uploading || uploadingFotos > 0} className="px-[22px] py-[11px] bg-[#1a3a6b] text-white border-none rounded-[9px] text-[13px] font-bold cursor-pointer hover:bg-[#102a4e] transition-colors self-start mt-[6px] disabled:opacity-60 btn-pulse">
-            {saving ? 'Salvando...' : (capa.uploading || uploadingFotos > 0) ? 'Enviando imagens...' : 'Criar Álbum'}
-          </button>
-        </form>
-      </div>
-      <div className="bg-white rounded-2xl overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
-        <div className="flex items-center justify-between px-[22px] py-[18px] border-b border-[#f2f2f2]">
-          <h2 className="text-[15px] font-black text-[#111]">Álbuns Cadastrados</h2>
-          <span className="inline-flex items-center justify-center bg-[#eef5ff] text-[#1a3a6b] text-[12px] font-bold px-[10px] py-[3px] rounded-full">{albuns.length}</span>
-        </div>
-        <div className="p-3 flex flex-col gap-2 max-h-[560px] overflow-y-auto">
-          {albuns.length === 0 ? (
-            <p className="text-[#666] text-[13px] text-center py-7">Nenhum álbum cadastrado.</p>
-          ) : [...albuns].reverse().map(al => (
-            <ListItem key={al.id} img={al.capa} title={al.nome} meta={fmtDataBlog(al.data) + ' • ' + (al.fotos?.length || 0) + ' foto(s)'} onDelete={() => del(al.id)} />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ── Shared mini-components ─────────────────────────────────────────────────
 function FG({ label, children, error }: { label: string; children: React.ReactNode; error?: string }) {

@@ -37,14 +37,3 @@ export interface Evento {
   homeOrdem?: number;
   _ts?: number;
 }
-
-
-export interface Album {
-  id: string;
-  nome: string;
-  data: string;
-  capa: string;
-  link?: string;
-  fotos: string[];
-  _ts?: number;
-}

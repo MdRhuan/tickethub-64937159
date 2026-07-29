@@ -127,15 +127,6 @@ async function fetchEventos(supabaseUrl, key) {
 }
 
 
-async function fetchAlbuns(supabaseUrl, key) {
-  const cols = 'id,nome,capa,data';
-  const url = `${supabaseUrl.replace(/\/$/, '')}/rest/v1/albuns?select=${cols}&order=_ts.desc`;
-  const res = await fetch(url, {
-    headers: { apikey: key, Authorization: `Bearer ${key}` },
-  });
-  if (!res.ok) throw new Error(`Supabase respondeu ${res.status}: ${await res.text()}`);
-  return res.json();
-}
 
 // Lê VITE_* do process.env; se faltar, tenta parsear o .env local.
 async function loadEnv() {
@@ -194,10 +185,8 @@ async function main() {
   }
 
   let eventos = [];
-  let albuns = [];
   try {
     eventos = await fetchEventos(SUPABASE_URL, KEY);
-    albuns = await fetchAlbuns(SUPABASE_URL, KEY);
   } catch (e) {
     console.error('[prerender] Falha ao buscar dados:', e.message);
     process.exit(1);
@@ -207,7 +196,6 @@ async function main() {
     { loc: `${SITE}/`, changefreq: 'daily', priority: '1.0' },
     { loc: `${SITE}/ingressos`, changefreq: 'daily', priority: '0.9' },
     { loc: `${SITE}/calendario`, changefreq: 'daily', priority: '0.8' },
-    { loc: `${SITE}/fotos`, changefreq: 'weekly', priority: '0.6' },
     { loc: `${SITE}/link`, changefreq: 'monthly', priority: '0.5' },
   ];
 
@@ -254,26 +242,9 @@ async function main() {
     entries.push({ loc: pageUrl, changefreq: 'daily', priority: '0.8' });
   }
 
-  // Galerias de fotos
-  for (const al of albuns) {
-    const pageUrl = `${SITE}/galeria/${al.id}`;
-    const description = `Álbum de fotos de ${al.nome}${al.data ? ' em ' + al.data : ''}`;
-    const html = buildPageHtml(template, {
-      title: al.nome,
-      description,
-      image: al.capa,
-      url: pageUrl,
-      type: 'website',
-    });
-    const dir = path.join(DIST, 'galeria', String(al.id));
-    await mkdir(dir, { recursive: true });
-    await writeFile(path.join(dir, 'index.html'), html, 'utf8');
-    entries.push({ loc: pageUrl, changefreq: 'weekly', priority: '0.6' });
-  }
-
   await writeFile(path.join(DIST, 'sitemap.xml'), generateSitemap(entries), 'utf8');
 
-  console.log(`[prerender] ${eventos.length} evento(s), ${albuns.length} álbum(ns) gerados + sitemap.xml (${entries.length} URLs).`);
+  console.log(`[prerender] ${eventos.length} evento(s) gerados + sitemap.xml (${entries.length} URLs).`);
 }
 
 // Só roda main() quando executado direto (não quando importado por testes).
