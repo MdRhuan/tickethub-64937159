@@ -29,8 +29,6 @@ import Layout from '@/components/Layout';
 const Home = lazy(() => import('@/pages/Home'));
 const Ingressos = lazy(() => import('@/pages/Ingressos'));
 const EventoDetalhe = lazy(() => import('@/pages/EventoDetalhe'));
-const Fotos = lazy(() => import('@/pages/Fotos'));
-const Galeria = lazy(() => import('@/pages/Galeria'));
 const Calendario = lazy(() => import('@/pages/Calendario'));
 const Admin = lazy(() => import('@/pages/Admin'));
 const Link = lazy(() => import('@/pages/Link'));
