@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { useDB } from '@/contexts/DBContext';
 import { supabase } from '@/integrations/supabase/client';
-import type { Evento, Album, Atracao, Ingresso } from '@/types';
+import type { Evento, Atracao, Ingresso } from '@/types';
 import { fmtDataBlog } from '@/lib/utils';
 import { uploadImage } from '@/lib/imageUpload';
 import logoIcon from '@/assets/icons/logo.webp';
 
-type Tab = 'eventos' | 'albuns';
+type Tab = 'eventos';
 
 // ── Toast ──────────────────────────────────────────────────────────────────
 function useToast() {
