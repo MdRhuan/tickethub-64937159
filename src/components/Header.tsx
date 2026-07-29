@@ -6,8 +6,6 @@ const NAV_LINKS = [
   { to: '/',          label: 'Home' },
   { to: '/ingressos', label: 'Ingressos' },
   { to: '/calendario',label: 'Calendário' },
-  
-  { to: '/fotos',     label: 'Fotos' },
 ];
 
 export default function Header() {
