@@ -125,15 +125,12 @@ export default function Admin() {
           TICKET HUB
         </div>
         <nav className="flex-1 flex flex-col p-3 gap-1 max-md:flex-row max-md:p-0 max-md:gap-1">
-          {([['eventos','Eventos'],['albuns','Fotos']] as [Tab, string][]).map(([t, label]) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={`flex items-center gap-3 px-[14px] py-[11px] border-none rounded-[10px] text-sm font-bold cursor-pointer text-left transition-all max-md:px-3 max-md:py-2 max-md:text-[12px] max-md:rounded-lg ${tab === t ? 'bg-white/15 text-white' : 'bg-transparent text-white/60 hover:bg-white/10 hover:text-white'}`}
-            >
-              {label}
-            </button>
-          ))}
+          <button
+            onClick={() => setTab('eventos')}
+            className="flex items-center gap-3 px-[14px] py-[11px] border-none rounded-[10px] text-sm font-bold cursor-pointer text-left transition-all max-md:px-3 max-md:py-2 max-md:text-[12px] max-md:rounded-lg bg-white/15 text-white"
+          >
+            Eventos
+          </button>
         </nav>
         <div className="p-3 border-t border-white/10 flex flex-col gap-[6px] max-md:flex-row max-md:border-0 max-md:p-0 max-md:gap-1">
           <a href="/" className="flex items-center gap-2 text-white/50 no-underline text-[12px] px-[14px] py-2 rounded-lg hover:text-white hover:bg-white/10 transition-all max-md:text-[11px] max-md:px-[10px]">
@@ -149,17 +146,12 @@ export default function Admin() {
       {/* Main */}
       <div className="ml-[220px] flex-1 flex flex-col min-h-screen max-md:ml-0 max-md:pt-14">
         <div className="bg-white px-9 py-[22px] border-b border-[#e8e8e8] shadow-sm max-md:px-5 max-md:py-4">
-          <h1 className="text-[20px] font-black text-[#111]">
-            {tab === 'eventos' ? 'Eventos' : 'Fotos'}
-          </h1>
-          <p className="text-[13px] text-[#666] mt-0.5">
-            {tab === 'eventos' ? 'Gerencie os eventos do site' : 'Gerencie os álbuns de fotos'}
-          </p>
+          <h1 className="text-[20px] font-black text-[#111]">Eventos</h1>
+          <p className="text-[13px] text-[#666] mt-0.5">Gerencie os eventos do site</p>
         </div>
 
         <div className="p-9 pb-16 max-md:p-5">
-          {tab === 'eventos' && <TabEventos toast={toast} />}
-          {tab === 'albuns'  && <TabAlbuns  toast={toast} />}
+          <TabEventos toast={toast} />
         </div>
       </div>
 
