@@ -127,15 +127,6 @@ async function fetchEventos(supabaseUrl, key) {
 }
 
 
-async function fetchAlbuns(supabaseUrl, key) {
-  const cols = 'id,nome,capa,data';
-  const url = `${supabaseUrl.replace(/\/$/, '')}/rest/v1/albuns?select=${cols}&order=_ts.desc`;
-  const res = await fetch(url, {
-    headers: { apikey: key, Authorization: `Bearer ${key}` },
-  });
-  if (!res.ok) throw new Error(`Supabase respondeu ${res.status}: ${await res.text()}`);
-  return res.json();
-}
 
 // Lê VITE_* do process.env; se faltar, tenta parsear o .env local.
 async function loadEnv() {
