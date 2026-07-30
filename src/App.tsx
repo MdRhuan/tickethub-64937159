@@ -30,6 +30,7 @@ const Home = lazy(() => import('@/pages/Home'));
 const Ingressos = lazy(() => import('@/pages/Ingressos'));
 const EventoDetalhe = lazy(() => import('@/pages/EventoDetalhe'));
 const Calendario = lazy(() => import('@/pages/Calendario'));
+const Grupos = lazy(() => import('@/pages/Grupos'));
 const Admin = lazy(() => import('@/pages/Admin'));
 const Link = lazy(() => import('@/pages/Link'));
 
@@ -60,6 +61,7 @@ function AppRoutes() {
           <Route path="/ingressos" element={<Ingressos />} />
           <Route path="/ingresso/:slug" element={<EventoDetalhe />} />
           <Route path="/calendario" element={<Calendario />} />
+          <Route path="/grupos" element={<Grupos />} />
         </Route>
         <Route path="/admin" element={<Admin />} />
       </Routes>

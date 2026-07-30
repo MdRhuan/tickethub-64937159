@@ -28,7 +28,7 @@ export const GRUPOS = [
 
 export default function Grupos() {
   useSeo({
-    title: 'Grupos de WhatsApp — TicketHub BH',
+    title: 'Grupos de WhatsApp',
     description: 'Entre nos grupos de WhatsApp do TicketHub e receba promoções de ingressos e avisos de eventos em Belo Horizonte.',
     path: '/grupos',
   });
