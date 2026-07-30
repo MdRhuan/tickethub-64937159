@@ -5,8 +5,9 @@ import type { Evento, Atracao, Ingresso } from '@/types';
 import { fmtDataBlog } from '@/lib/utils';
 import { uploadImage } from '@/lib/imageUpload';
 import logoIcon from '@/assets/icons/logo.webp';
+import TabGrupos from '@/pages/admin/TabGrupos';
 
-type Tab = 'eventos';
+type Tab = 'eventos' | 'grupos';
 
 // ── Toast ──────────────────────────────────────────────────────────────────
 function useToast() {
@@ -127,9 +128,15 @@ export default function Admin() {
         <nav className="flex-1 flex flex-col p-3 gap-1 max-md:flex-row max-md:p-0 max-md:gap-1">
           <button
             onClick={() => setTab('eventos')}
-            className="flex items-center gap-3 px-[14px] py-[11px] border-none rounded-[10px] text-sm font-bold cursor-pointer text-left transition-all max-md:px-3 max-md:py-2 max-md:text-[12px] max-md:rounded-lg bg-white/15 text-white"
+            className={`flex items-center gap-3 px-[14px] py-[11px] border-none rounded-[10px] text-sm font-bold cursor-pointer text-left transition-all max-md:px-3 max-md:py-2 max-md:text-[12px] max-md:rounded-lg ${tab === 'eventos' ? 'bg-white/15 text-white' : 'bg-transparent text-white/60 hover:bg-white/10 hover:text-white'}`}
           >
             Eventos
+          </button>
+          <button
+            onClick={() => setTab('grupos')}
+            className={`flex items-center gap-3 px-[14px] py-[11px] border-none rounded-[10px] text-sm font-bold cursor-pointer text-left transition-all max-md:px-3 max-md:py-2 max-md:text-[12px] max-md:rounded-lg ${tab === 'grupos' ? 'bg-white/15 text-white' : 'bg-transparent text-white/60 hover:bg-white/10 hover:text-white'}`}
+          >
+            Grupos
           </button>
         </nav>
         <div className="p-3 border-t border-white/10 flex flex-col gap-[6px] max-md:flex-row max-md:border-0 max-md:p-0 max-md:gap-1">
@@ -146,14 +153,15 @@ export default function Admin() {
       {/* Main */}
       <div className="ml-[220px] flex-1 flex flex-col min-h-screen max-md:ml-0 max-md:pt-14">
         <div className="bg-white px-9 py-[22px] border-b border-[#e8e8e8] shadow-sm max-md:px-5 max-md:py-4">
-          <h1 className="text-[20px] font-black text-[#111]">Eventos</h1>
-          <p className="text-[13px] text-[#666] mt-0.5">Gerencie os eventos do site</p>
+          <h1 className="text-[20px] font-black text-[#111]">{tab === 'eventos' ? 'Eventos' : 'Grupos de WhatsApp'}</h1>
+          <p className="text-[13px] text-[#666] mt-0.5">{tab === 'eventos' ? 'Gerencie os eventos do site' : 'Adicione, edite, reordene e remova os grupos'}</p>
         </div>
 
         <div className="p-9 pb-16 max-md:p-5">
-          <TabEventos toast={toast} />
+          {tab === 'eventos' ? <TabEventos toast={toast} /> : <TabGrupos toast={toast} />}
         </div>
       </div>
+
 
       {/* Toast */}
       <div className={`fixed bottom-6 right-6 bg-[#111] text-white px-5 py-[11px] rounded-[10px] text-[13px] font-bold shadow-[0_4px_20px_rgba(0,0,0,0.25)] transition-all duration-200 z-[9999] pointer-events-none ${show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
