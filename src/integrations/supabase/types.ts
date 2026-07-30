@@ -137,6 +137,39 @@ export type Database = {
         }
         Relationships: []
       }
+      grupos: {
+        Row: {
+          created_at: string
+          descricao: string
+          foto: string
+          id: string
+          link: string
+          nome: string
+          ordem: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          descricao?: string
+          foto?: string
+          id?: string
+          link?: string
+          nome: string
+          ordem?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          descricao?: string
+          foto?: string
+          id?: string
+          link?: string
+          nome?: string
+          ordem?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       posts: {
         Row: {
           _ts: number
