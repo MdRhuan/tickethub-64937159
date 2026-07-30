@@ -1,3 +1,12 @@
+export interface Grupo {
+  id: string;
+  nome: string;
+  descricao: string;
+  foto: string;
+  link: string;
+  ordem: number;
+}
+
 export interface Atracao {
   nome: string;
   foto: string;

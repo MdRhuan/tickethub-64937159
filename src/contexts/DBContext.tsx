@@ -1,21 +1,34 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import type { Evento } from '@/types';
+import type { Evento, Grupo } from '@/types';
 
 interface DBContextType {
   eventos: Evento[]; ready: boolean;
+  grupos: Grupo[];
   loadError: string | null;
   reload: () => Promise<void>;
   addEvento: (ev: Evento) => Promise<void>;
   deleteEvento: (id: string) => Promise<void>;
+  saveGrupo: (g: Omit<Grupo, 'id'> & { id?: string }) => Promise<void>;
+  deleteGrupo: (id: string) => Promise<void>;
 }
 
 const DBContext = createContext<DBContextType | null>(null);
 
 export function DBProvider({ children }: { children: React.ReactNode }) {
   const [eventos, setEventos] = useState<Evento[]>([]);
+  const [grupos, setGrupos] = useState<Grupo[]>([]);
   const [ready, setReady] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
+
+  const loadGrupos = useCallback(async () => {
+    const { data, error } = await supabase.from('grupos').select('*').order('ordem', { ascending: true });
+    if (error) {
+      console.error('[DB] Falha ao carregar grupos:', error);
+      return;
+    }
+    setGrupos((data ?? []) as unknown as Grupo[]);
+  }, []);
 
   const loadAll = useCallback(async () => {
     setLoadError(null);
@@ -26,8 +39,9 @@ export function DBProvider({ children }: { children: React.ReactNode }) {
     } else {
       setEventos((data ?? []) as unknown as Evento[]);
     }
+    await loadGrupos();
     setReady(true);
-  }, []);
+  }, [loadGrupos]);
 
   useEffect(() => {
     loadAll();
@@ -46,10 +60,26 @@ export function DBProvider({ children }: { children: React.ReactNode }) {
     setEventos(prev => prev.filter(e => e.id !== id));
   }, []);
 
+  const saveGrupo = useCallback(async (g: Omit<Grupo, 'id'> & { id?: string }) => {
+    const row: Record<string, unknown> = {
+      nome: g.nome, descricao: g.descricao, foto: g.foto, link: g.link, ordem: g.ordem,
+    };
+    if (g.id) row.id = g.id;
+    const { error } = await supabase.from('grupos').upsert(row as any);
+    if (error) throw error;
+    await loadGrupos();
+  }, [loadGrupos]);
+
+  const deleteGrupo = useCallback(async (id: string) => {
+    const { error } = await supabase.from('grupos').delete().eq('id', id);
+    if (error) throw error;
+    setGrupos(prev => prev.filter(g => g.id !== id));
+  }, []);
+
   const value = useMemo(() => ({
-    eventos, ready, loadError, reload: loadAll,
-    addEvento, deleteEvento,
-  }), [eventos, ready, loadError, loadAll, addEvento, deleteEvento]);
+    eventos, grupos, ready, loadError, reload: loadAll,
+    addEvento, deleteEvento, saveGrupo, deleteGrupo,
+  }), [eventos, grupos, ready, loadError, loadAll, addEvento, deleteEvento, saveGrupo, deleteGrupo]);
 
   return <DBContext.Provider value={value}>{children}</DBContext.Provider>;
 }
