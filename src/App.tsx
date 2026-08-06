@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { lazy, Suspense, useEffect } from 'react';
-import { GA_MEASUREMENT_ID, initAnalytics } from '@/lib/analytics';
+import { GA_MEASUREMENT_ID } from '@/lib/analytics';
 
 function usePageViews() {
   const location = useLocation();
@@ -64,10 +64,6 @@ function AppRoutes() {
 }
 
 export default function App() {
-  useEffect(() => {
-    initAnalytics();
-  }, []);
-
   return (
     <BrowserRouter>
       <Suspense fallback={<Loading />}>
