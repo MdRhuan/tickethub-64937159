@@ -1,17 +1,11 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { lazy, Suspense, useEffect } from 'react';
-
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-  }
-}
-
-const GA_MEASUREMENT_ID = 'G-2WX9YNNY76';
+import { GA_MEASUREMENT_ID, initAnalytics } from '@/lib/analytics';
 
 function usePageViews() {
   const location = useLocation();
   useEffect(() => {
+    if (!GA_MEASUREMENT_ID) return;
     if (typeof window.gtag === 'function') {
       window.gtag('event', 'page_view', {
         page_path: location.pathname + location.search,
@@ -70,6 +64,10 @@ function AppRoutes() {
 }
 
 export default function App() {
+  useEffect(() => {
+    initAnalytics();
+  }, []);
+
   return (
     <BrowserRouter>
       <Suspense fallback={<Loading />}>
