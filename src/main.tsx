@@ -2,6 +2,12 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import ErrorBoundary from './components/ErrorBoundary';
+import { initAnalytics } from '@/lib/analytics';
+
+// Inicializa o GA antes de qualquer render: garante que window.gtag exista
+// antes do page_view da primeira visita, independente de como o App é carregado
+// (aqui o App entra via import() dinâmico — avaliação do módulo não pode atrasar).
+initAnalytics();
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
