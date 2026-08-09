@@ -93,10 +93,7 @@ function EventoCard({ ev, linkLabel = 'Comprar', priority = false }: Props) {
         </div>
         <div className="card-badge-stack">
           {(ev.tagCard || ev.categoria) && (
-            <span
-              className="absolute top-3 left-3 text-[11px] font-bold px-[10px] py-1 rounded-full tracking-[0.5px] z-[2] text-[var(--color-ink)]"
-              style={{ background: 'rgba(255, 255, 255, 0.94)', boxShadow: 'var(--shadow-xs)' }}
-            >
+            <span className={`absolute top-3 left-3 ${badgeClass} text-white text-[11px] font-bold px-[10px] py-1 rounded-full tracking-[0.5px] z-[2]`}>
               {ev.tagCard || ev.categoria}
             </span>
           )}
