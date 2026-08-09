@@ -100,7 +100,14 @@ function EventoCard({ ev, linkLabel = 'Comprar', priority = false }: Props) {
           {db && (
             <span
               className={`days-badge days-badge--${db.kind}`}
-              style={{ top: 12, right: 12, bottom: 'auto' }}
+              style={{
+                top: 12,
+                right: 12,
+                bottom: 'auto',
+                background: 'rgba(255, 255, 255, 0.94)',
+                color: 'var(--color-ink)',
+                boxShadow: 'var(--shadow-xs)',
+              }}
               aria-label={db.text}
             >
               {db.text}
