@@ -36,6 +36,12 @@ interface Props {
 
 function EventoCard({ ev, linkLabel = 'Comprar', priority = false }: Props) {
   const navigate = useNavigate();
+  const badgeClass =
+    ev.badge === 'destaque'  ? 'bg-[#1a3a6b]' :  // Azul
+    ev.badge === 'esgotando' ? 'bg-[#e67e00]' :  // Laranja
+    ev.badge === 'verde'     ? 'bg-[#27ae60]' :  // Verde
+    ev.badge === 'vermelho'  ? 'bg-[#e03535]' :  // Vermelho
+    'bg-[#111]';                                  // Padrão (preto)
 
 
   const allDates = (ev.datas && ev.datas.length > 0 ? ev.datas : (ev.data ? [ev.data] : [])).slice().sort();
@@ -87,17 +93,21 @@ function EventoCard({ ev, linkLabel = 'Comprar', priority = false }: Props) {
         </div>
         <div className="card-badge-stack">
           {(ev.tagCard || ev.categoria) && (
-            <span
-              className="absolute top-3 left-3 text-[11px] font-bold px-[10px] py-1 rounded-full tracking-[0.5px] z-[2] text-[var(--color-ink)]"
-              style={{ background: 'rgba(255, 255, 255, 0.94)', boxShadow: 'var(--shadow-xs)' }}
-            >
+            <span className={`absolute top-3 left-3 ${badgeClass} text-white text-[11px] font-bold px-[10px] py-1 rounded-full tracking-[0.5px] z-[2]`}>
               {ev.tagCard || ev.categoria}
             </span>
           )}
           {db && (
             <span
               className={`days-badge days-badge--${db.kind}`}
-              style={{ top: 12, right: 12, bottom: 'auto' }}
+              style={{
+                top: 12,
+                right: 12,
+                bottom: 'auto',
+                background: 'rgba(255, 255, 255, 0.94)',
+                color: 'var(--color-ink)',
+                boxShadow: 'var(--shadow-xs)',
+              }}
               aria-label={db.text}
             >
               {db.text}
