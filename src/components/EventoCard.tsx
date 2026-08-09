@@ -36,12 +36,6 @@ interface Props {
 
 function EventoCard({ ev, linkLabel = 'Comprar', priority = false }: Props) {
   const navigate = useNavigate();
-  const badgeClass =
-    ev.badge === 'destaque'  ? 'bg-[#1a3a6b]' :  // Azul
-    ev.badge === 'esgotando' ? 'bg-[#e67e00]' :  // Laranja
-    ev.badge === 'verde'     ? 'bg-[#27ae60]' :  // Verde
-    ev.badge === 'vermelho'  ? 'bg-[#e03535]' :  // Vermelho
-    'bg-[#111]';                                  // Padrão (preto)
 
 
   const allDates = (ev.datas && ev.datas.length > 0 ? ev.datas : (ev.data ? [ev.data] : [])).slice().sort();
