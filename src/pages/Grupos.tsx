@@ -43,10 +43,10 @@ export default function Grupos() {
               <div className="w-full aspect-[16/9] bg-gray-100" />
             )}
             <div className="flex flex-col flex-1 p-4 md:p-5">
-              <h2 className="font-black text-base md:text-lg text-[#111] leading-snug mb-1.5">{g.nome}</h2>
+              <h2 className="font-black text-base md:text-lg text-[#111] leading-snug mb-2">{g.nome}</h2>
               <p
-                className="text-sm text-[#555] leading-relaxed mb-4 overflow-hidden"
-                style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}
+                className="text-sm text-[#555] leading-relaxed mb-5 min-h-[63px] overflow-hidden"
+                style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}
               >
                 {g.descricao}
               </p>
