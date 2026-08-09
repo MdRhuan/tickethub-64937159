@@ -43,6 +43,7 @@ function EventoCard({ ev, linkLabel = 'Comprar', priority = false }: Props) {
     ev.badge === 'vermelho'  ? 'bg-[#e03535]' :  // Vermelho
     'bg-[#111]';                                  // Padrão (preto)
 
+
   const allDates = (ev.datas && ev.datas.length > 0 ? ev.datas : (ev.data ? [ev.data] : [])).slice().sort();
   const todayStr = new Date().toISOString().slice(0, 10);
   const nextDate = allDates.find(d => d >= todayStr) || allDates[0] || '';
