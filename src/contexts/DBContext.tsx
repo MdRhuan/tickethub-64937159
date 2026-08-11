@@ -1,6 +1,8 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { registerEventoSlugs } from '@/lib/utils';
 import type { Evento, Grupo } from '@/types';
+
 
 interface DBContextType {
   eventos: Evento[]; ready: boolean;
