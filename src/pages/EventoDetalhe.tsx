@@ -89,6 +89,7 @@ export default function EventoDetalhe() {
     image: ev?.imgBanner || ev?.imgUrl,
     type: 'article',
     path: ev ? `/ingresso/${eventoSlug(ev)}` : undefined,
+    version: ev ? `${ev.id}-${ev._ts ?? ''}` : undefined,
     jsonLd: eventJsonLd,
   });
 

@@ -19,6 +19,11 @@ interface SeoOptions {
    * Substituído a cada mudança.
    */
   jsonLd?: object | object[];
+  /**
+   * Versão do conteúdo (ex.: ev._ts). Vira `?v=` na URL da imagem de preview,
+   * garantindo cache busting quando a capa é trocada e URLs distintas por evento.
+   */
+  version?: string | number;
 }
 
 function clampDesc(s: string, max = 155): string {
@@ -33,10 +38,12 @@ function clampTitle(s: string, max = 60): string {
   return clean.slice(0, max - 1).replace(/\s+\S*$/, '') + '…';
 }
 
-function ogImageUrl(url?: string): string | undefined {
+function ogImageUrl(url?: string, version?: string | number): string | undefined {
   if (!url) return undefined;
-  if (!/^https?:\/\//i.test(url)) return url;
+  const v = version != null && String(version) !== '' ? String(version) : undefined;
+  if (!/^https?:\/\//i.test(url)) return v ? `${url}${url.includes('?') ? '&' : '?'}v=${encodeURIComponent(v)}` : url;
   const p = new URLSearchParams({ url, w: '1200', h: '630', fit: 'cover', output: 'jpg', q: '80' });
+  if (v) p.set('v', v);
   return `https://wsrv.nl/?${p.toString()}`;
 }
 
@@ -82,7 +89,7 @@ export function pageUrl(path?: string): string {
   return `${SITE_URL}${clean}`;
 }
 
-export function useSeo({ title, fullTitle, description, image, type = 'website', path, jsonLd }: SeoOptions) {
+export function useSeo({ title, fullTitle, description, image, type = 'website', path, jsonLd, version }: SeoOptions) {
   useEffect(() => {
     const composedTitle = fullTitle
       ? clampTitle(fullTitle, 70)
@@ -93,7 +100,7 @@ export function useSeo({ title, fullTitle, description, image, type = 'website',
 
     const desc = description ? clampDesc(description) : '';
     const url = pageUrl(path);
-    const img = ogImageUrl(image);
+    const img = ogImageUrl(image, version);
 
     if (desc) upsertMeta('name', 'description', desc);
 
@@ -116,5 +123,5 @@ export function useSeo({ title, fullTitle, description, image, type = 'website',
     upsertCanonical(url);
 
     upsertJsonLd(jsonLd);
-  }, [title, fullTitle, description, image, type, path, jsonLd]);
+  }, [title, fullTitle, description, image, type, path, jsonLd, version]);
 }
