@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useDB } from "@/contexts/DBContext";
-import { fmtDataFull, eventoSlug, safeExternalUrl, safeMapUrl } from "@/lib/utils";
+import { fmtDataFull, eventoSlug, findEventoBySlug, safeExternalUrl, safeMapUrl } from "@/lib/utils";
 import { imgSrc } from "@/lib/responsiveImg";
 import {
   googleCalendarUrl,
@@ -32,7 +32,7 @@ export default function EventoDetalhe() {
   const [calOpen, setCalOpen] = useState(false);
   const [calDate, setCalDate] = useState<string>("");
 
-  const ev = eventos.find((e) => eventoSlug(e) === slug) || eventos.find((e) => e.id === slug);
+  const ev = findEventoBySlug(eventos, slug);
 
   const allDates = (ev?.datas && ev.datas.length > 0 ? ev.datas : ev?.data ? [ev.data] : []).slice().sort();
 
