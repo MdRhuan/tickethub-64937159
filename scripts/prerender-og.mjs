@@ -33,8 +33,34 @@ export function slugify(text) {
     .replace(/^-+|-+$/g, '');
 }
 
-export function eventoSlug(ev) {
-  return slugify(ev.titulo) || ev.id;
+export function shortId(id) {
+  const clean = String(id || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  return clean.slice(-6) || 'ev';
+}
+
+/**
+ * Slugs ÚNICOS por evento — espelha src/lib/utils.ts buildEventoSlugMap().
+ * Eventos homônimos NÃO compartilham URL: o mais antigo mantém o slug base,
+ * os demais recebem `-<shortId>`.
+ */
+export function buildEventoSlugMap(eventos) {
+  const ordered = [...eventos].sort((a, b) => (a._ts ?? 0) - (b._ts ?? 0) || String(a.id).localeCompare(String(b.id)));
+  const used = new Set();
+  const map = {};
+  for (const ev of ordered) {
+    const base = slugify(ev.titulo) || shortId(ev.id);
+    let slug = base;
+    if (used.has(slug)) slug = `${base}-${shortId(ev.id)}`;
+    while (used.has(slug)) slug = `${slug}-x`;
+    used.add(slug);
+    map[ev.id] = slug;
+  }
+  return map;
+}
+
+export function eventoSlug(ev, map) {
+  if (map && map[ev.id]) return map[ev.id];
+  return slugify(ev.titulo) || shortId(ev.id);
 }
 
 export function escapeAttr(s) {
@@ -55,9 +81,11 @@ export function clampDesc(s, max = 180) {
   return clean.slice(0, max - 1).replace(/\s+\S*$/, '') + '…';
 }
 
-export function ogImage(url, fallback = `${SITE}/og-default.jpg`) {
+export function ogImage(url, fallback = `${SITE}/og-default.jpg`, version) {
   if (!url || !/^https?:\/\//i.test(url)) return fallback;
   const p = new URLSearchParams({ url, w: '1200', h: '630', fit: 'cover', output: 'jpg', q: '80' });
+  // Cache busting: URL de preview única por evento/versão de capa.
+  if (version) p.set('v', String(version));
   return `https://wsrv.nl/?${p.toString()}`;
 }
 
@@ -85,10 +113,10 @@ export function setCanonical(html, href) {
 }
 
 /** Aplica todas as tags de SEO a uma cópia do index.html. */
-export function buildPageHtml(template, { title, fullTitle, description, image, url, type = 'website', jsonLd }) {
+export function buildPageHtml(template, { title, fullTitle, description, image, url, type = 'website', jsonLd, version }) {
   const composed = fullTitle || (title ? `${title} | TicketHub` : 'TicketHub');
   const desc = clampDesc(description, 155);
-  const img = ogImage(image);
+  const img = ogImage(image, `${SITE}/og-default.jpg`, version);
   let html = template;
   html = setTitle(html, composed);
   if (desc) html = setMeta(html, 'name', 'description', desc);
@@ -117,7 +145,7 @@ export function buildPageHtml(template, { title, fullTitle, description, image, 
 // ── Busca de dados ──────────────────────────────────────────────────────────
 
 async function fetchEventos(supabaseUrl, key) {
-  const cols = 'id,titulo,sobre,imgUrl,imgBanner,data,datas,local';
+  const cols = 'id,titulo,sobre,imgUrl,imgBanner,data,datas,local,_ts';
   const url = `${supabaseUrl.replace(/\/$/, '')}/rest/v1/eventos?select=${cols}&order=_ts.desc`;
   const res = await fetch(url, {
     headers: { apikey: key, Authorization: `Bearer ${key}` },
@@ -200,8 +228,9 @@ async function main() {
   ];
 
   // Eventos
+  const slugMap = buildEventoSlugMap(eventos);
   for (const ev of eventos) {
-    const slug = eventoSlug(ev);
+    const slug = eventoSlug(ev, slugMap);
     const pageUrl = `${SITE}/ingresso/${slug}`;
     const dataLabel = Array.isArray(ev.datas) && ev.datas.length ? ev.datas[0] : ev.data || '';
     const description = ev.sobre || `${ev.titulo}${ev.local ? ' — ' + ev.local : ''}${dataLabel ? ' em ' + dataLabel : ''}`;
@@ -234,6 +263,7 @@ async function main() {
       image: ev.imgBanner || ev.imgUrl,
       url: pageUrl,
       type: 'article',
+      version: `${ev.id}-${ev._ts ?? ''}`,
       jsonLd: eventJsonLd,
     });
     const dir = path.join(DIST, 'ingresso', slug);

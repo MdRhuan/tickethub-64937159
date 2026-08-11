@@ -48,9 +48,61 @@ export function slugify(text: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
-export function eventoSlug(ev: { titulo: string; id: string }): string {
-  return slugify(ev.titulo) || ev.id;
+type EventoLike = { titulo: string; id: string; _ts?: number };
+
+/** Sufixo curto e estável derivado do ID único do evento. */
+export function shortId(id: string): string {
+  const clean = String(id || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  return clean.slice(-6) || 'ev';
 }
+
+/**
+ * Gera slugs ÚNICOS por evento. Eventos com o mesmo título não compartilham URL:
+ * o mais antigo (menor _ts) mantém o slug base e os demais recebem `-<shortId>`.
+ * Determinístico — mesma entrada, mesmo resultado (app e prerender).
+ */
+export function buildEventoSlugMap(eventos: EventoLike[]): Record<string, string> {
+  const ordered = [...eventos].sort((a, b) => (a._ts ?? 0) - (b._ts ?? 0) || String(a.id).localeCompare(String(b.id)));
+  const used = new Set<string>();
+  const map: Record<string, string> = {};
+  for (const ev of ordered) {
+    const base = slugify(ev.titulo) || shortId(ev.id);
+    let slug = base;
+    if (used.has(slug)) slug = `${base}-${shortId(ev.id)}`;
+    while (used.has(slug)) slug = `${slug}-x`;
+    used.add(slug);
+    map[ev.id] = slug;
+  }
+  return map;
+}
+
+// Registro global preenchido quando os eventos são carregados (DBContext),
+// para que eventoSlug(ev) devolva sempre o slug único do evento.
+let SLUG_REGISTRY: Record<string, string> = {};
+
+export function registerEventoSlugs(eventos: EventoLike[]): Record<string, string> {
+  SLUG_REGISTRY = buildEventoSlugMap(eventos);
+  return SLUG_REGISTRY;
+}
+
+export function eventoSlug(ev: EventoLike): string {
+  return SLUG_REGISTRY[ev.id] || slugify(ev.titulo) || shortId(ev.id);
+}
+
+/** Resolve um evento a partir do slug da URL (slug único → id → slug base legado). */
+export function findEventoBySlug<T extends EventoLike>(eventos: T[], slug?: string): T | undefined {
+  if (!slug) return undefined;
+  const map = buildEventoSlugMap(eventos);
+  const byUnique = eventos.find((e) => map[e.id] === slug);
+  if (byUnique) return byUnique;
+  const byId = eventos.find((e) => e.id === slug);
+  if (byId) return byId;
+  // Compatibilidade com links antigos que usavam apenas o título.
+  const legacy = eventos.filter((e) => (slugify(e.titulo) || shortId(e.id)) === slug);
+  if (legacy.length) return legacy.sort((a, b) => (a._ts ?? 0) - (b._ts ?? 0))[0];
+  return undefined;
+}
+
 
 /**
  * Returns the URL only if it uses a safe http(s)/mailto/tel scheme or is a

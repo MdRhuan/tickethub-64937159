@@ -1,6 +1,8 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { registerEventoSlugs } from '@/lib/utils';
 import type { Evento, Grupo } from '@/types';
+
 
 interface DBContextType {
   eventos: Evento[]; ready: boolean;
@@ -37,7 +39,9 @@ export function DBProvider({ children }: { children: React.ReactNode }) {
       console.error('[DB] Falha ao carregar eventos:', error);
       setLoadError('Não foi possível carregar: eventos.');
     } else {
-      setEventos((data ?? []) as unknown as Evento[]);
+      const rows = (data ?? []) as unknown as Evento[];
+      registerEventoSlugs(rows);
+      setEventos(rows);
     }
     await loadGrupos();
     setReady(true);
@@ -51,13 +55,21 @@ export function DBProvider({ children }: { children: React.ReactNode }) {
     const data = { ...ev, _ts: Date.now() };
     const { error } = await supabase.from('eventos').upsert(data as any);
     if (error) throw error;
-    setEventos(prev => [...prev.filter(e => e.id !== ev.id), data]);
+    setEventos(prev => {
+      const next = [...prev.filter(e => e.id !== ev.id), data];
+      registerEventoSlugs(next);
+      return next;
+    });
   }, []);
 
   const deleteEvento = useCallback(async (id: string) => {
     const { error } = await supabase.from('eventos').delete().eq('id', id);
     if (error) throw error;
-    setEventos(prev => prev.filter(e => e.id !== id));
+    setEventos(prev => {
+      const next = prev.filter(e => e.id !== id);
+      registerEventoSlugs(next);
+      return next;
+    });
   }, []);
 
   const saveGrupo = useCallback(async (g: Omit<Grupo, 'id'> & { id?: string }) => {
