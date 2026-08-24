@@ -11,14 +11,14 @@
 //   VITE_SUPABASE_URL
 //   VITE_SUPABASE_PUBLISHABLE_KEY
 // Opcional:
-//   SITE_URL  (padrão: https://www.tickethubh.com.br)
+//   SITE_URL / VITE_SITE_URL  (padrão: https://www.tickethubh.com.br)
 
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 
 const DIST = path.resolve('dist');
-const SITE = (process.env.SITE_URL || 'https://www.tickethubh.com.br').replace(/\/$/, '');
+const SITE = (process.env.SITE_URL || process.env.VITE_SITE_URL || 'https://www.tickethubh.com.br').replace(/\/$/, '');
 
 // ── Helpers puros (testáveis) ───────────────────────────────────────────────
 
@@ -175,12 +175,11 @@ async function loadEnv() {
 
 // ── Sitemap helpers ───────────────────────────────────────────────────────
 
-function sitemapEntry({ loc, changefreq, priority }) {
+function sitemapEntry({ loc, lastmod }) {
   return [
     `  <url>`,
     `    <loc>${escapeUrl(loc)}</loc>`,
-    changefreq ? `    <changefreq>${changefreq}</changefreq>` : null,
-    priority ? `    <priority>${priority}</priority>` : null,
+    lastmod ? `    <lastmod>${lastmod}</lastmod>` : null,
     `  </url>`,
   ]
     .filter(Boolean)
@@ -221,10 +220,11 @@ async function main() {
   }
 
   const entries = [
-    { loc: `${SITE}/`, changefreq: 'daily', priority: '1.0' },
-    { loc: `${SITE}/ingressos`, changefreq: 'daily', priority: '0.9' },
-    { loc: `${SITE}/calendario`, changefreq: 'daily', priority: '0.8' },
-    { loc: `${SITE}/link`, changefreq: 'monthly', priority: '0.5' },
+    { loc: `${SITE}/` },
+    { loc: `${SITE}/ingressos` },
+    { loc: `${SITE}/calendario` },
+    { loc: `${SITE}/grupos` },
+    { loc: `${SITE}/link` },
   ];
 
   // Eventos
@@ -269,7 +269,10 @@ async function main() {
     const dir = path.join(DIST, 'ingresso', slug);
     await mkdir(dir, { recursive: true });
     await writeFile(path.join(dir, 'index.html'), html, 'utf8');
-    entries.push({ loc: pageUrl, changefreq: 'daily', priority: '0.8' });
+    const lastmod = Number.isFinite(Number(ev._ts)) && Number(ev._ts) > 0
+      ? new Date(Number(ev._ts)).toISOString().slice(0, 10)
+      : undefined;
+    entries.push({ loc: pageUrl, lastmod });
   }
 
   await writeFile(path.join(DIST, 'sitemap.xml'), generateSitemap(entries), 'utf8');
