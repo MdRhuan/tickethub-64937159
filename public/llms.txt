@@ -1,11 +1,17 @@
 # TicketHub
 
-> Plataforma de descoberta e venda de ingressos para shows, festas e eventos em Belo Horizonte e região, com curadoria dos melhores rolês.
+> Plataforma de descoberta e venda de ingressos para shows, festas e eventos em Belo Horizonte e região, com curadoria dos principais rolês da cidade.
 
-## Pages
+O site publica eventos com data, local, atrações, classificação indicativa e links de compra, e organiza o conteúdo em catálogo, calendário e grupos de WhatsApp.
+
+## Páginas
 
 - [Home](/): Carrossel dos eventos em destaque e principais ingressos da semana.
-- [Ingressos](/ingressos): Catálogo completo de eventos com filtros por gênero e busca.
-- [Calendário](/calendario): Visão mensal dos eventos por data.
+- [Ingressos](/ingressos): Catálogo completo de eventos com filtros por gênero e busca por nome.
+- [Evento](/ingresso/:slug): Página individual de um evento com descrição, atrações, local e links de compra de ingresso.
+- [Calendário](/calendario): Visão mensal dos eventos organizados por data.
+- [Grupos](/grupos): Lista de grupos de WhatsApp do TicketHub para promoções e avisos de eventos.
 
-- [Links](/link): Página de links sociais e contato.
+## Optional
+
+- [Links](/link): Página de links sociais e canais de contato do TicketHub.
