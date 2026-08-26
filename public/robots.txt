@@ -65,4 +65,4 @@ Disallow: /api/
 Disallow: /unsubscribe
 Disallow: /login
 
-Sitemap: https://tickethubh.com.br/sitemap.xml
+Sitemap: https://www.tickethubh.com.br/sitemap.xml
