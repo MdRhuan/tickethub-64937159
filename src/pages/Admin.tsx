@@ -54,38 +54,48 @@ function useImgUpload(folder = 'uploads') {
 
 // ── Main Admin component ───────────────────────────────────────────────────
 export default function Admin() {
-  const [authed, setAuthed] = useState(false);
+  const [role, setRole] = useState<Role | null>(null);
   const [checking, setChecking] = useState(true);
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [passErr, setPassErr] = useState('');
   const [tab, setTab] = useState<Tab>('eventos');
   const { toast, msg, show } = useToast();
+  const { reload, eventosAll } = useDB();
+
+  const authed = role !== null;
+  const isAdmin = role === 'admin';
+  const pendentes = eventosAll.filter(e => (e.status ?? 'aprovado') === 'pendente').length;
 
   useEffect(() => {
     let mounted = true;
 
-    async function checkAdmin(userId: string | undefined) {
-      if (!userId) { if (mounted) { setAuthed(false); setChecking(false); } return; }
+    async function checkRole(userId: string | undefined) {
+      if (!userId) { if (mounted) { setRole(null); setChecking(false); } return; }
       const { data } = await supabase
         .from('user_roles')
         .select('role')
-        .eq('user_id', userId)
-        .eq('role', 'admin')
-        .maybeSingle();
+        .eq('user_id', userId);
+      const roles = (data ?? []).map(r => r.role as string);
+      const resolved: Role | null = roles.includes('admin') ? 'admin' : roles.includes('editor') ? 'editor' : null;
       if (mounted) {
-        setAuthed(!!data);
+        setRole(resolved);
         setChecking(false);
+        if (resolved) reload();
       }
     }
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-      checkAdmin(session?.user?.id);
+      checkRole(session?.user?.id);
     });
-    supabase.auth.getSession().then(({ data }) => checkAdmin(data.session?.user?.id));
+    supabase.auth.getSession().then(({ data }) => checkRole(data.session?.user?.id));
 
     return () => { mounted = false; sub.subscription.unsubscribe(); };
-  }, []);
+  }, [reload]);
+
+  useEffect(() => {
+    if (!isAdmin && tab === 'aprovacoes') setTab('eventos');
+  }, [isAdmin, tab]);
 
   async function doLogin() {
     setPassErr('');
@@ -94,20 +104,21 @@ export default function Admin() {
     const { data: roleData } = await supabase
       .from('user_roles')
       .select('role')
-      .eq('user_id', data.user.id)
-      .eq('role', 'admin')
-      .maybeSingle();
-    if (!roleData) {
+      .eq('user_id', data.user.id);
+    const roles = (roleData ?? []).map(r => r.role as string);
+    const resolved: Role | null = roles.includes('admin') ? 'admin' : roles.includes('editor') ? 'editor' : null;
+    if (!resolved) {
       await supabase.auth.signOut();
-      setPassErr('Esta conta não tem permissão de admin.');
+      setPassErr('Esta conta não tem permissão de acesso ao painel.');
       return;
     }
-    setAuthed(true);
+    setRole(resolved);
+    reload();
   }
 
   async function doLogout() {
     await supabase.auth.signOut();
-    setAuthed(false);
+    setRole(null);
   }
 
   if (checking) {
@@ -119,6 +130,7 @@ export default function Admin() {
   }
 
   if (!authed) return <LoginScreen email={email} setEmail={setEmail} pass={pass} setPass={setPass} passErr={passErr} onLogin={doLogin} />;
+
 
   return (
     <div className="flex min-h-screen bg-[#f0f2f7]">
