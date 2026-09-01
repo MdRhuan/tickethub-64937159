@@ -6,8 +6,11 @@ import { fmtDataBlog } from '@/lib/utils';
 import { uploadImage } from '@/lib/imageUpload';
 import logoIcon from '@/assets/icons/logo.webp';
 import TabGrupos from '@/pages/admin/TabGrupos';
+import TabAprovacoes from '@/pages/admin/TabAprovacoes';
 
-type Tab = 'eventos' | 'grupos';
+type Tab = 'eventos' | 'grupos' | 'aprovacoes';
+type Role = 'admin' | 'editor';
+
 
 // ── Toast ──────────────────────────────────────────────────────────────────
 function useToast() {
