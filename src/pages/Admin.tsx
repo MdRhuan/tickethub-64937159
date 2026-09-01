@@ -618,9 +618,24 @@ function TabEventos({ toast, isAdmin }: { toast: (m:string)=>void; isAdmin: bool
         <div className="p-3 flex flex-col gap-2 max-h-[560px] overflow-y-auto">
           {eventos.length === 0 ? (
             <p className="text-[#666] text-[13px] text-center py-7">Nenhum evento cadastrado.</p>
-          ) : [...eventos].reverse().map(ev => (
-            <ListItem key={ev.id} img={ev.imgUrl} title={ev.titulo} meta={[ev.data ? fmtDataBlog(ev.data) : '', ev.hora].filter(Boolean).join(' • ')} sub={ev.preco} badge={ev.homeDestaque ? `Home #${ev.homeOrdem ?? 0}` : undefined} active={editId === ev.id} onEdit={() => startEdit(ev)} onDelete={() => del(ev.id)} />
-          ))}
+          ) : [...eventos].reverse().map(ev => {
+            const st = (ev.status ?? 'aprovado') as 'pendente' | 'aprovado' | 'rejeitado';
+            const stLabel = st === 'pendente' ? 'Pendente' : st === 'rejeitado' ? 'Rejeitado' : '';
+            return (
+              <ListItem
+                key={ev.id}
+                img={ev.imgUrl}
+                title={ev.titulo}
+                meta={[ev.data ? fmtDataBlog(ev.data) : '', ev.hora].filter(Boolean).join(' • ')}
+                sub={ev.motivo_rejeicao ? `Rejeitado: ${ev.motivo_rejeicao}` : ev.preco}
+                badge={stLabel || (ev.homeDestaque ? `Home #${ev.homeOrdem ?? 0}` : undefined)}
+                active={editId === ev.id}
+                onEdit={() => startEdit(ev)}
+                onDelete={() => del(ev.id)}
+              />
+            );
+          })}
+
         </div>
       </div>
     </div>
