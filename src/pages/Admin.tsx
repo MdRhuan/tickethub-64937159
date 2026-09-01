@@ -153,8 +153,24 @@ export default function Admin() {
           >
             Grupos
           </button>
+          {isAdmin && (
+            <button
+              onClick={() => setTab('aprovacoes')}
+              className={`flex items-center gap-2 px-[14px] py-[11px] border-none rounded-[10px] text-sm font-bold cursor-pointer text-left transition-all max-md:px-3 max-md:py-2 max-md:text-[12px] max-md:rounded-lg ${tab === 'aprovacoes' ? 'bg-white/15 text-white' : 'bg-transparent text-white/60 hover:bg-white/10 hover:text-white'}`}
+            >
+              Aprovações
+              {pendentes > 0 && (
+                <span className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-[#e74c3c] text-white text-[11px] font-black">
+                  {pendentes}
+                </span>
+              )}
+            </button>
+          )}
         </nav>
         <div className="p-3 border-t border-white/10 flex flex-col gap-[6px] max-md:flex-row max-md:border-0 max-md:p-0 max-md:gap-1">
+          <span className="text-white/40 text-[11px] px-[14px] max-md:hidden">
+            Perfil: {isAdmin ? 'Administrador' : 'Editor'}
+          </span>
           <a href="/" className="flex items-center gap-2 text-white/50 no-underline text-[12px] px-[14px] py-2 rounded-lg hover:text-white hover:bg-white/10 transition-all max-md:text-[11px] max-md:px-[10px]">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
             Ver site
@@ -168,14 +184,34 @@ export default function Admin() {
       {/* Main */}
       <div className="ml-[220px] flex-1 flex flex-col min-h-screen max-md:ml-0 max-md:pt-14">
         <div className="bg-white px-9 py-[22px] border-b border-[#e8e8e8] shadow-sm max-md:px-5 max-md:py-4">
-          <h1 className="text-[20px] font-black text-[#111]">{tab === 'eventos' ? 'Eventos' : 'Grupos de WhatsApp'}</h1>
-          <p className="text-[13px] text-[#666] mt-0.5">{tab === 'eventos' ? 'Gerencie os eventos do site' : 'Adicione, edite, reordene e remova os grupos'}</p>
+          <h1 className="text-[20px] font-black text-[#111]">
+            {tab === 'eventos' ? 'Eventos' : tab === 'grupos' ? 'Grupos de WhatsApp' : 'Aprovações'}
+          </h1>
+          <p className="text-[13px] text-[#666] mt-0.5">
+            {tab === 'eventos'
+              ? (isAdmin ? 'Gerencie os eventos do site' : 'Crie e edite eventos — publicação depende de aprovação')
+              : tab === 'grupos' ? 'Adicione, edite, reordene e remova os grupos'
+              : 'Revise os eventos enviados para publicação'}
+          </p>
         </div>
 
         <div className="p-9 pb-16 max-md:p-5">
-          {tab === 'eventos' ? <TabEventos toast={toast} /> : <TabGrupos toast={toast} />}
+          {isAdmin && pendentes > 0 && tab !== 'aprovacoes' && (
+            <button
+              onClick={() => setTab('aprovacoes')}
+              className="w-full mb-5 text-left px-4 py-3 rounded-xl bg-[#fff6e0] border border-[#f3dfae] text-[#9a6700] text-[13px] font-bold hover:bg-[#ffefcc] transition-colors"
+            >
+              {pendentes} evento{pendentes > 1 ? 's' : ''} aguardando sua aprovação — clique para revisar.
+            </button>
+          )}
+          {tab === 'eventos'
+            ? <TabEventos toast={toast} isAdmin={isAdmin} />
+            : tab === 'grupos'
+              ? <TabGrupos toast={toast} />
+              : <TabAprovacoes toast={toast} />}
         </div>
       </div>
+
 
 
       {/* Toast */}
