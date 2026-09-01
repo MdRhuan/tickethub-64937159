@@ -115,9 +115,9 @@ export function DBProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const value = useMemo(() => ({
-    eventos, grupos, ready, loadError, reload: loadAll,
-    addEvento, deleteEvento, saveGrupo, deleteGrupo,
-  }), [eventos, grupos, ready, loadError, loadAll, addEvento, deleteEvento, saveGrupo, deleteGrupo]);
+    eventos, eventosAll, grupos, ready, loadError, reload: loadAll,
+    addEvento, deleteEvento, reviewEvento, saveGrupo, deleteGrupo,
+  }), [eventos, eventosAll, grupos, ready, loadError, loadAll, addEvento, deleteEvento, reviewEvento, saveGrupo, deleteGrupo]);
 
   return <DBContext.Provider value={value}>{children}</DBContext.Provider>;
 }
