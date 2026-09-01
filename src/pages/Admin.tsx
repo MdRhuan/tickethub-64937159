@@ -405,10 +405,17 @@ function TabEventos({ toast, isAdmin }: { toast: (m:string)=>void; isAdmin: bool
       preco: form.preco, corCal: form.corCal as Evento['corCal'],
       btnLabel: form.btnLabel.trim(), btnUrl: form.btnUrl.trim(),
       homeDestaque: form.homeDestaque, homeOrdem: Number(form.homeOrdem) || 0,
+      status: isAdmin
+        ? (editId ? (eventos.find(e => e.id === editId)?.status ?? 'aprovado') : 'aprovado')
+        : 'pendente',
+      motivo_rejeicao: isAdmin ? undefined : '',
     };
     try {
       await addEvento(ev);
-      toast(`Evento "${tituloFinal}" salvo com sucesso!`);
+      toast(isAdmin
+        ? `Evento "${tituloFinal}" salvo com sucesso!`
+        : `Evento "${tituloFinal}" enviado para aprovação.`);
+
       setSavedLabel(tituloFinal);
       setTimeout(() => setSavedLabel(s => s === tituloFinal ? '' : s), 3000);
       resetAll();
