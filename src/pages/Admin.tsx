@@ -263,8 +263,9 @@ function LoginScreen({ email, setEmail, pass, setPass, passErr, onLogin }: {
 }
 
 // ── TAB EVENTOS ────────────────────────────────────────────────────────────
-function TabEventos({ toast }: { toast: (m:string)=>void }) {
-  const { eventos, addEvento, deleteEvento } = useDB();
+function TabEventos({ toast, isAdmin }: { toast: (m:string)=>void; isAdmin: boolean }) {
+  const { eventosAll, addEvento, deleteEvento } = useDB();
+  const eventos = eventosAll;
   const [saving, setSaving] = useState(false);
   const [savedLabel, setSavedLabel] = useState<string>('');
   const [editId, setEditId] = useState<string | null>(null);
