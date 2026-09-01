@@ -6,11 +6,13 @@ import type { Evento, Grupo } from '@/types';
 
 interface DBContextType {
   eventos: Evento[]; ready: boolean;
+  eventosAll: Evento[];
   grupos: Grupo[];
   loadError: string | null;
   reload: () => Promise<void>;
   addEvento: (ev: Evento) => Promise<void>;
   deleteEvento: (id: string) => Promise<void>;
+  reviewEvento: (id: string, status: 'aprovado' | 'rejeitado', motivo?: string) => Promise<void>;
   saveGrupo: (g: Omit<Grupo, 'id'> & { id?: string }) => Promise<void>;
   deleteGrupo: (id: string) => Promise<void>;
 }
@@ -18,7 +20,7 @@ interface DBContextType {
 const DBContext = createContext<DBContextType | null>(null);
 
 export function DBProvider({ children }: { children: React.ReactNode }) {
-  const [eventos, setEventos] = useState<Evento[]>([]);
+  const [eventosAll, setEventosAll] = useState<Evento[]>([]);
   const [grupos, setGrupos] = useState<Grupo[]>([]);
   const [ready, setReady] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -40,8 +42,8 @@ export function DBProvider({ children }: { children: React.ReactNode }) {
       setLoadError('Não foi possível carregar: eventos.');
     } else {
       const rows = (data ?? []) as unknown as Evento[];
-      registerEventoSlugs(rows);
-      setEventos(rows);
+      registerEventoSlugs(rows.filter(e => (e.status ?? 'aprovado') === 'aprovado'));
+      setEventosAll(rows);
     }
     await loadGrupos();
     setReady(true);
@@ -51,13 +53,19 @@ export function DBProvider({ children }: { children: React.ReactNode }) {
     loadAll();
   }, [loadAll]);
 
+  const eventos = useMemo(
+    () => eventosAll.filter(e => (e.status ?? 'aprovado') === 'aprovado'),
+    [eventosAll],
+  );
+
   const addEvento = useCallback(async (ev: Evento) => {
     const data = { ...ev, _ts: Date.now() };
-    const { error } = await supabase.from('eventos').upsert(data as any);
+    const { data: saved, error } = await supabase.from('eventos').upsert(data as any).select().maybeSingle();
     if (error) throw error;
-    setEventos(prev => {
-      const next = [...prev.filter(e => e.id !== ev.id), data];
-      registerEventoSlugs(next);
+    const row = (saved ?? data) as unknown as Evento;
+    setEventosAll(prev => {
+      const next = [...prev.filter(e => e.id !== ev.id), row];
+      registerEventoSlugs(next.filter(e => (e.status ?? 'aprovado') === 'aprovado'));
       return next;
     });
   }, []);
@@ -65,12 +73,30 @@ export function DBProvider({ children }: { children: React.ReactNode }) {
   const deleteEvento = useCallback(async (id: string) => {
     const { error } = await supabase.from('eventos').delete().eq('id', id);
     if (error) throw error;
-    setEventos(prev => {
+    setEventosAll(prev => {
       const next = prev.filter(e => e.id !== id);
-      registerEventoSlugs(next);
+      registerEventoSlugs(next.filter(e => (e.status ?? 'aprovado') === 'aprovado'));
       return next;
     });
   }, []);
+
+  const reviewEvento = useCallback(async (id: string, status: 'aprovado' | 'rejeitado', motivo = '') => {
+    const { data: userData } = await supabase.auth.getUser();
+    const patch = {
+      status,
+      motivo_rejeicao: status === 'rejeitado' ? motivo : '',
+      revisado_em: new Date().toISOString(),
+      revisado_por: userData.user?.id ?? null,
+    };
+    const { error } = await supabase.from('eventos').update(patch as any).eq('id', id);
+    if (error) throw error;
+    setEventosAll(prev => {
+      const next = prev.map(e => e.id === id ? { ...e, ...patch } as Evento : e);
+      registerEventoSlugs(next.filter(e => (e.status ?? 'aprovado') === 'aprovado'));
+      return next;
+    });
+  }, []);
+
 
   const saveGrupo = useCallback(async (g: Omit<Grupo, 'id'> & { id?: string }) => {
     const row: Record<string, unknown> = {
@@ -89,9 +115,9 @@ export function DBProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const value = useMemo(() => ({
-    eventos, grupos, ready, loadError, reload: loadAll,
-    addEvento, deleteEvento, saveGrupo, deleteGrupo,
-  }), [eventos, grupos, ready, loadError, loadAll, addEvento, deleteEvento, saveGrupo, deleteGrupo]);
+    eventos, eventosAll, grupos, ready, loadError, reload: loadAll,
+    addEvento, deleteEvento, reviewEvento, saveGrupo, deleteGrupo,
+  }), [eventos, eventosAll, grupos, ready, loadError, loadAll, addEvento, deleteEvento, reviewEvento, saveGrupo, deleteGrupo]);
 
   return <DBContext.Provider value={value}>{children}</DBContext.Provider>;
 }

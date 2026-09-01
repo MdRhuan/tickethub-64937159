@@ -44,5 +44,13 @@ export interface Evento {
   btnUrl?: string;
   homeDestaque?: boolean;
   homeOrdem?: number;
+  status?: EventoStatus;
+  criado_por?: string | null;
+  motivo_rejeicao?: string;
+  revisado_em?: string | null;
+  revisado_por?: string | null;
   _ts?: number;
 }
+
+export type EventoStatus = 'pendente' | 'aprovado' | 'rejeitado';
+

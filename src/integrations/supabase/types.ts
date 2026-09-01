@@ -58,6 +58,7 @@ export type Database = {
           classificacao: string
           corCal: string
           created_at: string
+          criado_por: string | null
           data: string
           datas: Json
           homeDestaque: boolean
@@ -72,8 +73,12 @@ export type Database = {
           ingressos: Json
           local: string
           mapaUrl: string
+          motivo_rejeicao: string
           preco: string
+          revisado_em: string | null
+          revisado_por: string | null
           sobre: string
+          status: string
           tagCard: string
           titulo: string
         }
@@ -87,6 +92,7 @@ export type Database = {
           classificacao?: string
           corCal?: string
           created_at?: string
+          criado_por?: string | null
           data?: string
           datas?: Json
           homeDestaque?: boolean
@@ -101,8 +107,12 @@ export type Database = {
           ingressos?: Json
           local?: string
           mapaUrl?: string
+          motivo_rejeicao?: string
           preco?: string
+          revisado_em?: string | null
+          revisado_por?: string | null
           sobre?: string
+          status?: string
           tagCard?: string
           titulo?: string
         }
@@ -116,6 +126,7 @@ export type Database = {
           classificacao?: string
           corCal?: string
           created_at?: string
+          criado_por?: string | null
           data?: string
           datas?: Json
           homeDestaque?: boolean
@@ -130,8 +141,12 @@ export type Database = {
           ingressos?: Json
           local?: string
           mapaUrl?: string
+          motivo_rejeicao?: string
           preco?: string
+          revisado_em?: string | null
+          revisado_por?: string | null
           sobre?: string
+          status?: string
           tagCard?: string
           titulo?: string
         }
@@ -247,7 +262,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "user"
+      app_role: "admin" | "user" | "editor"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -375,7 +390,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "user"],
+      app_role: ["admin", "user", "editor"],
     },
   },
 } as const
