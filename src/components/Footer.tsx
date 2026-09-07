@@ -48,23 +48,26 @@ export default function Footer() {
 
         {/* Navegação */}
         <div className="flex flex-col gap-3 max-md:items-center">
-          <h4 className="font-black text-sm tracking-wider text-[#111] mb-1">NAVEGAÇÃO</h4>
+          <h2 className="font-black text-sm tracking-wider text-[#111] mb-1">NAVEGAÇÃO</h2>
           <Link to="/" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">Início</Link>
-          <Link to="/ingressos" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">Todos os Eventos</Link>
+          <Link to="/mais-baratos" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">Todos os eventos</Link>
           <Link to="/calendario" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">Calendário</Link>
-          <a href="#" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">FAQ</a>
+          <Link to="/sobre" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">Sobre</Link>
+          <Link to="/como-funciona" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">Como funciona</Link>
+          <Link to="/guias" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">Guias</Link>
         </div>
 
         {/* Legal */}
         <div className="flex flex-col gap-3 max-md:items-center">
-          <h4 className="font-black text-sm tracking-wider text-[#111] mb-1">LEGAL</h4>
+          <h2 className="font-black text-sm tracking-wider text-[#111] mb-1">LEGAL</h2>
           <a href="#" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">Termos de Uso</a>
           <a href="#" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">Política de Privacidade</a>
         </div>
 
         {/* Atendimento */}
         <div className="flex flex-col gap-3 max-md:items-center">
-          <h4 className="font-black text-sm tracking-wider text-[#111] mb-1">ATENDIMENTO</h4>
+          <h2 className="font-black text-sm tracking-wider text-[#111] mb-1">ATENDIMENTO</h2>
+          <Link to="/contato" className="text-sm text-[#666] no-underline hover:text-[#4a90e2] transition-colors">Fale com a gente</Link>
           <p className="text-sm text-[#666] break-all max-md:break-normal">
             <span className="font-bold text-[#111]">WhatsApp</span> +55 (31) 98315-8818
           </p>

@@ -125,7 +125,7 @@ function EventoCard({ ev, linkLabel = 'Comprar', priority = false }: Props) {
           </span>
         )}
         {ev.local && (
-          <div className="flex items-center gap-[5px] text-[12px] text-[#888] mt-0.5">
+          <div className="flex items-center gap-[5px] text-[12px] text-[#666] mt-0.5">
             <LocIcon /><span className="break-words">{ev.local}</span>
           </div>
         )}

@@ -1,0 +1,8 @@
+# Cabeçalhos de segurança (aplicados por Cloudflare Pages / Netlify).
+# HSTS, nosniff e Referrer-Policy já vêm do host; reforçados aqui + os que faltavam.
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), browsing-topics=()

@@ -12,6 +12,8 @@ import {
   type CalendarEvent,
 } from "@/lib/calendar";
 import { useSeo } from "@/lib/seo";
+import { localSlug, isLocalValido } from "@/lib/locais";
+import { GENEROS, generoSlug, generoLabel } from "@/lib/generos";
 
 function buildEmbedUrl(mapaUrl: string, local: string): string | null {
   const safeMap = safeMapUrl(mapaUrl);
@@ -314,6 +316,28 @@ export default function EventoDetalhe() {
               )}
             </div>
           </div>
+
+          {/* Navegação interna: mais do mesmo gênero + agenda da casa (hub-and-spoke) */}
+          {((ev.categoria && (GENEROS as readonly string[]).includes(ev.categoria)) || isLocalValido(ev.local)) && (
+            <div className="flex flex-wrap gap-2 pt-1">
+              {ev.categoria && (GENEROS as readonly string[]).includes(ev.categoria) && (
+                <Link
+                  to={`/mais-baratos/${generoSlug(ev.categoria)}`}
+                  className="inline-flex items-center rounded-full border border-[#ddd] px-4 py-2 text-[13px] font-semibold text-[#1a3a6b] no-underline transition-colors hover:border-[#1a3a6b] hover:bg-[#f0f4ff]"
+                >
+                  Mais {generoLabel(ev.categoria)} em BH
+                </Link>
+              )}
+              {isLocalValido(ev.local) && (
+                <Link
+                  to={`/local/${localSlug(ev.local)}`}
+                  className="inline-flex items-center rounded-full border border-[#ddd] px-4 py-2 text-[13px] font-semibold text-[#1a3a6b] no-underline transition-colors hover:border-[#1a3a6b] hover:bg-[#f0f4ff]"
+                >
+                  Agenda do {ev.local}
+                </Link>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Right sidebar */}

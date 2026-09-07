@@ -1,17 +1,22 @@
 # TicketHub
 
-> Plataforma de descoberta e venda de ingressos para shows, festas e eventos em Belo Horizonte e região, com curadoria dos principais rolês da cidade.
+> Plataforma de descoberta de ingressos para festas, shows e eventos em Belo Horizonte e região. A TicketHub não vende ingresso: reúne os eventos com curadoria local e aponta o link com o melhor preço, entregando o usuário à plataforma oficial de compra.
 
-O site publica eventos com data, local, atrações, classificação indicativa e links de compra, e organiza o conteúdo em catálogo, calendário e grupos de WhatsApp.
+O site organiza os eventos em catálogo, categorias por gênero, páginas por local (casa) e uma seção de ofertas com desconto, além de guias editoriais sobre a noite de BH.
 
 ## Páginas
 
-- [Home](/): Carrossel dos eventos em destaque e principais ingressos da semana.
-- [Ingressos](/ingressos): Catálogo completo de eventos com filtros por gênero e busca por nome.
-- [Evento](/ingresso/:slug): Página individual de um evento com descrição, atrações, local e links de compra de ingresso.
-- [Calendário](/calendario): Visão mensal dos eventos organizados por data.
-- [Grupos](/grupos): Lista de grupos de WhatsApp do TicketHub para promoções e avisos de eventos.
+- [Home](/): Destaques da semana e principais eventos de Belo Horizonte.
+- [Catálogo / Festas com desconto](/mais-baratos): Catálogo completo de eventos, com busca, filtro por gênero e as ofertas com desconto em destaque.
+- [Categorias por gênero](/mais-baratos/eletronico): Eventos por gênero musical (ex.: eletrônico, funk).
+- [Página de evento](/ingresso/:slug): Evento individual com descrição, data, local, atrações e link de compra.
+- [Página de local](/local/:slug): Agenda de eventos de uma casa/venue específica em BH.
+- [Calendário](/calendario): Visão mensal dos eventos por data.
+- [Guias](/guias): Conteúdo editorial sobre a noite de BH (como economizar, cena eletrônica).
+- [Grupos](/grupos): Grupos de WhatsApp com promoções e avisos de eventos.
 
-## Optional
+## Sobre
 
-- [Links](/link): Página de links sociais e canais de contato do TicketHub.
+- [Sobre a TicketHub](/sobre): Quem somos e como o modelo de curadoria + desconto funciona.
+- [Como funciona](/como-funciona): Passo a passo e dúvidas sobre segurança, desconto e e-ticket.
+- [Contato](/contato): Canais de atendimento e divulgação de eventos.

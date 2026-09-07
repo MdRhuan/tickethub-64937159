@@ -27,7 +27,7 @@ export default function Home() {
 
   function submitBusca() {
     const q = busca.trim();
-    navigate(q ? `/ingressos?q=${encodeURIComponent(q)}` : '/ingressos');
+    navigate(q ? `/mais-baratos?q=${encodeURIComponent(q)}` : '/mais-baratos');
   }
 
   const curados = eventos
@@ -319,7 +319,7 @@ export default function Home() {
           <div className="flex justify-between items-end gap-3 mb-7">
             <h2 className="text-xl md:text-[28px] font-black text-[#111]">Principais Eventos</h2>
             <Link
-              to="/ingressos"
+              to="/mais-baratos"
               className="text-[#4a90e2] font-bold text-sm md:text-base no-underline border-b border-transparent hover:border-[#4a90e2] transition-all whitespace-nowrap"
             >
               Ver todos →

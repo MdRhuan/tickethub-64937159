@@ -24,6 +24,11 @@ interface SeoOptions {
    * garantindo cache busting quando a capa é trocada e URLs distintas por evento.
    */
   version?: string | number;
+  /**
+   * Impede indexação da página (ex.: 404). Injeta
+   * <meta name="robots" content="noindex, follow">.
+   */
+  noindex?: boolean;
 }
 
 function clampDesc(s: string, max = 155): string {
@@ -89,7 +94,21 @@ export function pageUrl(path?: string): string {
   return `${SITE_URL}${clean}`;
 }
 
-export function useSeo({ title, fullTitle, description, image, type = 'website', path, jsonLd, version }: SeoOptions) {
+function upsertRobots(noindex?: boolean) {
+  if (typeof document === 'undefined') return;
+  const existing = document.head.querySelector<HTMLMetaElement>('meta[name="robots"]');
+  if (!noindex) {
+    // Garante que páginas indexáveis não herdem um noindex de uma rota anterior.
+    if (existing) existing.remove();
+    return;
+  }
+  const el = existing ?? document.createElement('meta');
+  el.setAttribute('name', 'robots');
+  el.setAttribute('content', 'noindex, follow');
+  if (!existing) document.head.appendChild(el);
+}
+
+export function useSeo({ title, fullTitle, description, image, type = 'website', path, jsonLd, version, noindex }: SeoOptions) {
   useEffect(() => {
     const composedTitle = fullTitle
       ? clampTitle(fullTitle, 70)
@@ -121,7 +140,8 @@ export function useSeo({ title, fullTitle, description, image, type = 'website',
     if (img) upsertMeta('name', 'twitter:image', img);
 
     upsertCanonical(url);
+    upsertRobots(noindex);
 
     upsertJsonLd(jsonLd);
-  }, [title, fullTitle, description, image, type, path, jsonLd, version]);
+  }, [title, fullTitle, description, image, type, path, jsonLd, version, noindex]);
 }

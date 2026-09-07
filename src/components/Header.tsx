@@ -3,10 +3,10 @@ import { Link, useLocation } from 'react-router-dom';
 import logoIcon from '@/assets/icons/logo.webp';
 
 const NAV_LINKS = [
-  { to: '/',          label: 'Home' },
-  { to: '/ingressos', label: 'Ingressos' },
-  { to: '/calendario',label: 'Calendário' },
-  { to: '/grupos',    label: 'Grupos' },
+  { to: '/',            label: 'Home' },
+  { to: '/mais-baratos',label: 'Mais baratos' },
+  { to: '/calendario',  label: 'Calendário' },
+  { to: '/grupos',      label: 'Grupos' },
 ];
 
 export default function Header() {

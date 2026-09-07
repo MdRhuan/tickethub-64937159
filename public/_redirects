@@ -1,0 +1,3 @@
+# /ingressos foi unificado em /mais-baratos (o catálogo). 301 no host.
+/ingressos            /mais-baratos           301
+/ingressos/*          /mais-baratos/:splat    301
