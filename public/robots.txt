@@ -5,4 +5,23 @@ Disallow: /api/
 Disallow: /unsubscribe
 Disallow: /login
 
+# Agentes de IA conhecidos — acesso explicitamente permitido
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: DeepSeekBot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
 Sitemap: https://www.tickethubh.com.br/sitemap.xml
